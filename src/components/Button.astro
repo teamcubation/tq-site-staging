@@ -1,0 +1,26 @@
+---
+interface Props {
+  href?: string
+  variant?: 'outline' | 'primary'
+  class?: string
+  [key: string]: any
+}
+
+const {
+  href,
+  variant = 'outline',
+  class: className = '',
+  ...attrs
+} = Astro.props
+
+const variants: Record<string, string> = {
+  outline: 'border border-content-primary text-content-secondary',
+  primary: 'bg-primary text-white hover:bg-primary-hover',
+}
+
+const Tag = href ? 'a' : 'button'
+---
+
+<Tag href={href} class:list={['inline-flex items-center justify-center', variants[variant], className]} {...attrs}>
+  <slot />
+</Tag>

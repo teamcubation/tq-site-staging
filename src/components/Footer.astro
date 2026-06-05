@@ -1,0 +1,49 @@
+---
+import Container from './Container.astro'
+
+interface Props {
+  lang?: string
+}
+
+const { lang = 'es' } = Astro.props
+
+const currentYear = new Date().getFullYear()
+---
+
+<footer class="border-t border-gray-200 py-8">
+  <Container class="flex flex-col items-center justify-between gap-6 md:flex-row">
+    <!-- Logo -->
+    <a href="/" aria-label="Teamcubation">
+      <img src="/logo.svg" alt="Teamcubation" width="191" height="26" />
+    </a>
+
+    <!-- Copyright -->
+    <p class="text-sm text-[#5f5e5e]">
+      &copy; {currentYear}. Todos los derechos reservados.
+    </p>
+
+    <!-- Social -->
+    <div class="flex items-center gap-3">
+      <a
+        href="https://www.linkedin.com/company/teamcubation"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
+        class="flex items-center gap-2 rounded-full bg-[#0a66c2] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+      >
+        <!-- TODO: replace with LinkedIn icon -->
+        LinkedIn
+      </a>
+      <a
+        href="https://www.instagram.com/teamcubation"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        class="flex items-center gap-2 rounded-full bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+      >
+        <!-- TODO: replace with Instagram icon -->
+        Instagram
+      </a>
+    </div>
+  </Container>
+</footer>

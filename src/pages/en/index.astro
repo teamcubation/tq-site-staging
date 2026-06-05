@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import Header from '../../components/Header.astro'
+import Footer from '../../components/Footer.astro'
+import Hero from '../../components/Hero.astro'
+import LogoBar from '../../components/LogoBar.astro'
+---
+
+<Layout
+  title="Teamcubation - Experience Developers"
+  description="Your employees develop tech skills with expert guidance and on-the-job training."
+>
+  <Header
+    lang="en"
+    contactLabel="Contact"
+    servicesLabel="SERVICES"
+    productLabel="PRODUCT"
+    languageLabel="LANGUAGE"
+  />
+
+  <main>
+    <Hero
+      title="Experience"
+      highlightText="Developers"
+      subtitle="Your employees develop tech skills with expert guidance and on-the-job training."
+      ctaPrimaryLabel="Services"
+      ctaSecondaryLabel="Success Stories"
+    />
+    <LogoBar />
+  </main>
+
+  <Footer lang="en" />
+</Layout>

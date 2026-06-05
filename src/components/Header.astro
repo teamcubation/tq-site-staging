@@ -1,0 +1,106 @@
+---
+import Container from './Container.astro'
+import Button from './Button.astro'
+import MenuToggle from './MenuToggle.astro'
+
+interface Props {
+  lang?: string
+  contactLabel?: string
+  servicesLabel?: string
+  productLabel?: string
+  languageLabel?: string
+}
+
+const {
+  lang = 'es',
+  contactLabel = 'Contacto',
+  servicesLabel = 'SERVICIOS',
+  productLabel = 'PRODUCTO',
+  languageLabel = 'IDIOMA',
+} = Astro.props
+
+const languages = [
+  { code: 'es', label: 'Español', href: '/' },
+  { code: 'en', label: 'English', href: '/en' },
+  { code: 'pt', label: 'Português', href: '/pt' },
+]
+---
+
+<!-- Sticky top bar -->
+<header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md">
+  <Container class="!max-w-[1240px] !px-5 flex items-center justify-between py-5">
+    <!-- Logo -->
+    <a href="/" aria-label="Teamcubation">
+      <img src="/logo.svg" alt="Teamcubation" width="191" height="26" class="hidden lg:block" />
+      <img src="/isotipo.svg" alt="Teamcubation" class="block lg:hidden" />
+    </a>
+
+    <div class="flex items-center gap-6">
+      <Button href="#" style="height: 40px; letter-spacing: -0.24px" class="btn-cut-br px-6 py-2 text-xs font-bold">{contactLabel}</Button>
+      <MenuToggle id="menu-toggle" />
+    </div>
+  </Container>
+</header>
+
+<!-- Menu panel: outside sticky header, in normal document flow -->
+<div id="menu-panel" class="hidden bg-white">
+  <Container class="!max-w-[1240px] !px-5">
+    <nav style="display:flex; height: 48px; align-items: center; justify-content: center; gap: 12px; padding: 0 20px 12px">
+      <!-- Servicios -->
+      <div class="flex flex-row items-center gap-3 px-6 py-2">
+        <span class="label-menu">{servicesLabel}</span>
+        <div class="flex flex-row items-center gap-5">
+          <a href="/incubation" class="link-menu">Incubat<span class="text-primary">ION</span></a>
+          <a href="/boosterai" class="link-menu">Booster<span class="text-violet-main">AI</span></a>
+        </div>
+      </div>
+
+      <!-- Producto -->
+      <div class="flex flex-row items-center gap-3 px-6 py-2">
+        <span class="label-menu">{productLabel}</span>
+        <div class="flex flex-row items-center gap-5">
+          <a href="/teamboarding" class="link-menu">Teamboarding</a>
+        </div>
+      </div>
+
+      <!-- Idioma -->
+      <div class="flex flex-row items-center gap-3 px-6 py-2">
+        <span class="label-menu">{languageLabel}</span>
+        <div class="flex flex-row items-center gap-5">
+          {languages.map(({ code, label, href }) => (
+            <a
+              href={href}
+              class:list={[
+                'link-menu',
+                code === lang ? 'link-menu-active' : '',
+              ]}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  </Container>
+</div>
+
+<script>
+  function setupMenu() {
+    const panel = document.getElementById('menu-panel')
+    const toggleBtn = document.getElementById('menu-toggle')
+
+    toggleBtn?.addEventListener('click', () => {
+      const isOpen = !panel?.classList.contains('hidden')
+
+      panel?.classList.toggle('hidden')
+
+      document.getElementById('menu-toggle-lines')?.classList.toggle('hidden', !isOpen)
+      document.getElementById('menu-toggle-close')?.classList.toggle('hidden', isOpen)
+
+      toggleBtn.setAttribute('aria-expanded', String(!isOpen))
+    })
+  }
+
+  setupMenu()
+  document.addEventListener('astro:after-swap', setupMenu)
+</script>

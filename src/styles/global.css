@@ -1,1 +1,56 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --color-primary: #ff4933;
+  --color-primary-hover: #e63e2a;
+  --color-content-primary: #1d1b1b;
+  --color-content-secondary: #5f5e5e;
+  --color-content-light: #ADABAA;
+  --color-violet-main: #B636FF;
+
+}
+
+.btn-rounded {
+  border-radius: 24px;
+}
+.btn-cut-br {
+  border-radius: 20px 24px 0 20px;
+}
+.btn-cut-bl {
+  border-radius: 24px 24px 24px 0;
+}
+.btn-cut-tr {
+  border-radius: 24px 0 24px 24px;
+}
+.btn-cut-tl {
+  border-radius: 0 24px 24px 24px;
+}
+
+.link-menu {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.32px;
+  color: var(--color-content-secondary);
+  text-decoration-line: underline;
+  text-underline-position: from-font;
+  text-decoration-thickness: from-font;
+  text-decoration-style: solid;
+  text-decoration-color: rgb(173, 171, 170);
+  cursor: pointer;
+}
+
+.link-menu-active {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+
+.label-menu {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+  color: var(--color-content-light);
+}
