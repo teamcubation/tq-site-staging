@@ -10,8 +10,13 @@ import LogoBar from '../components/LogoBar.astro'
   title="Teamcubation | Desarrolladores de Experiencia"
   description="Tus colaboradores desarrollan habilidades tecnológicas con acompañamiento experto y entrenamientos on the job. Todos nuestros servicios se basan en proyectos reales, formando talento nuevo o fortaleciendo el equipo actual de tu empresa."
   ogImage="/teamcubation_og.jpg"
+  alternateLanguages={[
+    { lang: 'es', href: 'https://teamcubation.com/' },
+    { lang: 'en', href: 'https://teamcubation.com/en' },
+    { lang: 'pt', href: 'https://teamcubation.com/pt' },
+  ]}
 >
-  <Header lang="es" />
+  <Header lang="es" currentPage="/" />
 
   <main>
     <Hero />

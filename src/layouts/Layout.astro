@@ -74,6 +74,20 @@ const canonical = canonicalUrl || Astro.url.href
     <slot name="head" />
   </head>
   <body class="font-sans text-[#1d1b1b] antialiased">
+    <script is:inline>
+      (function() {
+        if (window.location.pathname !== '/') return
+        if (sessionStorage.getItem('lang-redirected')) return
+        var lang = (navigator.language || '').toLowerCase()
+        var target = null
+        if (lang.startsWith('en')) target = '/en'
+        else if (lang.startsWith('pt')) target = '/pt'
+        if (target) {
+          sessionStorage.setItem('lang-redirected', '1')
+          window.location.replace(target)
+        }
+      })()
+    </script>
     <slot />
   </body>
 </html>

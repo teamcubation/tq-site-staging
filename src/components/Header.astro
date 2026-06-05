@@ -5,6 +5,7 @@ import MenuToggle from './MenuToggle.astro'
 
 interface Props {
   lang?: string
+  currentPage?: string
   contactLabel?: string
   servicesLabel?: string
   productLabel?: string
@@ -13,16 +14,19 @@ interface Props {
 
 const {
   lang = 'es',
+  currentPage = '/',
   contactLabel = 'Contacto',
   servicesLabel = 'SERVICIOS',
   productLabel = 'PRODUCTO',
   languageLabel = 'IDIOMA',
 } = Astro.props
 
+const langPrefix = (code: string) => code === 'es' ? '' : `/${code}`
+
 const languages = [
-  { code: 'es', label: 'Español', href: '/' },
-  { code: 'en', label: 'English', href: '/en' },
-  { code: 'pt', label: 'Português', href: '/pt' },
+  { code: 'es', label: 'Español', href: `${langPrefix('es')}${currentPage}` },
+  { code: 'en', label: 'English', href: `${langPrefix('en')}${currentPage}` },
+  { code: 'pt', label: 'Português', href: `${langPrefix('pt')}${currentPage}` },
 ]
 ---
 
@@ -40,18 +44,18 @@ const languages = [
       <MenuToggle id="menu-toggle" />
     </div>
   </Container>
-</header>
 
-<!-- Menu panel: outside sticky header, in normal document flow -->
-<div id="menu-panel" class="hidden bg-white">
-  <Container class="!max-w-[1240px] !px-5">
+  <!-- Menu panel -->
+  <div id="menu-panel" class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-in-out">
+    <div class="overflow-hidden">
+    <Container class="!max-w-[1240px] !px-5">
     <nav style="display:flex; height: 48px; align-items: center; justify-content: center; gap: 12px; padding: 0 20px 12px">
       <!-- Servicios -->
       <div class="flex flex-row items-center gap-3 px-6 py-2">
         <span class="label-menu">{servicesLabel}</span>
         <div class="flex flex-row items-center gap-5">
-          <a href="/incubation" class="link-menu">Incubat<span class="text-primary">ION</span></a>
-          <a href="/boosterai" class="link-menu">Booster<span class="text-violet-main">AI</span></a>
+          <a href={`${langPrefix(lang)}/incubation`} class="link-menu">Incubat<span class="text-primary">ION</span></a>
+          <a href={`${langPrefix(lang)}/booster-ai`} class="link-menu">Booster<span class="text-violet-main">AI</span></a>
         </div>
       </div>
 
@@ -59,7 +63,7 @@ const languages = [
       <div class="flex flex-row items-center gap-3 px-6 py-2">
         <span class="label-menu">{productLabel}</span>
         <div class="flex flex-row items-center gap-5">
-          <a href="/teamboarding" class="link-menu">Teamboarding</a>
+          <a href={`${langPrefix(lang)}/teamboarding`} class="link-menu">Teamboarding</a>
         </div>
       </div>
 
@@ -81,8 +85,10 @@ const languages = [
         </div>
       </div>
     </nav>
-  </Container>
-</div>
+    </Container>
+    </div>
+  </div>
+</header>
 
 <script>
   function setupMenu() {
@@ -90,9 +96,10 @@ const languages = [
     const toggleBtn = document.getElementById('menu-toggle')
 
     toggleBtn?.addEventListener('click', () => {
-      const isOpen = !panel?.classList.contains('hidden')
+      const isOpen = panel?.classList.contains('grid-rows-[1fr]')
 
-      panel?.classList.toggle('hidden')
+      panel?.classList.toggle('grid-rows-[1fr]')
+      panel?.classList.toggle('grid-rows-[0fr]')
 
       document.getElementById('menu-toggle-lines')?.classList.toggle('hidden', !isOpen)
       document.getElementById('menu-toggle-close')?.classList.toggle('hidden', isOpen)

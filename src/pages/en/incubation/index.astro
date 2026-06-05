@@ -9,9 +9,15 @@ import Footer from '../../../components/Footer.astro'
   description="We are the first Software + Team Factory, implementing technology projects for our clients while accelerating the development of tech skills in their potential collaborators."
   ogImage="/IncubatiON_og.jpg"
   ogImage="/IncubatiON_og.jpg"
+  alternateLanguages={[
+    { lang: 'es', href: 'https://teamcubation.com/incubation' },
+    { lang: 'en', href: 'https://teamcubation.com/en/incubation' },
+    { lang: 'pt', href: 'https://teamcubation.com/pt/incubation' },
+  ]}
 >
   <Header
     lang="en"
+    currentPage="/incubation"
     contactLabel="Contact"
     servicesLabel="SERVICES"
     productLabel="PRODUCT"
