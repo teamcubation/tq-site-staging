@@ -2,6 +2,7 @@
 interface Props {
   href?: string
   variant?: 'outline' | 'primary'
+  radius?: [number, number, number, number]
   class?: string
   [key: string]: any
 }
@@ -9,7 +10,9 @@ interface Props {
 const {
   href,
   variant = 'outline',
+  radius,
   class: className = '',
+  style: styleProp = '',
   ...attrs
 } = Astro.props
 
@@ -18,9 +21,12 @@ const variants: Record<string, string> = {
   primary: 'bg-primary text-white hover:bg-primary-hover',
 }
 
+const radiusStyle = radius ? `border-radius: ${radius.map(v => `${v}px`).join(' ')};` : ''
+const mergedStyle = `${radiusStyle}${styleProp ? ` ${styleProp}` : ''}`
+
 const Tag = href ? 'a' : 'button'
 ---
 
-<Tag href={href} class:list={['inline-flex items-center justify-center', variants[variant], className]} {...attrs}>
+<Tag href={href} class:list={['inline-flex items-center justify-center', variants[variant], className]} style={mergedStyle || undefined} {...attrs}>
   <slot />
 </Tag>

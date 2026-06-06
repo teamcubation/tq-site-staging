@@ -8,7 +8,21 @@
   --color-content-secondary: #5f5e5e;
   --color-content-light: #ADABAA;
   --color-violet-main: #B636FF;
+  --color-gray-light: #F2F2F2;
 
+}
+
+h1{
+  font-size: 40px;
+  letter-spacing: -1.2px;
+  line-height: 1;
+}
+
+@media (min-width: 800px) {
+  h1 {
+    font-size: 56px;
+    letter-spacing: -1.68px;
+  }
 }
 
 .btn-rounded {
@@ -28,7 +42,7 @@
 }
 
 .link-menu {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 800;
   line-height: 1.2;
   letter-spacing: -0.32px;
@@ -53,4 +67,13 @@
   letter-spacing: 0.5px;
   line-height: 1.1;
   color: var(--color-content-light);
+}
+
+@media (max-width: 1023px) {
+  .link-menu {
+    font-size: 12px;
+  }
+  .label-menu {
+    font-size: 10px;
+  }
 }
