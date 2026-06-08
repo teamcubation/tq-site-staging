@@ -4,6 +4,26 @@ import Header from '../../components/Header.astro'
 import Footer from '../../components/Footer.astro'
 import Hero from '../../components/Hero.astro'
 import LogoBar from '../../components/LogoBar.astro'
+import Services from '../../components/Services.astro'
+
+const services = [
+  {
+    tags: ['Service', 'For IT'],
+    title: 'IncubatiON',
+    subtitle: 'The first Software + Team Factory',
+    description: "We build the software you need today while incubating your devs of tomorrow. You get technology and professionals ready to join your company.",
+    ctaPrimary: { label: 'Book a Meeting', href: '#contact' },
+    ctaSecondary: { label: 'Learn more', href: '/en/incubation' },
+  },
+  {
+    tags: ['Service', 'For everyone'],
+    title: 'BoosterAI',
+    subtitle: 'Any team in your company could be an IT team',
+    description: 'We train all your collaborators in automating real processes with AI agents and RPA. In one month, your teams will learn to think like devs and apply AI.',
+    ctaPrimary: { label: 'Book a Meeting', href: '#contact' },
+    ctaSecondary: { label: 'Learn more', href: '/en/booster-ai' },
+  },
+]
 ---
 
 <Layout
@@ -34,6 +54,11 @@ import LogoBar from '../../components/LogoBar.astro'
       ctaSecondaryLabel="Success Stories"
     />
     <LogoBar label="Companies where we've developed experience." />
+    <Services
+      title="On-the-job services"
+      subtitle="All our services are based on real projects, developing new talent or strengthening your company's current team."
+      cards={services}
+    />
   </main>
 
   <Footer lang="en" />

@@ -4,6 +4,26 @@ import Header from '../../components/Header.astro'
 import Footer from '../../components/Footer.astro'
 import Hero from '../../components/Hero.astro'
 import LogoBar from '../../components/LogoBar.astro'
+import Services from '../../components/Services.astro'
+
+const services = [
+  {
+    tags: ['Serviço', 'Para TI'],
+    title: 'IncubatiON',
+    subtitle: 'A primeira Software + Team Factory',
+    description: 'Construímos o software que você precisa hoje enquanto incubamos os seus devs do amanhã. Você obtém tecnologia e profissionais prontos para integrar a sua empresa.',
+    ctaPrimary: { label: 'Agende uma Reunião', href: '#contato' },
+    ctaSecondary: { label: 'Saiba mais', href: '/pt/incubation' },
+  },
+  {
+    tags: ['Serviço', 'Para todos'],
+    title: 'BoosterAI',
+    subtitle: 'Qualquer equipe da sua empresa poderia ser uma equipe de TI',
+    description: 'Treinamos todos os seus colaboradores na automação de processos reais com agentes de IA e RPA. Em um mês, suas equipes aprenderão a pensar como devs e a aplicar IA.',
+    ctaPrimary: { label: 'Agende uma Reunião', href: '#contato' },
+    ctaSecondary: { label: 'Saiba mais', href: '/pt/booster-ai' },
+  },
+]
 ---
 
 <Layout
@@ -34,6 +54,11 @@ import LogoBar from '../../components/LogoBar.astro'
       ctaSecondaryLabel="Casos de Sucesso"
     />
     <LogoBar label="Empresas com as quais desenvolvemos experiência." />
+    <Services
+      title="Serviços on-the-job"
+      subtitle="Todos os nossos serviços são baseados em projetos reais, formando novos talentos ou fortalecendo a equipe atual da sua empresa."
+      cards={services}
+    />
   </main>
 
   <Footer lang="pt" />
