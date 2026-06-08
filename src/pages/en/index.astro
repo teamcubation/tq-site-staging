@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro'
 import Hero from '../../components/Hero.astro'
 import LogoBar from '../../components/LogoBar.astro'
 import Services from '../../components/Services.astro'
+import Product from '../../components/Product.astro'
 
 const services = [
   {
@@ -58,6 +59,12 @@ const services = [
       title="On-the-job services"
       subtitle="All our services are based on real projects, developing new talent or strengthening your company's current team."
       cards={services}
+    />
+    <Product
+      tags={['Product', 'For everyone']}
+      title="Improve your experience acquisition processes across your whole organization with Teamboarding"
+      subtitle="Support every new member with a clear, measurable process adapted to the way you work."
+      ctaLabel="Learn more"
     />
   </main>
 

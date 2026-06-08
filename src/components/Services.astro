@@ -53,7 +53,7 @@ const visuals = [
 ]
 ---
 
-<section id="servicios" class="py-12">
+<section id="servicios" class="pt-12 pb-9">
   <Container class="!max-w-[1240px]">
     <h2 class="text-center text-[32px] font-extrabold leading-[1] tracking-[-0.96px] text-content-primary">{title}</h2>
     <p class="mx-auto mt-6 max-w-[640px] text-center text-[20px] leading-[1.5] tracking-[0px] text-content-secondary" style="font-family: 'Inter', sans-serif; font-weight: 400;">{subtitle}</p>
@@ -69,7 +69,7 @@ const visuals = [
 
           <h3 class="mt-6 text-[28px] font-extrabold leading-[1.2] tracking-[-0.72px] text-content-primary">{card.title.slice(0, -visuals[i].titleAccent.length)}<span class={visuals[i].titleAccentClass}>{visuals[i].titleAccent}</span></h3>
           {card.subtitle && (
-            <p class="mt-1 text-[16px] font-extrabold leading-[1.3] text-content-primary">{card.subtitle}</p>
+            <p class="mt-1 text-[16px] font-extrabold leading-[1.5] tracking-[0px] text-content-primary">{card.subtitle}</p>
           )}
           <p class="mt-6 text-[16px] leading-[1.6] text-content-secondary">{card.description}</p>
 
