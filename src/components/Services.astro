@@ -92,12 +92,12 @@ const visuals = [
             />
           </div>
 
-          <div class="mt-5 flex gap-8">
-            <Button href={card.ctaPrimary.href} variant="primary" radius={[24, 32, 0, 24]} class:list={['flex-1 gap-2 pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none', visuals[i].ctaPrimaryClass]}>
+          <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:gap-8">
+            <Button href={card.ctaPrimary.href} variant="primary" radius={[24, 32, 0, 24]} class:list={['w-full gap-2 pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none sm:flex-1', visuals[i].ctaPrimaryClass]}>
               <img src="/calendar.svg" alt="" aria-hidden="true" class="h-6 w-6" />
               {card.ctaPrimary.label}
             </Button>
-            <Button href={card.ctaSecondary.href} radius={[32, 24, 24, 0]} class="flex-1 border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none" style="color: var(--color-content-primary)">{card.ctaSecondary.label}</Button>
+            <Button href={card.ctaSecondary.href} radius={[32, 24, 24, 0]} class="w-full border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none sm:flex-1" style="color: var(--color-content-primary)">{card.ctaSecondary.label}</Button>
           </div>
         </article>
       ))}
