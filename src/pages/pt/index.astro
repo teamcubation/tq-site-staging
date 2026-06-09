@@ -6,6 +6,8 @@ import Hero from '../../components/Hero.astro'
 import LogoBar from '../../components/LogoBar.astro'
 import Services from '../../components/Services.astro'
 import Product from '../../components/Product.astro'
+import SuccessStories from '../../components/SuccessStories.astro'
+import Testimonials from '../../components/Testimonials.astro'
 
 const services = [
   {
@@ -65,6 +67,19 @@ const services = [
       title="Melhore seus processos de aquisição de experiência em toda a sua organização com o Teamboarding"
       subtitle="Acompanhe cada novo integrante com um processo claro, mensurável e adaptado à sua forma de trabalhar."
       ctaLabel="Saiba mais"
+    />
+    <SuccessStories
+      tag="Caso de sucesso"
+      title="Histórias de sucesso"
+      description="Descubra como colaboramos com o Mercado Livre, não apenas desenvolvendo software, mas também desenvolvendo talento para que possa fazer parte de suas equipes com resultados excepcionais."
+    />
+    <Testimonials
+      title="O valor de trabalhar juntos, contado pelos nossos clientes"
+      testimonials={[
+        { quote: 'A Teamcubation impulsiona o crescimento de pessoas sem experiência em um mercado tão desafiador como TI', name: 'Julieta Carreras', company: 'Mercado Livre' },
+        { quote: 'Conseguimos tornar realidade nosso plano de talento, criamos equipes potentes com resultados surpreendentes', name: 'Norberto Santoro', company: 'Banco Comafi' },
+        { quote: 'A proposta da Teamcubation está muito alinhada com o que nós queremos e esperamos de um parceiro', name: 'Pablo Cassina', company: 'Mercado Livre' },
+      ]}
     />
   </main>
 
