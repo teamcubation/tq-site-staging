@@ -39,9 +39,9 @@ const members = people.map((p, i) => ({ ...p, description: descriptions[i] }))
 <section id="equipo" class="py-12">
   <Container>
     <h2 class="text-center text-[32px] font-extrabold leading-none tracking-[-0.96px] text-content-primary">{title}</h2>
-    <p class="mx-auto mt-6 max-w-[700px] text-center text-[16px] leading-[1.5] tracking-[0px] text-content-secondary" style="font-family: 'Inter', sans-serif; font-weight: 400;">{subtitle}</p>
+    <p class="mx-auto mt-6 max-w-[700px] text-center text-[16px] leading-[1.5] tracking-[0.16px] text-content-secondary" style="font-family: 'Inter', sans-serif; font-weight: 400;">{subtitle}</p>
 
-    <div class="mt-12">
+    <div class="mt-12 -mx-5 xl:mx-0">
       <TeamSlider members={members} linkedinLabel={linkedinLabel} />
     </div>
   </Container>
