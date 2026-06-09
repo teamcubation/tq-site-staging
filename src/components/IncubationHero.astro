@@ -1,12 +1,19 @@
 ---
 import Container from './Container.astro'
 import Button from './Button.astro'
+import NumberCard from './NumberCard.astro'
+
+interface Point {
+  title: string
+  subtitle: string
+}
 
 interface Props {
   subtitle?: string
   highlight?: string
   ctaLabel?: string
   ctaHref?: string
+  points?: Point[]
 }
 
 const {
@@ -14,7 +21,25 @@ const {
   highlight = 'Construimos el software que necesitas hoy mientras incubamos tu equipo del mañana.',
   ctaLabel = 'Agendar Reunión',
   ctaHref = '#contacto',
+  points = [
+    {
+      title: 'Desarrollo de software llave en mano',
+      subtitle: 'Creamos soluciones a medida que cumplen con tus necesidades específicas, garantizando delivery.',
+    },
+    {
+      title: 'Formación en proyectos reales',
+      subtitle: 'Los juniors, con formación en programación, ganan experiencia en proyectos reales junto a nuestros seniors, acelerando su crecimiento profesional y cultura de trabajo.',
+    },
+    {
+      title: 'Identificación y selección de talento',
+      subtitle: 'Seleccionamos a los talentos mejor adaptados a tu cultura, quienes, al finalizar el proyecto, ya están entrenados y preparados para integrarse a tu equipo sin fricción.',
+    },
+  ],
 } = Astro.props
+
+// Number + color per card are fixed across languages (positional).
+const numbers = ['01', '02', '03']
+const colors = ['#dcdf30', '#ff4933', '#ff2e5b']
 ---
 
 <section>
@@ -33,5 +58,11 @@ const {
 
     <p class="mt-8  text-[19px] leading-[1.8] tracking-[0px] text-content-primary" style="font-family: 'Inter', sans-serif; font-weight: 500;">{subtitle}</p>
     <p class="mt-8  text-[20px] font-extrabold leading-[1.5] text-content-primary">{highlight}</p>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      {points.map((p, i) => (
+        <NumberCard number={numbers[i]} title={p.title} subtitle={p.subtitle} color={colors[i]} />
+      ))}
+    </div>
   </Container>
 </section>
