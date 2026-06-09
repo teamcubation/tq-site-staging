@@ -2,12 +2,12 @@
 import Layout from '../../../layouts/Layout.astro'
 import Header from '../../../components/Header.astro'
 import Footer from '../../../components/Footer.astro'
+import IncubationHero from '../../../components/IncubationHero.astro'
 ---
 
 <Layout
   title="IncubatION | The first Software + Team Factory"
   description="We are the first Software + Team Factory, implementing technology projects for our clients while accelerating the development of tech skills in their potential collaborators."
-  ogImage="/IncubatiON_og.jpg"
   ogImage="/IncubatiON_og.jpg"
   alternateLanguages={[
     { lang: 'es', href: 'https://teamcubation.com/incubation' },
@@ -25,6 +25,11 @@ import Footer from '../../../components/Footer.astro'
   />
 
   <main>
+    <IncubationHero
+      subtitle="We are the first Software+Team Factory, implementing technology projects for our clients while accelerating the development of tech skills in their potential collaborators."
+      highlight="We build the software you need today while incubating your team of tomorrow."
+      ctaLabel="Book a Meeting"
+    />
   </main>
 
   <Footer lang="en" />
