@@ -6,6 +6,9 @@ import IncubationHero from '../../../components/IncubationHero.astro'
 import Methodology from '../../../components/Methodology.astro'
 import CtaBanner from '../../../components/CtaBanner.astro'
 import TechMethodology from '../../../components/TechMethodology.astro'
+import Differential from '../../../components/Differential.astro'
+import SuccessStories from '../../../components/SuccessStories.astro'
+import Testimonials from '../../../components/Testimonials.astro'
 ---
 
 <Layout
@@ -73,6 +76,30 @@ import TechMethodology from '../../../components/TechMethodology.astro'
           title: 'Seus futuros developers',
           description: 'Guiados pelos nossos seniors, adquirirão experiência real enquanto desenvolvem suas habilidades técnicas e comportamentais, e se integram à sua cultura empresarial.',
         },
+      ]}
+    />
+    <Differential
+      title="Nosso"
+      titleAccent="Diferencial"
+      features={[
+        { title: 'Treinamos Trabalhando', description: 'Nossa metodologia é on the job: a forma mais efetiva.' },
+        { title: 'Equipes Full-time', description: 'Personalizamos a experiência de cada um dos seus potenciais colaboradores.' },
+        { title: 'Desenvolvemos Habilidades', description: 'Potencializamos competências tanto técnicas quanto interpessoais necessárias nas suas equipes de TI.' },
+        { title: 'Amamos o que fazemos', description: 'Somos motivados pelo desenvolvimento de software e de pessoas.' },
+        { title: 'Vivemos a sua Cultura', description: 'Trabalhamos alinhados com seus valores, processos e objetivos.' },
+      ]}
+    />
+    <SuccessStories
+      tag="Caso de sucesso"
+      title="Histórias de sucesso"
+      description="Descubra como colaboramos com o Mercado Livre, não apenas desenvolvendo software, mas também desenvolvendo talento para que possa fazer parte de suas equipes com resultados excepcionais."
+    />
+    <Testimonials
+      title="O valor de trabalhar juntos, contado pelos nossos clientes"
+      testimonials={[
+        { quote: 'A Teamcubation impulsiona o crescimento de pessoas sem experiência em um mercado tão desafiador como TI', name: 'Julieta Carreras', company: 'Mercado Livre' },
+        { quote: 'Conseguimos tornar realidade nosso plano de talento, criamos equipes potentes com resultados surpreendentes', name: 'Norberto Santoro', company: 'Banco Comafi' },
+        { quote: 'A proposta da Teamcubation está muito alinhada com o que nós queremos e esperamos de um parceiro', name: 'Pablo Cassina', company: 'Mercado Livre' },
       ]}
     />
   </main>
