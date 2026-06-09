@@ -3,6 +3,9 @@ import Layout from '../../../layouts/Layout.astro'
 import Header from '../../../components/Header.astro'
 import Footer from '../../../components/Footer.astro'
 import IncubationHero from '../../../components/IncubationHero.astro'
+import Methodology from '../../../components/Methodology.astro'
+import CtaBanner from '../../../components/CtaBanner.astro'
+import TechMethodology from '../../../components/TechMethodology.astro'
 ---
 
 <Layout
@@ -41,6 +44,34 @@ import IncubationHero from '../../../components/IncubationHero.astro'
         {
           title: 'Identificação e seleção de talento',
           subtitle: 'Selecionamos os talentos mais adaptados à sua cultura, que, ao finalizar o projeto, já estão treinados e prontos para integrar a sua equipe sem fricção.',
+        },
+      ]}
+    />
+    <Methodology
+      title="Nossa Metodologia"
+      items={[
+        'Formamos equipes de trabalho com seus potenciais colaboradores, lideradas pelos nossos Seniors dedicados.',
+        'Essas equipes trabalham e aprendem: desenvolvem para a sua empresa com as suas tecnologias e metodologias.',
+        'Medimos a evolução de cada colaborador através da nossa plataforma Teamboarding, que permite personalizar seu processo de aquisição de experiência.',
+        'Ao final do processo você recebe novos projetos de software implementados e a possibilidade de incorporar os novos talentos que participaram do desenvolvimento.',
+      ]}
+    />
+    <CtaBanner
+      containerClass="!max-w-[960px]"
+      title="Pronto para desenvolvermos software com a sua equipe do futuro?"
+      ctaLabel="Fale conosco"
+      ctaHref="#contato"
+    />
+    <TechMethodology
+      title="Tecnologia e metodologia para acelerar seus potenciais futuros colaboradores"
+      cards={[
+        {
+          title: 'Nossos líderes',
+          description: 'Especializados e capacitados no stack tecnológico e nas metodologias da sua empresa, garantirão que o software cumpra os requisitos com qualidade e cuidarão da evolução dos developers.',
+        },
+        {
+          title: 'Seus futuros developers',
+          description: 'Guiados pelos nossos seniors, adquirirão experiência real enquanto desenvolvem suas habilidades técnicas e comportamentais, e se integram à sua cultura empresarial.',
         },
       ]}
     />

@@ -3,6 +3,9 @@ import Layout from '../../../layouts/Layout.astro'
 import Header from '../../../components/Header.astro'
 import Footer from '../../../components/Footer.astro'
 import IncubationHero from '../../../components/IncubationHero.astro'
+import Methodology from '../../../components/Methodology.astro'
+import CtaBanner from '../../../components/CtaBanner.astro'
+import TechMethodology from '../../../components/TechMethodology.astro'
 ---
 
 <Layout
@@ -41,6 +44,34 @@ import IncubationHero from '../../../components/IncubationHero.astro'
         {
           title: 'Talent identification and selection',
           subtitle: 'We select the talent best suited to your culture, who, by the end of the project, are already trained and ready to join your team without friction.',
+        },
+      ]}
+    />
+    <Methodology
+      title="Our Methodology"
+      items={[
+        'We build teams with your potential collaborators, led by our dedicated Seniors.',
+        'These teams work and learn: they develop for your company with your technologies and methodologies.',
+        "We measure each collaborator's evolution through our Teamboarding platform, which personalizes their experience-acquisition process.",
+        'At the end of the process you receive new implemented software projects and the option to bring on board the new talent who took part in the development.',
+      ]}
+    />
+    <CtaBanner
+      containerClass="!max-w-[960px]"
+      title="Ready for us to build software with your team of the future?"
+      ctaLabel="Contact us"
+      ctaHref="#contact"
+    />
+    <TechMethodology
+      title="Technology and methodology to accelerate your potential future collaborators"
+      cards={[
+        {
+          title: 'Our leaders',
+          description: "Specialized and trained in your company's tech stack and methodologies, they ensure the software meets requirements with quality and look after the developers' growth.",
+        },
+        {
+          title: 'Your future developers',
+          description: 'Guided by our seniors, they gain real experience while developing their technical and soft skills, and integrate into your company culture.',
         },
       ]}
     />
