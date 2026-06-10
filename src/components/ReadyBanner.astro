@@ -1,0 +1,32 @@
+---
+import Container from './Container.astro'
+import Button from './Button.astro'
+
+interface Props {
+  title?: string
+  text?: string
+  ctaLabel?: string
+  ctaHref?: string
+}
+
+const {
+  title = '¿Listo para comenzar?',
+  text = 'Las empresas que incorporan nuevo talento, fidelizan y forman equipos competitivos y super comprometidos. Animarse a innovar es lo que marca la diferencia.',
+  ctaLabel = 'Hablá con un Experto',
+  ctaHref = '#contacto',
+} = Astro.props
+---
+
+<section class="relative flex min-h-[240px] items-center overflow-hidden bg-contain bg-left py-8 md:py-0" style="background-image: url('/ready_bg.png');">
+  <img src="/orange.png" alt="" aria-hidden="true" class="pointer-events-none absolute left-0 top-0 h-full w-auto" />
+
+  <Container class="relative z-10 !max-w-[1140px]" padding="0px">
+    <div class="flex flex-col items-center justify-between gap-8 px-5 text-center md:flex-row md:gap-[64px] md:px-0 md:text-left">
+      <h2 class="w-[211px] shrink-0 text-right text-[40px] font-extrabold leading-[1.2] tracking-[-1px] text-white">{title}</h2>
+
+      <p class="text-[18px] leading-[1.6] tracking-[0px] text-white" style="font-family: 'Inter', sans-serif; font-weight: 500;">{text}</p>
+
+      <Button href={ctaHref} radius={[40, 40, 32, 0]} class="h-[60px] shrink-0 border-0 px-[40px] text-[20px] font-extrabold leading-none text-white" style="background-image: linear-gradient(to right, #FFA232 0%, #FF5633 23%, #FF4933 50%, #FF2E5B 100%);">{ctaLabel}</Button>
+    </div>
+  </Container>
+</section>
