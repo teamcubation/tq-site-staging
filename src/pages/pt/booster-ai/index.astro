@@ -5,6 +5,7 @@ import Footer from '../../../components/Footer.astro'
 import BoosterHero from '../../../components/BoosterHero.astro'
 import BrandsCarousel from '../../../components/BrandsCarousel.astro'
 import BoosterBand from '../../../components/BoosterBand.astro'
+import BoosterAreas from '../../../components/BoosterAreas.astro'
 ---
 
 <Layout
@@ -29,18 +30,98 @@ import BoosterBand from '../../../components/BoosterBand.astro'
   <main>
     <BoosterHero
       highlight="Suas equipes, guiadas por nossos mentores, automatizam tarefas repetitivas, liberando horas para focar no negócio. Eficiência + treinamento."
-      subtitle="Um programa de treinamento on-the-job, ágil e humano, para que sua equipe aprenda a usar IA em seus processos reais. Sem fricções nem depender de TI: com o BoosterAI cada pessoa potencializa seu próprio “metro quadrado” e multiplica o impacto na organização."
+      subtitle="Um programa de treinamento on-the-job, ágil e humano, para que sua equipe aprenda a usar IA em processos reais. Sem fricções e sem depender de TI: com o BoosterAI cada pessoa potencializa seu próprio “metro quadrado” e multiplica o impacto na organização."
       highlight2="Já treinamos a IA… agora é hora de treinar os humanos."
       ctaLabel="Agendar Reunião"
-      strip="A IA se aprende com pessoas, e o nosso Booster AI faz isso: empoderar suas equipes, de humano para humano."
+      strip="A IA se aprende com pessoas, e o nosso Booster AI faz exatamente isso: empoderar suas equipes, de humano para humano."
       points={[
         { title: 'Compreender', subtitle: 'O potencial e os limites da IA, e explorar ferramentas como n8n, Power Automate e Agentes.' },
         { title: 'Desenhar', subtitle: 'Os primeiros processos com IA, com apoio de mentoria personalizada.' },
         { title: 'Dominar', subtitle: 'A confiança para explorar e aplicar IA, sem depender da área de TI.' },
       ]}
     />
-    <BrandsCarousel label="Empresas com as quais impulsionamos a adoção de IA" />
+    <BrandsCarousel label="Empresas com as quais promovemos a adoção de IA" />
     <BoosterBand />
+    <BoosterAreas
+      title="O que o BoosterAI oferece às diferentes áreas da sua organização?"
+      opportunityLabel="Qual é a oportunidade?"
+      possibleLabel="O que é possível?"
+      examplesLabel="Exemplos de processos que podem ser automatizados:"
+      items={[
+        {
+          category: 'Vendas',
+          phrase: 'O foco em vender mais.',
+          opportunity: 'Liberar sua equipe comercial de tarefas repetitivas para que possam se concentrar em vender mais e melhor.',
+          possible: 'Criar “copilotos de IA” que apoiem cada executivo na prospecção, acompanhamento e fechamento, acelerando o ciclo de vendas e melhorando as taxas de conversão.',
+          examples: [
+            'Geração de listas qualificadas de prospectos',
+            'Redação automática de e-mails de acompanhamento personalizados',
+            'Atualização do CRM e registro de atividades',
+            'Preparação de propostas comerciais',
+          ],
+        },
+        {
+          category: 'Finanças',
+          phrase: 'Seus números em tempo real.',
+          opportunity: 'Acelerar o acesso a informações-chave para a tomada de decisões e reduzir erros operacionais.',
+          possible: 'Implementar agentes que preparem relatórios, respondam a consultas frequentes e automatizem conciliações, permitindo que a equipe se concentre em análises estratégicas.',
+          examples: [
+            'Conciliações bancárias',
+            'Relatórios de fluxo de caixa e projeções financeiras',
+            'Elaboração de P&L por unidade de negócio',
+            'Lembretes e acompanhamento de cobranças',
+          ],
+        },
+        {
+          category: 'Jurídico',
+          phrase: 'Compliance sem gargalos.',
+          opportunity: 'Multiplicar a produtividade da equipe sem sacrificar precisão nem compliance.',
+          possible: 'Treinar agentes de IA para auxiliar na revisão de contratos, responder a consultas frequentes do negócio e alertar sobre desvios de risco, mantendo a equipe jurídica focada em assuntos de maior impacto.',
+          examples: [
+            'Busca de cláusulas e comparações em contratos',
+            'Geração de atas e NDAs padrão',
+            'Alertas de vencimento de contratos',
+            'Respostas a consultas jurídicas frequentes (chat interno)',
+          ],
+        },
+        {
+          category: 'Marketing',
+          phrase: 'Foco a laser para acertar no alvo.',
+          opportunity: 'Criar mais conteúdo de qualidade em menos tempo e melhorar a performance de cada ação.',
+          possible: 'Desenvolver assistentes inteligentes que gerem ideias, escrevam versões, meçam resultados e otimizem campanhas, liberando tempo criativo.',
+          examples: [
+            'Ideação e produção de conteúdos para redes sociais',
+            'Versionamento de copies e criação de testes A/B',
+            'Consolidação de métricas de campanhas',
+            'Criação de relatórios de resultados',
+          ],
+        },
+        {
+          category: 'Recursos Humanos',
+          phrase: 'Cultura que escala.',
+          opportunity: 'Transformar a área em um habilitador estratégico do negócio, reduzindo a carga operacional.',
+          possible: 'Incorporar assistentes que acelerem a contratação, o onboarding e o acompanhamento, melhorando a experiência do colaborador desde o primeiro dia.',
+          examples: [
+            'Triagem inicial de candidatos e criação de shortlists',
+            'Geração de descrições de cargo e comunicações internas',
+            'Planos de onboarding personalizados',
+            'Acompanhamento de clima e performance',
+          ],
+        },
+        {
+          category: 'Operações',
+          phrase: 'Engrenagens em movimento sem fricção.',
+          opportunity: 'Aumentar a eficiência operacional reduzindo tempos mortos e incidentes.',
+          possible: 'Implementar robôs e fluxos inteligentes que monitorem processos, identifiquem gargalos e atuem automaticamente, garantindo a continuidade operacional.',
+          examples: [
+            'Relatórios de inventário / estoque',
+            'Alertas e atribuição automática de tickets',
+            'Acompanhamento de pedidos e logística',
+            'Inserção de informações em múltiplos sistemas',
+          ],
+        },
+      ]}
+    />
   </main>
 
   <Footer lang="pt" />
