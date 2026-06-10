@@ -2,12 +2,14 @@
 import Layout from '../../../layouts/Layout.astro'
 import Header from '../../../components/Header.astro'
 import Footer from '../../../components/Footer.astro'
+import BoosterHero from '../../../components/BoosterHero.astro'
+import BrandsCarousel from '../../../components/BrandsCarousel.astro'
+import BoosterBand from '../../../components/BoosterBand.astro'
 ---
 
 <Layout
   title="Booster AI | Implement AI in your company in 30 days"
   description="Your teams, guided by our mentors, automate repetitive tasks, freeing up hours to focus on the business. Efficiency + Training. We've already trained AI.. now it's time to train humans."
-  ogImage="/Booster_og.jpg"
   ogImage="/Booster_og.jpg"
   alternateLanguages={[
     { lang: 'es', href: 'https://teamcubation.com/booster-ai' },
@@ -25,6 +27,20 @@ import Footer from '../../../components/Footer.astro'
   />
 
   <main>
+    <BoosterHero
+      highlight="Your teams, guided by our mentors, automate repetitive tasks, freeing up hours to focus on the business. Efficiency + training."
+      subtitle="An on-the-job, agile and human training program, so your team learns to use AI in their real processes. No friction and no dependence on IT: with BoosterAI each person boosts their own “square meter” and multiplies the impact across the organization."
+      highlight2="We've already trained AI… now it's time to train the humans."
+      ctaLabel="Schedule Meeting"
+      strip="AI is learned with people, and our Booster AI does exactly that: empowering your teams, human to human."
+      points={[
+        { title: 'Understand', subtitle: 'The potential and limits of AI, and explore tools like n8n, Power Automate and Agents.' },
+        { title: 'Design', subtitle: 'The first processes with AI, with personalized mentoring support.' },
+        { title: 'Master', subtitle: 'The confidence to explore and apply AI, without depending on the IT area.' },
+      ]}
+    />
+    <BrandsCarousel label="Companies with which we drive AI adoption" />
+    <BoosterBand />
   </main>
 
   <Footer lang="en" />

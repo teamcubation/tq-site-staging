@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro'
 import Header from '../../components/Header.astro'
 import Footer from '../../components/Footer.astro'
+import BoosterHero from '../../components/BoosterHero.astro'
+import BrandsCarousel from '../../components/BrandsCarousel.astro'
+import BoosterBand from '../../components/BoosterBand.astro'
 ---
 
 <Layout
@@ -17,6 +20,9 @@ import Footer from '../../components/Footer.astro'
   <Header lang="es" currentPage="/booster-ai" />
 
   <main>
+    <BoosterHero />
+    <BrandsCarousel label="Empresas con las que impulsamos la adopción de IA" />
+    <BoosterBand />
   </main>
 
   <Footer lang="es" />

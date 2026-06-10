@@ -2,12 +2,14 @@
 import Layout from '../../../layouts/Layout.astro'
 import Header from '../../../components/Header.astro'
 import Footer from '../../../components/Footer.astro'
+import BoosterHero from '../../../components/BoosterHero.astro'
+import BrandsCarousel from '../../../components/BrandsCarousel.astro'
+import BoosterBand from '../../../components/BoosterBand.astro'
 ---
 
 <Layout
   title="Booster AI | Implemente IA na sua empresa em 30 dias"
   description="Suas equipes, guiadas por nossos mentores, automatizam tarefas repetitivas, liberando horas para focar no negócio. Eficiência + Treinamento. Já treinamos a IA.. agora é hora de treinar os humanos."
-  ogImage="/Booster_og.jpg"
   ogImage="/Booster_og.jpg"
   alternateLanguages={[
     { lang: 'es', href: 'https://teamcubation.com/booster-ai' },
@@ -25,6 +27,20 @@ import Footer from '../../../components/Footer.astro'
   />
 
   <main>
+    <BoosterHero
+      highlight="Suas equipes, guiadas por nossos mentores, automatizam tarefas repetitivas, liberando horas para focar no negócio. Eficiência + treinamento."
+      subtitle="Um programa de treinamento on-the-job, ágil e humano, para que sua equipe aprenda a usar IA em seus processos reais. Sem fricções nem depender de TI: com o BoosterAI cada pessoa potencializa seu próprio “metro quadrado” e multiplica o impacto na organização."
+      highlight2="Já treinamos a IA… agora é hora de treinar os humanos."
+      ctaLabel="Agendar Reunião"
+      strip="A IA se aprende com pessoas, e o nosso Booster AI faz isso: empoderar suas equipes, de humano para humano."
+      points={[
+        { title: 'Compreender', subtitle: 'O potencial e os limites da IA, e explorar ferramentas como n8n, Power Automate e Agentes.' },
+        { title: 'Desenhar', subtitle: 'Os primeiros processos com IA, com apoio de mentoria personalizada.' },
+        { title: 'Dominar', subtitle: 'A confiança para explorar e aplicar IA, sem depender da área de TI.' },
+      ]}
+    />
+    <BrandsCarousel label="Empresas com as quais impulsionamos a adoção de IA" />
+    <BoosterBand />
   </main>
 
   <Footer lang="pt" />
