@@ -6,6 +6,9 @@ import BoosterHero from '../../../components/BoosterHero.astro'
 import BrandsCarousel from '../../../components/BrandsCarousel.astro'
 import BoosterBand from '../../../components/BoosterBand.astro'
 import BoosterAreas from '../../../components/BoosterAreas.astro'
+import CtaBanner from '../../../components/CtaBanner.astro'
+import BoosterTraining from '../../../components/BoosterTraining.astro'
+import TeamBand from '../../../components/TeamBand.astro'
 ---
 
 <Layout
@@ -122,6 +125,19 @@ import BoosterAreas from '../../../components/BoosterAreas.astro'
         },
       ]}
     />
+    <CtaBanner
+      containerClass="!max-w-[960px]"
+      background="linear-gradient(to right, #B636FF 0%, #6D00FF 50%, #00B2FF 100%)"
+      title="Quer saber como este serviço pode funcionar para a sua equipe?"
+      ctaLabel="Fale conosco"
+      ctaHref="#contato"
+    />
+    <BoosterTraining
+      bold="BoosterAI treina suas equipes para pensar e agir utilizando IA para potencializar a criatividade + capacidade analítica, alcançando impacto real nos negócios."
+      paragraph="Não se trata apenas de incorporar tecnologia: trata-se de como e onde a usamos. As organizações que estão alcançando resultados extraordinários com IA (mais crescimento, mais rentabilidade, mais impacto) têm algo em comum: investem em suas pessoas para usar IA de forma estratégica, não rotineira."
+      highlight="EFICIÊNCIA = IMPACTO NO P&L"
+    />
+    <TeamBand />
   </main>
 
   <Footer lang="pt" />

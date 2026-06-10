@@ -6,6 +6,9 @@ import BoosterHero from '../../components/BoosterHero.astro'
 import BrandsCarousel from '../../components/BrandsCarousel.astro'
 import BoosterBand from '../../components/BoosterBand.astro'
 import BoosterAreas from '../../components/BoosterAreas.astro'
+import CtaBanner from '../../components/CtaBanner.astro'
+import BoosterTraining from '../../components/BoosterTraining.astro'
+import TeamBand from '../../components/TeamBand.astro'
 ---
 
 <Layout
@@ -25,6 +28,14 @@ import BoosterAreas from '../../components/BoosterAreas.astro'
     <BrandsCarousel label="Empresas con las que impulsamos la adopción de IA" />
     <BoosterBand />
     <BoosterAreas />
+    <CtaBanner
+      containerClass="!max-w-[960px]"
+      background="linear-gradient(to right, #B636FF 0%, #6D00FF 50%, #00B2FF 100%)"
+      title="¿Querés saber cómo este servicio puede funcionar para tu equipo?"
+      ctaLabel="Contactanos"
+    />
+    <BoosterTraining />
+    <TeamBand />
   </main>
 
   <Footer lang="es" />
