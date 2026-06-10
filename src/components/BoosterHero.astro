@@ -43,22 +43,23 @@ const colors = ['#1FB6FF', '#B636FF', '#4B1FFC']
 
 <section>
   <div class="relative h-[200px] w-full overflow-hidden">
-    <img src="/booster_hero.png" alt="" aria-hidden="true" class="h-full w-full object-cover" />
-    <img src="/rectangle_violet.png" alt="" aria-hidden="true" class="pointer-events-none absolute left-0 top-0 w-[180px]" />
-    <img src="/rectangle_violet_2.png" alt="" aria-hidden="true" class="pointer-events-none absolute bottom-0 right-0 w-[180px]" />
+    <img src="/head_title.png" alt="" aria-hidden="true" class="block h-full w-full object-cover xl:hidden" />
+    <img src="/booster_hero.png" alt="" aria-hidden="true" class="hidden h-full w-full object-cover object-right xl:block" />
+    <img src="/rectangle_violet.png" alt="" aria-hidden="true" class="pointer-events-none absolute left-0 top-0 h-[160px] w-[160px] xl:h-auto xl:w-[180px]" />
+    <img src="/rectangle_violet_2.png" alt="" aria-hidden="true" class="pointer-events-none absolute bottom-0 right-0 h-[160px] w-[160px] xl:h-auto xl:w-[180px]" />
   </div>
 
   <Container class="!max-w-[960px] py-[60px]">
-    <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <div class="flex flex-col gap-6 min-[800px]:flex-row min-[800px]:items-center min-[800px]:justify-between">
       <h1 class="!text-[48px] font-extrabold !leading-[1.3] !tracking-[-1.44px] text-content-primary">Booster<span class="bg-clip-text text-transparent" style="background-image: linear-gradient(to right, #B636FF 0%, #6D00FF 50%, #00B2FF 100%);">AI</span></h1>
 
-      <div class="flex shrink-0 gap-3">
-        <Button href={ctaHref} variant="primary" radius={[24, 32, 0, 24]} class="gap-2 !bg-violet-main pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none hover:!bg-violet-main">
+      <div class="flex shrink-0 gap-3 max-[800px]:w-full max-[800px]:flex-col">
+        <Button href={ctaHref} variant="primary" radius={[24, 32, 0, 24]} class="gap-2 !bg-violet-main pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none hover:!bg-violet-main max-[800px]:w-full">
           <img src="/calendar.svg" alt="" aria-hidden="true" class="h-6 w-6" />
           {ctaLabel}
         </Button>
 
-        <Button href={brochureHref} radius={[24, 24, 24, 0]} class="gap-2 border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none" style="color: var(--color-content-primary)">
+        <Button href={brochureHref} radius={[24, 24, 24, 0]} class="gap-2 border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none max-[800px]:w-full" style="color: var(--color-content-primary)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
             <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
           </svg>
