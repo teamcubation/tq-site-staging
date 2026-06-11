@@ -10,6 +10,7 @@ interface Props {
   servicesLabel?: string
   productLabel?: string
   languageLabel?: string
+  langUrls?: Record<string, string>
 }
 
 const {
@@ -19,14 +20,21 @@ const {
   servicesLabel = 'SERVICIOS',
   productLabel = 'PRODUCTO',
   languageLabel = 'IDIOMA',
+  langUrls,
 } = Astro.props
 
 const langPrefix = (code: string) => code === 'es' ? '' : `/${code}`
 
+// Contact page slug differs per language, so it can't be derived from a prefix.
+const contactPaths: Record<string, string> = { es: '/contacto', en: '/en/contact', pt: '/pt/contato' }
+const contactHref = contactPaths[lang] ?? contactPaths.es
+
+// Language switcher: pages with a per-language slug (e.g. contact) pass langUrls;
+// the rest derive the target from the current path + language prefix.
 const languages = [
-  { code: 'es', label: 'Español', href: `${langPrefix('es')}${currentPage}` },
-  { code: 'en', label: 'English', href: `${langPrefix('en')}${currentPage}` },
-  { code: 'pt', label: 'Português', href: `${langPrefix('pt')}${currentPage}` },
+  { code: 'es', label: 'Español', href: langUrls?.es ?? `${langPrefix('es')}${currentPage}` },
+  { code: 'en', label: 'English', href: langUrls?.en ?? `${langPrefix('en')}${currentPage}` },
+  { code: 'pt', label: 'Português', href: langUrls?.pt ?? `${langPrefix('pt')}${currentPage}` },
 ]
 ---
 
@@ -41,7 +49,7 @@ const languages = [
     </a>
 
     <div class="flex items-center gap-6">
-      <Button href="#" style="height: 40px; letter-spacing: -0.24px" class="btn-cut-br px-6 py-2 text-xs font-bold">{contactLabel}</Button>
+      <Button href={contactHref} style="height: 40px; letter-spacing: -0.24px" class="btn-cut-br px-6 py-2 text-xs font-bold">{contactLabel}</Button>
       <MenuToggle id="menu-toggle" />
     </div>
   </Container>
