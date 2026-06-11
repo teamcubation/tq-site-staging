@@ -1,5 +1,6 @@
 ---
 import Container from './Container.astro'
+import FeatureCard from './FeatureCard.astro'
 
 interface Feature {
   title: string
@@ -33,11 +34,9 @@ const {
   <div class="diff-carousel mt-12 w-full overflow-hidden">
     <div class="diff-track flex w-max gap-[24px]">
       {[...features, ...features].map((f, i) => (
-        <article class="flex w-[288px] shrink-0 flex-col rounded-lg border border-border-main bg-white px-6 py-8" aria-hidden={i >= features.length ? 'true' : undefined}>
-          <img src="/check.png" alt="" aria-hidden="true" class="h-12 w-12" />
-          <h3 class="mt-4 text-[18px] font-extrabold leading-[1.2] text-primary">{f.title}</h3>
-          <p class="mt-2 text-[14px] leading-[1.5] text-content-secondary" style="font-family: 'Inter', sans-serif; font-weight: 400;">{f.description}</p>
-        </article>
+        <div class="w-[288px] shrink-0" aria-hidden={i >= features.length ? 'true' : undefined}>
+          <FeatureCard icon="/check.png" titleClass="text-primary" title={f.title} description={f.description} />
+        </div>
       ))}
     </div>
   </div>

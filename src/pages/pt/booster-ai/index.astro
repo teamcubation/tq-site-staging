@@ -9,6 +9,7 @@ import BoosterAreas from '../../../components/BoosterAreas.astro'
 import CtaBanner from '../../../components/CtaBanner.astro'
 import BoosterTraining from '../../../components/BoosterTraining.astro'
 import TeamBand from '../../../components/TeamBand.astro'
+import BoosterDifference from '../../../components/BoosterDifference.astro'
 ---
 
 <Layout
@@ -138,6 +139,14 @@ import TeamBand from '../../../components/TeamBand.astro'
       highlight="EFICIÊNCIA = IMPACTO NO P&L"
     />
     <TeamBand />
+    <BoosterDifference
+      title="Em que se diferenciam as empresas que estão aproveitando melhor a IA?"
+      features={[
+        { title: 'Pensam grande', description: 'Definem objetivos ambiciosos e destinam recursos relevantes para IA e capacidades digitais.' },
+        { title: 'Focam no que realmente move a agulha', description: 'Não dispersam esforços; apostam fortemente em poucos casos de uso prioritários com ROI claro.' },
+        { title: 'Vão para as áreas centrais do negócio', description: 'Aplicam IA onde dói e onde a eficiência gera os maiores ganhos.' },
+      ]}
+    />
   </main>
 
   <Footer lang="pt" />
