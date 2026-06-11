@@ -10,6 +10,8 @@ import Differential from '../../components/Differential.astro'
 import SuccessStories from '../../components/SuccessStories.astro'
 import Testimonials from '../../components/Testimonials.astro'
 import ReadyBanner from '../../components/ReadyBanner.astro'
+import Container from '../../components/Container.astro'
+import FormContact from '../../components/FormContact.astro'
 ---
 
 <Layout
@@ -32,6 +34,11 @@ import ReadyBanner from '../../components/ReadyBanner.astro'
     <Differential />
     <SuccessStories />
     <Testimonials />
+    <section class="pt-12 pb-20">
+      <Container class="!max-w-[860px]">
+        <FormContact lang="es" />
+      </Container>
+    </section>
     <ReadyBanner />
   </main>
 
