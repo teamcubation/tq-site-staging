@@ -71,5 +71,10 @@ const colors = ['#dcdf30', '#ff4933', '#ff2e5b']
     </div>
   </Container>
 
-  <img src="/incubation_1.png" alt="" aria-hidden="true" class="h-[400px] w-full object-cover" />
+  <div class="relative h-[400px] w-full overflow-hidden">
+    <img src="/incubation_1_sx.png" alt="" aria-hidden="true" class="block h-full w-full object-cover xl:hidden" />
+    <img src="/incubation_1.png" alt="" aria-hidden="true" class="hidden h-full w-full object-cover xl:block" />
+    <img src="/rectangle_yellow.png" alt="" aria-hidden="true" class="pointer-events-none absolute bottom-0 left-0 h-[160px] w-[160px] xl:h-auto xl:w-[180px]" />
+    <img src="/Decoration_Red.png" alt="" aria-hidden="true" class="pointer-events-none absolute right-0 top-0 h-[160px] w-[160px] xl:h-auto xl:w-[180px]" />
+  </div>
 </section>
