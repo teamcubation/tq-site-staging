@@ -11,6 +11,8 @@ import BoosterTraining from '../../components/BoosterTraining.astro'
 import TeamBand from '../../components/TeamBand.astro'
 import BoosterDifference from '../../components/BoosterDifference.astro'
 import ReadyBanner from '../../components/ReadyBanner.astro'
+import Container from '../../components/Container.astro'
+import FormContact from '../../components/FormContact.astro'
 ---
 
 <Layout
@@ -35,10 +37,16 @@ import ReadyBanner from '../../components/ReadyBanner.astro'
       background="linear-gradient(to right, #B636FF 0%, #6D00FF 50%, #00B2FF 100%)"
       title="¿Querés saber cómo este servicio puede funcionar para tu equipo?"
       ctaLabel="Contactanos"
+      ctaHref="#contacto"
     />
     <BoosterTraining />
     <TeamBand />
     <BoosterDifference />
+    <section id="contacto" class="scroll-mt-24 pt-12 pb-20">
+      <Container class="!max-w-[860px]">
+        <FormContact lang="es" />
+      </Container>
+    </section>
     <ReadyBanner
       text="Las empresas que integran la IA en su día a día son las que alcanzan más eficiencia y crecimiento. Animarse a innovar es lo que marca la diferencia."
       bgImage="/booster_ready_bg.png"
