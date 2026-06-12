@@ -2,9 +2,10 @@
 interface Props {
   lang?: 'es' | 'en' | 'pt'
   title?: string
+  submitClass?: string
 }
 
-const { lang = 'es', title } = Astro.props
+const { lang = 'es', title, submitClass = '' } = Astro.props
 
 const ENDPOINT = 'https://api.prod.tq.teamcubation.com/contact'
 
@@ -178,7 +179,7 @@ const inputClass =
         <textarea name="message" rows="3" class:list={[inputClass, 'message', 'resize-none']} required></textarea>
       </div>
 
-      <button type="submit" class="submit-contact mt-8 w-full rounded-[16px_20px_0px_16px] bg-primary px-6 py-4 text-[16px] font-extrabold text-white transition-colors hover:bg-primary-hover">{t.send}</button>
+      <button type="submit" class:list={['submit-contact mt-8 w-full rounded-[16px_20px_0px_16px] bg-primary px-6 py-4 text-[16px] font-extrabold text-white transition-colors hover:bg-primary-hover', submitClass]}>{t.send}</button>
     </div>
   </form>
 

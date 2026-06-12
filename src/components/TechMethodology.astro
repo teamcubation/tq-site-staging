@@ -1,5 +1,6 @@
 ---
 import Container from './Container.astro'
+import TeamBand from './TeamBand.astro'
 
 interface Card {
   title: string
@@ -9,9 +10,13 @@ interface Card {
 interface Props {
   title?: string
   cards?: Card[]
+  rectangle?: string
+  rectangleClass?: string
 }
 
 const {
+  rectangle = '/rectangle_yellow.png',
+  rectangleClass = 'right-0 top-0',
   title = 'Tecnología y metodología para acelerar a tus potenciales futuros colaboradores',
   cards = [
     {
@@ -44,5 +49,5 @@ const images = ['/incubation_2.png', '/incubation_3.png']
     </div>
   </Container>
 
-  <img src="/team.png" alt="" aria-hidden="true" class="mt-12 h-[400px] w-full object-cover" />
+  <TeamBand rectangle={rectangle} rectangleClass={rectangleClass} class="mt-12" />
 </section>
