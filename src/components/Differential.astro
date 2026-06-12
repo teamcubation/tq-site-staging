@@ -43,11 +43,14 @@ const {
 </section>
 
 <style>
-  .diff-track {
-    animation: diff-scroll 30s linear infinite;
+  @media (prefers-reduced-motion: no-preference) {
+    .diff-track {
+      animation: diff-scroll 30s linear infinite;
+    }
   }
 
-  .diff-carousel:hover .diff-track {
+  .diff-carousel:hover .diff-track,
+  .diff-carousel:focus-within .diff-track {
     animation-play-state: paused;
   }
 

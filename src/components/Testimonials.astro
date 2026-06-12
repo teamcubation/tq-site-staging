@@ -11,10 +11,12 @@ interface Testimonial {
 interface Props {
   title?: string
   testimonials?: Testimonial[]
+  lang?: string
 }
 
 const {
   title = 'El valor de trabajar juntos, contado por nuestros clientes',
+  lang = 'es',
   testimonials = [
     {
       quote: 'Teamcubation impulsa el crecimiento de personas sin experiencia en un mercado tan desafiante como IT',
@@ -36,16 +38,18 @@ const {
 
 // Avatars are the same across languages (positional, by testimonial).
 const avatars = ['/juileta_carreras.png', '/norberto_santoro.png', '/pablo_cassina.png']
+
+const ratingLabel = { es: 'Calificación: 5 de 5 estrellas', en: 'Rating: 5 out of 5 stars', pt: 'Avaliação: 5 de 5 estrelas' }[lang] ?? 'Calificación: 5 de 5 estrellas'
 ---
 
 <section class="py-20">
   <Container class="!max-w-[1240px]">
-    <h3 class="text-center text-[24px] font-extrabold leading-[1.2] tracking-[-0.72px] text-content-primary">{title}</h3>
+    <h2 class="text-center text-[24px] font-extrabold leading-[1.2] tracking-[-0.72px] text-content-primary">{title}</h2>
 
     <div class="mt-12 grid gap-10 xl:grid-cols-3">
       {testimonials.map((t, i) => (
         <div class="flex flex-col items-center text-center">
-          <div class="text-[24px] leading-none tracking-[2px] text-primary">★★★★★</div>
+          <div role="img" aria-label={ratingLabel} class="text-[24px] leading-none tracking-[2px] text-primary">★★★★★</div>
 
           <p class="mt-5 max-w-[320px] text-[16px] italic tracking-[0px] text-content-secondary" style="font-family: 'Inter', sans-serif; font-weight: 500;">{t.quote}</p>
 

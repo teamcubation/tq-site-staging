@@ -1,10 +1,12 @@
 ---
+import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
 import Container from './Container.astro'
 import Button from './Button.astro'
 
 interface Props {
   title?: string
-  image?: string
+  image?: ImageMetadata
   subtitle?: string
   ctaPrimaryLabel?: string
   ctaPrimaryHref?: string
@@ -45,7 +47,7 @@ const {
       <!-- Right illustration -->
       <div class="relative mt-10 xl:mt-0">
         {image ? (
-          <img src={image} alt={title} style="width: 686px; max-width: 100%; height: auto;" />
+          <Image src={image} alt={title} width={686} densities={[1, 2]} style="width: 686px; max-width: 100%; height: auto;" />
         ) : (
           <div class="aspect-square w-full rounded-full bg-gray-100"></div>
         )}

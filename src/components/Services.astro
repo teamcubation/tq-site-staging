@@ -97,7 +97,7 @@ const visuals = [
               <img src="/calendar.svg" alt="" aria-hidden="true" class="h-6 w-6" />
               {card.ctaPrimary.label}
             </Button>
-            <Button href={card.ctaSecondary.href} radius={[32, 24, 24, 0]} class="w-full border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none sm:flex-1" style="color: var(--color-content-primary)">{card.ctaSecondary.label}</Button>
+            <Button href={card.ctaSecondary.href} aria-label={`${card.ctaSecondary.label} — ${card.title}`} radius={[32, 24, 24, 0]} class="w-full border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none sm:flex-1" style="color: var(--color-content-primary)">{card.ctaSecondary.label}</Button>
           </div>
         </article>
       ))}

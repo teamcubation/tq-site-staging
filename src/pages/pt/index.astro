@@ -10,6 +10,7 @@ import SuccessStories from '../../components/SuccessStories.astro'
 import Testimonials from '../../components/Testimonials.astro'
 import CtaBanner from '../../components/CtaBanner.astro'
 import Team from '../../components/Team.astro'
+import heroImage from '../../assets/hero_image_pt.png'
 
 const services = [
   {
@@ -54,7 +55,7 @@ const services = [
   <main>
     <Hero
       title="Desenvolvedores de Experiência"
-      image="/hero_image_pt.png"
+      image={heroImage}
       subtitle="Seus colaboradores desenvolvem habilidades tecnológicas com acompanhamento especializado e treinamentos on the job."
       ctaPrimaryLabel="Serviços"
       ctaSecondaryLabel="Casos de Sucesso"

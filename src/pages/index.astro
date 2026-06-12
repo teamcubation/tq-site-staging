@@ -10,6 +10,7 @@ import SuccessStories from '../components/SuccessStories.astro'
 import Testimonials from '../components/Testimonials.astro'
 import CtaBanner from '../components/CtaBanner.astro'
 import Team from '../components/Team.astro'
+import heroImage from '../assets/hero_image_es.png'
 ---
 
 <Layout
@@ -25,7 +26,7 @@ import Team from '../components/Team.astro'
   <Header lang="es" currentPage="/" />
 
   <main>
-    <Hero image="/hero_image_es.png" />
+    <Hero image={heroImage} />
     <LogoBar />
     <Services />
     <Product />

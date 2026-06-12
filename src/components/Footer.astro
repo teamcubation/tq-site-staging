@@ -11,6 +11,7 @@ const langPrefix = (code: string) => code === 'es' ? '' : `/${code}`
 
 const currentYear = new Date().getFullYear()
 
+const newTabLabel = { es: ' (abre en nueva pestaña)', en: ' (opens in a new tab)', pt: ' (abre em nova aba)' }[lang] ?? ' (abre en nueva pestaña)'
 const followLabel = { es: 'Seguinos', en: 'Follow us', pt: 'Siga-nos' }[lang] ?? 'Seguinos'
 const rightsLabel = { es: 'Todos los derechos reservados', en: 'All rights reserved', pt: 'Todos os direitos reservados' }[lang] ?? 'Todos los derechos reservados'
 ---
@@ -33,7 +34,7 @@ const rightsLabel = { es: 'Todos los derechos reservados', en: 'All rights reser
         href="https://www.linkedin.com/company/teamcubation"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="LinkedIn"
+        aria-label={`LinkedIn${newTabLabel}`}
         class="flex items-center gap-2 rounded-[17px_24px_0px_17px] bg-[#0a66c2] h-[34px] px-4 py-0 text-sm font-semibold leading-[1.5] tracking-[-0.28px] text-white transition hover:opacity-90"
       >
         <img src="/IN.png" alt="" aria-hidden="true" class="h-4 w-4" />
@@ -43,7 +44,7 @@ const rightsLabel = { es: 'Todos los derechos reservados', en: 'All rights reser
         href="https://www.instagram.com/teamcubation_"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Instagram"
+        aria-label={`Instagram${newTabLabel}`}
         class="flex items-center gap-2 rounded-[24px_17px_17px_0px] h-[34px] px-4 py-0 text-sm font-semibold leading-[1.5] tracking-[-0.28px] text-white transition hover:opacity-90"
         style="background-image: url('/ig_bg.svg'); background-size: 100% 100%; background-repeat: no-repeat;"
       >

@@ -133,11 +133,11 @@ const inputClass =
       <div class="select-tc relative">
         <label class={labelClass} for="fc-identify">{t.identify}</label>
         <div class="relative">
-          <input id="fc-identify" class:list={[inputClass, 'input-select cursor-pointer pr-12']} readonly placeholder={t.identify} aria-label={t.identify} aria-haspopup="listbox" aria-expanded="false" data-value-selected="" />
+          <input id="fc-identify" class:list={[inputClass, 'input-select cursor-pointer pr-12']} readonly placeholder={t.identify} role="combobox" aria-label={t.identify} aria-haspopup="listbox" aria-controls="fc-identify-list" aria-expanded="false" aria-invalid="false" aria-describedby="fc-identify-error" data-value-selected="" />
           <button type="button" class="select-toggle absolute bottom-0 right-0 top-0 flex w-12 cursor-pointer items-center justify-center" aria-label={t.identify} tabindex="-1">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="select-arrow h-5 w-5 text-content-secondary transition-transform"><path d="M6 9l6 6 6-6" /></svg>
           </button>
-          <ul role="listbox" aria-label={t.identify} class="options-list absolute left-0 right-0 top-full z-20 mt-1 hidden max-h-[260px] overflow-auto rounded-md border border-border-main bg-white shadow-lg">
+          <ul id="fc-identify-list" role="listbox" aria-label={t.identify} class="options-list absolute left-0 right-0 top-full z-20 mt-1 hidden max-h-[260px] overflow-auto rounded-md border border-border-main bg-white shadow-lg">
             {optionKeys.map((key) => (
               <li>
                 <button type="button" role="option" aria-selected="false" class="option-tc block w-full cursor-pointer px-4 py-3 text-left text-[14px] leading-[1.4] text-content-primary hover:bg-gray-light" data-option={key}>{t.options[key]}</button>
@@ -145,7 +145,7 @@ const inputClass =
             ))}
           </ul>
         </div>
-        <p class="select-error mt-1 hidden text-[13px] text-primary"></p>
+        <p id="fc-identify-error" role="alert" class="select-error mt-1 hidden text-[13px] text-primary"></p>
       </div>
 
       <!-- Nombre -->
@@ -227,6 +227,36 @@ const inputClass =
       if (input.readOnly) list.classList.contains('hidden') ? openList() : closeList()
     })
 
+    const options = () => Array.from(list.querySelectorAll('.option-tc')) as HTMLElement[]
+
+    // Keyboard support for the custom combobox (open + move focus into the list).
+    input.addEventListener('keydown', (e) => {
+      if (!input.readOnly) return
+      if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault()
+        if (list.classList.contains('hidden')) openList()
+        options()[0]?.focus()
+      } else if (e.key === 'Escape') {
+        closeList()
+      }
+    })
+
+    list.addEventListener('keydown', (e) => {
+      const opts = options()
+      const idx = opts.indexOf(document.activeElement as HTMLElement)
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        opts[Math.min(idx + 1, opts.length - 1)]?.focus()
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        opts[Math.max(idx - 1, 0)]?.focus()
+      } else if (e.key === 'Escape') {
+        e.preventDefault()
+        closeList()
+        input.focus()
+      }
+    })
+
     document.addEventListener('click', (e) => {
       if (!select.contains(e.target as Node)) closeList()
     })
@@ -249,6 +279,8 @@ const inputClass =
         const text = (opt as HTMLElement).textContent!.trim()
         selectError.classList.add('hidden')
         select.classList.remove('error')
+        input.setAttribute('aria-invalid', 'false')
+        options().forEach((o) => o.setAttribute('aria-selected', String(o === opt)))
 
         input.dataset.valueSelected = value
         if (value === 'other') {
@@ -295,6 +327,7 @@ const inputClass =
       }
       if (!originExtra) {
         select.classList.add('error')
+        input.setAttribute('aria-invalid', 'true')
         selectError.textContent = input.value.trim() === '' && input.dataset.valueSelected === 'other'
           ? root.dataset.noText!
           : root.dataset.noOption!
