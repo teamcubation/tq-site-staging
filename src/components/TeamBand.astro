@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets'
+import teamImg from '../assets/team.png'
+import teamXsImg from '../assets/team_xs.png'
+
 interface Props {
   rectangle?: string
   rectangleClass?: string
@@ -14,8 +18,8 @@ const {
 
 <section class:list={[className]}>
   <div class="relative h-[400px] w-full overflow-hidden max-[800px]:h-[300px]">
-    <img src="/team_xs.png" alt="" aria-hidden="true" class="block h-full w-full object-cover min-[800px]:hidden" />
-    <img src="/team.png" alt="" aria-hidden="true" class="hidden h-full w-full object-cover min-[800px]:block" />
+    <Image src={teamXsImg} alt="" aria-hidden="true" widths={[480, 800]} sizes="100vw" class="block h-full w-full object-cover min-[800px]:hidden" />
+    <Image src={teamImg} alt="" aria-hidden="true" widths={[800, 1280, 1920, 2560]} sizes="100vw" class="hidden h-full w-full object-cover min-[800px]:block" />
     <img
       src={rectangle}
       alt=""

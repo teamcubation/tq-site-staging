@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets'
 import Container from './Container.astro'
+import robotImg from '../assets/robot.png'
 
 interface Props {
   bold?: string
@@ -23,7 +25,7 @@ const {
         <p class="mt-6 bg-clip-text text-[24px] font-black leading-[1.3] text-transparent" style="background-image: linear-gradient(to right, #B636FF 0%, #6D00FF 50%, #00B2FF 100%);">{highlight}</p>
       </div>
 
-      <img src="/robot.png" alt="" aria-hidden="true" class="h-[463px] w-full object-cover xl:w-[400px]" />
+      <Image src={robotImg} alt="" aria-hidden="true" widths={[400, 800, 960]} sizes="(min-width: 1280px) 400px, 100vw" class="h-[463px] w-full object-cover xl:w-[400px]" />
     </div>
   </Container>
 </section>

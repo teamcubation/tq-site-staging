@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets'
 import Container from './Container.astro'
 import Button from './Button.astro'
 import NumberCard from './NumberCard.astro'
+import boosterHeroImg from '../assets/booster_hero.png'
 
 interface Point {
   title: string
@@ -44,7 +46,7 @@ const colors = ['#1FB6FF', '#B636FF', '#4B1FFC']
 <section class="overflow-x-clip">
   <div class="relative h-[200px] w-full overflow-hidden">
     <img src="/head_title.png" alt="" aria-hidden="true" class="block h-full w-full object-cover xl:hidden" />
-    <img src="/booster_hero.png" alt="" aria-hidden="true" class="hidden h-full w-full object-cover object-right xl:block" />
+    <Image src={boosterHeroImg} alt="" aria-hidden="true" widths={[1280, 1920, 2560]} sizes="100vw" class="hidden h-full w-full object-cover object-right xl:block" />
     <img src="/rectangle_violet.png" alt="" aria-hidden="true" class="pointer-events-none absolute left-0 top-0 h-[160px] w-[160px] xl:h-auto xl:w-[180px]" />
     <img src="/rectangle_violet_2.png" alt="" aria-hidden="true" class="pointer-events-none absolute bottom-0 right-0 h-[160px] w-[160px] xl:h-auto xl:w-[180px]" />
   </div>
