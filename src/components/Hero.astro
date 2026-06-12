@@ -7,6 +7,8 @@ import Button from './Button.astro'
 interface Props {
   title?: string
   image?: ImageMetadata
+  // Pre-optimized image served as-is from public/ (skips astro:assets reprocessing).
+  imageSrc?: string
   subtitle?: string
   ctaPrimaryLabel?: string
   ctaPrimaryHref?: string
@@ -17,6 +19,7 @@ interface Props {
 const {
   title = 'Desarrolladores de Experiencia',
   image,
+  imageSrc,
   subtitle = 'Tus colaboradores desarrollan habilidades tecnológicas con acompañamiento experto y entrenamientos on the job.',
   ctaPrimaryLabel = 'Servicios',
   ctaPrimaryHref = '#servicios',
@@ -46,7 +49,9 @@ const {
 
       <!-- Right illustration -->
       <div class="relative mt-10 xl:mt-0">
-        {image ? (
+        {imageSrc ? (
+          <img src={imageSrc} alt={title} style="width: 686px; max-width: 100%; height: auto;" />
+        ) : image ? (
           <Image src={image} alt={title} width={686} densities={[1, 2]} format="avif" quality={80} style="width: 686px; max-width: 100%; height: auto;" />
         ) : (
           <div class="aspect-square w-full rounded-full bg-gray-100"></div>
