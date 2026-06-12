@@ -3,9 +3,11 @@ interface Props {
   lang?: 'es' | 'en' | 'pt'
   title?: string
   submitClass?: string
+  titleTag?: 'h1' | 'h2'
 }
 
-const { lang = 'es', title, submitClass = '' } = Astro.props
+const { lang = 'es', title, submitClass = '', titleTag = 'h2' } = Astro.props
+const TitleTag = titleTag
 
 const ENDPOINT = 'https://api.prod.tq.teamcubation.com/contact'
 
@@ -121,7 +123,7 @@ const inputClass =
 >
   <form class="relative">
     {(title ?? t.title) && (
-      <h2 class="text-center font-sans text-[24px] font-extrabold tracking-[-0.96px] text-content-primary">{title ?? t.title}</h2>
+      <TitleTag class="text-center font-sans text-[24px] font-extrabold tracking-[-0.96px] text-content-primary">{title ?? t.title}</TitleTag>
     )}
 
     <div class="alert hidden" role="alert"></div>
@@ -129,16 +131,16 @@ const inputClass =
     <div class="mt-12 grid gap-x-10 gap-y-6 md:grid-cols-2">
       <!-- ¿Cómo te identificás? -->
       <div class="select-tc relative">
-        <label class={labelClass}>{t.identify}</label>
+        <label class={labelClass} for="fc-identify">{t.identify}</label>
         <div class="relative">
-          <input class:list={[inputClass, 'input-select cursor-pointer pr-12']} readonly placeholder={t.identify} data-value-selected="" />
-          <button type="button" class="select-toggle absolute bottom-0 right-0 top-0 flex w-12 cursor-pointer items-center justify-center" aria-label="toggle">
+          <input id="fc-identify" class:list={[inputClass, 'input-select cursor-pointer pr-12']} readonly placeholder={t.identify} aria-label={t.identify} aria-haspopup="listbox" aria-expanded="false" data-value-selected="" />
+          <button type="button" class="select-toggle absolute bottom-0 right-0 top-0 flex w-12 cursor-pointer items-center justify-center" aria-label={t.identify} tabindex="-1">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="select-arrow h-5 w-5 text-content-secondary transition-transform"><path d="M6 9l6 6 6-6" /></svg>
           </button>
-          <ul class="options-list absolute left-0 right-0 top-full z-20 mt-1 hidden max-h-[260px] overflow-auto rounded-md border border-border-main bg-white shadow-lg">
+          <ul role="listbox" aria-label={t.identify} class="options-list absolute left-0 right-0 top-full z-20 mt-1 hidden max-h-[260px] overflow-auto rounded-md border border-border-main bg-white shadow-lg">
             {optionKeys.map((key) => (
               <li>
-                <button type="button" class="option-tc block w-full cursor-pointer px-4 py-3 text-left text-[14px] leading-[1.4] text-content-primary hover:bg-gray-light" data-option={key}>{t.options[key]}</button>
+                <button type="button" role="option" aria-selected="false" class="option-tc block w-full cursor-pointer px-4 py-3 text-left text-[14px] leading-[1.4] text-content-primary hover:bg-gray-light" data-option={key}>{t.options[key]}</button>
               </li>
             ))}
           </ul>
@@ -148,8 +150,8 @@ const inputClass =
 
       <!-- Nombre -->
       <div class="name-field">
-        <label class={labelClass}>{t.name}</label>
-        <input type="text" name="name" class:list={[inputClass, 'name']} required />
+        <label class={labelClass} for="fc-name">{t.name}</label>
+        <input id="fc-name" type="text" name="name" class:list={[inputClass, 'name']} required />
       </div>
     </div>
 
@@ -160,23 +162,23 @@ const inputClass =
     <div class="form-info">
       <div class="mt-6 grid gap-x-10 gap-y-6 md:grid-cols-2">
         <div>
-          <label class={labelClass}>{t.email}</label>
-          <input type="email" name="email" class:list={[inputClass, 'email']} required />
+          <label class={labelClass} for="fc-email">{t.email}</label>
+          <input id="fc-email" type="email" name="email" class:list={[inputClass, 'email']} required />
         </div>
         <div>
-          <label class={labelClass}>{t.phone}</label>
+          <label class={labelClass} for="fc-number-phone">{t.phone}</label>
           <div class="flex items-center gap-2">
-            <span class="text-[15px] text-content-secondary">+</span>
-            <input type="text" name="country-phone" class:list={[inputClass, 'country-phone', 'w-[64px]']} placeholder={t.country} />
-            <input type="text" name="area-phone" class:list={[inputClass, 'area-phone', 'w-[72px]']} placeholder={t.area} />
-            <input type="text" name="number-phone" class:list={[inputClass, 'number-phone']} placeholder={t.number} />
+            <span class="text-[15px] text-content-secondary" aria-hidden="true">+</span>
+            <input type="text" name="country-phone" aria-label={t.country} class:list={[inputClass, 'country-phone', 'w-[64px]']} placeholder={t.country} />
+            <input type="text" name="area-phone" aria-label={t.area} class:list={[inputClass, 'area-phone', 'w-[72px]']} placeholder={t.area} />
+            <input id="fc-number-phone" type="text" name="number-phone" aria-label={t.number} class:list={[inputClass, 'number-phone']} placeholder={t.number} />
           </div>
         </div>
       </div>
 
       <div class="mt-6">
-        <label class={labelClass}>{t.message}</label>
-        <textarea name="message" rows="3" class:list={[inputClass, 'message', 'resize-none']} required></textarea>
+        <label class={labelClass} for="fc-message">{t.message}</label>
+        <textarea id="fc-message" name="message" rows="3" class:list={[inputClass, 'message', 'resize-none']} required></textarea>
       </div>
 
       <button type="submit" class:list={['submit-contact mt-8 w-full cursor-pointer rounded-[16px_20px_0px_16px] bg-primary px-6 py-4 text-[16px] font-extrabold text-white transition-colors hover:bg-primary-hover', submitClass]}>{t.send}</button>
@@ -209,10 +211,12 @@ const inputClass =
     const openList = () => {
       list.classList.remove('hidden')
       arrow.classList.add('rotate-180')
+      input.setAttribute('aria-expanded', 'true')
     }
     const closeList = () => {
       list.classList.add('hidden')
       arrow.classList.remove('rotate-180')
+      input.setAttribute('aria-expanded', 'false')
     }
 
     toggle.addEventListener('click', () => {

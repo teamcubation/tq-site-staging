@@ -40,7 +40,7 @@ const videoSrc = '/mp.mp4'
 
       <div class="w-full overflow-hidden rounded-2xl xl:w-[490px]" style="aspect-ratio: 490 / 275;">
         {videoSrc ? (
-          <video src={videoSrc} controls class="h-full w-full object-cover"></video>
+          <video src={videoSrc} controls aria-label={title} class="h-full w-full object-cover"></video>
         ) : (
           <div class="h-full w-full" style="background: linear-gradient(160deg, #3a0a52 0%, #1a0426 100%);"></div>
         )}

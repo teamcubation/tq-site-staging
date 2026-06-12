@@ -21,6 +21,14 @@ const {
 
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') || ''
 const canonical = canonicalUrl || Astro.url.href
+
+const localeMap: Record<string, string> = { es: 'es_ES', en: 'en_US', pt: 'pt_BR' }
+const ogLocale = localeMap[lang] || 'es_ES'
+const altLocales = alternateLanguages
+  .filter((a) => a.lang !== lang)
+  .map((a) => localeMap[a.lang])
+  .filter(Boolean)
+const defaultHref = alternateLanguages.find((a) => a.lang === 'es')?.href
 ---
 
 <!doctype html>
@@ -39,16 +47,20 @@ const canonical = canonicalUrl || Astro.url.href
     {alternateLanguages.map(({ lang, href }) => (
       <link rel="alternate" hreflang={lang} href={href} />
     ))}
+    {defaultHref && <link rel="alternate" hreflang="x-default" href={defaultHref} />}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={title} />
+    <meta property="og:site_name" content="Teamcubation" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
     <meta property="og:image:alt" content={title} />
-    <meta property="og:locale" content={lang} />
+    <meta property="og:locale" content={ogLocale} />
+    {altLocales.map((loc) => (
+      <meta property="og:locale:alternate" content={loc} />
+    ))}
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
