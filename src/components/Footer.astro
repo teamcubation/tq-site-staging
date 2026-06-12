@@ -7,6 +7,8 @@ interface Props {
 
 const { lang = 'es' } = Astro.props
 
+const langPrefix = (code: string) => code === 'es' ? '' : `/${code}`
+
 const currentYear = new Date().getFullYear()
 
 const followLabel = { es: 'Seguinos', en: 'Follow us', pt: 'Siga-nos' }[lang] ?? 'Seguinos'
@@ -17,7 +19,7 @@ const rightsLabel = { es: 'Todos los derechos reservados', en: 'All rights reser
   <Container class="!max-w-[1240px] flex flex-col items-center justify-between gap-6 md:flex-row">
     <!-- Logo + copyright -->
     <div class="flex flex-col items-center gap-5 md:items-start">
-      <a href="/" aria-label="Teamcubation">
+      <a href={langPrefix(lang) || '/'} aria-label="Teamcubation">
         <img src="/logo.svg" alt="Teamcubation" width="176" height="24" />
       </a>
       <p class="text-[12px] text-[#5f5e5e]">{currentYear}. {rightsLabel}.</p>
@@ -38,7 +40,7 @@ const rightsLabel = { es: 'Todos los derechos reservados', en: 'All rights reser
         LinkedIn
       </a>
       <a
-        href="https://www.instagram.com/teamcubation"
+        href="https://www.instagram.com/teamcubation_"
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Instagram"

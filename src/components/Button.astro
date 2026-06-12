@@ -27,6 +27,6 @@ const mergedStyle = `${radiusStyle}${styleProp ? ` ${styleProp}` : ''}`
 const Tag = href ? 'a' : 'button'
 ---
 
-<Tag href={href} class:list={['inline-flex items-center justify-center', variants[variant], className]} style={mergedStyle || undefined} {...attrs}>
+<Tag href={href} class:list={['inline-flex cursor-pointer items-center justify-center', variants[variant], className]} style={mergedStyle || undefined} {...attrs}>
   <slot />
 </Tag>

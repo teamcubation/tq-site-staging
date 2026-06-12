@@ -43,7 +43,7 @@ const languages = [
   <Container class="!max-w-[1240px] flex items-center justify-between !px-4 !py-5 lg:!px-5">
 
     <!-- Logo -->
-    <a href="/" aria-label="Teamcubation">
+    <a href={langPrefix(lang) || '/'} aria-label="Teamcubation">
       <img src="/logo.svg" alt="Teamcubation" width="191" height="26" class="hidden lg:block" />
       <img src="/isotipo.svg" alt="Teamcubation" class="block lg:hidden" />
     </a>
@@ -72,7 +72,7 @@ const languages = [
       <div class="flex flex-col gap-2 px-6 py-2 lg:flex-row lg:items-center lg:gap-3">
         <span class="label-menu">{productLabel}</span>
         <div class="flex flex-col gap-2 lg:flex-row lg:items-center lg:gap-5">
-          <a href={`${langPrefix(lang)}/teamboarding`} class="link-menu">Teamboarding</a>
+          <a href="https://teamboarding.com/" target="_blank" rel="noopener noreferrer" class="link-menu">Teamboarding</a>
         </div>
       </div>
 

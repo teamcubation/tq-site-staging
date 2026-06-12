@@ -25,12 +25,12 @@ const {
 
 // People are the same across languages; only the description is translated.
 const people = [
-  { name: 'Tomás Muñoz', role: 'Head of Finance', avatar: '/equipo/toto.avif', linkedin: '#' },
-  { name: 'Mariano Wechsler', role: 'CEO', avatar: '/equipo/mariano.avif', linkedin: '#' },
-  { name: 'Diego Jolodenco', role: 'COO', avatar: '/equipo/jolo.avif', linkedin: '#' },
-  { name: 'Agustín Pina', role: 'Head of Training', avatar: '/equipo/pina.avif', linkedin: '#' },
-  { name: 'Florencia Díaz', role: 'Head of People', avatar: '/equipo/flor.avif', linkedin: '#' },
-  { name: 'Jonathan Tapicer', role: 'CTO', avatar: '/equipo/tapicer.avif', linkedin: '#' },
+  { name: 'Tomás Muñoz', role: 'Head of Finance', avatar: '/equipo/toto.avif', linkedin: 'https://www.linkedin.com/in/tomasmunoz/' },
+  { name: 'Mariano Wechsler', role: 'CEO', avatar: '/equipo/mariano.avif', linkedin: 'https://www.linkedin.com/in/marianowechsler/' },
+  { name: 'Diego Jolodenco', role: 'COO', avatar: '/equipo/jolo.avif', linkedin: 'https://www.linkedin.com/in/diegojolodenco/' },
+  { name: 'Agustín Pina', role: 'Head of Training', avatar: '/equipo/pina.avif', linkedin: 'https://www.linkedin.com/in/agustin-pina/' },
+  { name: 'Florencia Díaz', role: 'Head of People', avatar: '/equipo/flor.avif', linkedin: 'https://www.linkedin.com/in/mariaflorenciadiaz/' },
+  { name: 'Jonathan Tapicer', role: 'CTO', avatar: '/equipo/tapicer.avif', linkedin: 'https://www.linkedin.com/in/tapicer/' },
 ]
 
 const members = people.map((p, i) => ({ ...p, description: descriptions[i] }))

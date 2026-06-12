@@ -27,7 +27,7 @@ const {
   ctaLabel = 'Agendar Reunión',
   ctaHref = '/contacto',
   brochureLabel = 'Brochure',
-  brochureHref = '#',
+  brochureHref = 'https://tq-prod-api-addonsstack-1hk-tqstoragebucketbucket-18dt1u3ncepot.s3.us-east-1.amazonaws.com/Booster+AI+BIZ+-+Website.pdf',
   strip = 'La IA se aprende con personas y nuestro Booster AI hace eso: empoderar a tus equipos, de humano a humano.',
   points = [
     { title: 'Comprender', subtitle: 'El potencial y los límites de la IA, y explorar herramientas como n8n, Power Automate y Agentes.' },
@@ -59,7 +59,7 @@ const colors = ['#1FB6FF', '#B636FF', '#4B1FFC']
           {ctaLabel}
         </Button>
 
-        <Button href={brochureHref} radius={[24, 24, 24, 0]} class="gap-2 border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none max-[800px]:w-full" style="color: var(--color-content-primary)">
+        <Button href={brochureHref} target="_blank" rel="noopener noreferrer" radius={[24, 24, 24, 0]} class="gap-2 border-0 bg-gray-light pt-[13px] pr-[24px] pb-[13px] pl-[20px] text-[14px] font-extrabold leading-none max-[800px]:w-full" style="color: var(--color-content-primary)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5" aria-hidden="true">
             <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
           </svg>
