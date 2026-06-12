@@ -47,7 +47,7 @@ const {
       <!-- Right illustration -->
       <div class="relative mt-10 xl:mt-0">
         {image ? (
-          <Image src={image} alt={title} width={686} densities={[1, 2]} style="width: 686px; max-width: 100%; height: auto;" />
+          <Image src={image} alt={title} width={686} densities={[1, 2]} format="avif" quality={80} style="width: 686px; max-width: 100%; height: auto;" />
         ) : (
           <div class="aspect-square w-full rounded-full bg-gray-100"></div>
         )}
