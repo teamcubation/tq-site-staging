@@ -53,14 +53,14 @@ const visuals = [
 ]
 ---
 
-<section id="servicios" class="scroll-mt-24 pt-12 pb-9">
+<section id="servicios" class="scroll-mt-24 overflow-hidden pt-12 pb-9">
   <Container class="!max-w-[1240px]">
-    <h2 class="text-center text-[32px] font-extrabold leading-[1] tracking-[-0.96px] text-content-primary">{title}</h2>
+    <h2 data-reveal="down" class="text-center text-[32px] font-extrabold leading-[1] tracking-[-0.96px] text-content-primary">{title}</h2>
     <p class="mx-auto mt-6 max-w-[640px] text-center text-[20px] leading-[1.5] tracking-[0px] text-content-secondary" style="font-family: 'Inter', sans-serif; font-weight: 400;">{subtitle}</p>
 
     <div class="mt-12 grid gap-10 lg:grid-cols-2">
       {cards.map((card, i) => (
-        <article class="flex flex-col rounded-lg border border-border-main bg-white p-8">
+        <article data-reveal={i === 0 ? 'left' : 'right'} class="flex flex-col rounded-lg border border-border-main bg-white p-8">
           <div class="flex flex-wrap gap-2">
             {card.tags.map((tag) => (
               <span class="rounded-md border border-border-main bg-white px-[10px] py-2 text-[10px] font-extrabold uppercase leading-none tracking-[0.3px] text-content-primary" style="font-family: 'Inter', sans-serif;">{tag}</span>

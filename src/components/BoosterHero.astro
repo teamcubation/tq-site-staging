@@ -41,7 +41,7 @@ const numbers = ['01', '02', '03']
 const colors = ['#1FB6FF', '#B636FF', '#4B1FFC']
 ---
 
-<section>
+<section class="overflow-x-clip">
   <div class="relative h-[200px] w-full overflow-hidden">
     <img src="/head_title.png" alt="" aria-hidden="true" class="block h-full w-full object-cover xl:hidden" />
     <img src="/booster_hero.png" alt="" aria-hidden="true" class="hidden h-full w-full object-cover object-right xl:block" />
@@ -74,10 +74,10 @@ const colors = ['#1FB6FF', '#B636FF', '#4B1FFC']
 
     <div class="mt-12 grid gap-6 md:grid-cols-3">
       {points.map((p, i) => (
-        <NumberCard number={numbers[i]} title={p.title} subtitle={p.subtitle} color={colors[i]} />
+        <NumberCard number={numbers[i]} title={p.title} subtitle={p.subtitle} color={colors[i]} reveal={i === 0 ? 'left' : i === 2 ? 'right' : 'up'} />
       ))}
     </div>
 
-    <div class="mt-8 rounded-lg px-8 py-5 text-center text-[16px] leading-[1.4] text-white" style="font-family: 'Inter', sans-serif; font-weight: 600; background-image: linear-gradient(to right, #B636FF 0%, #6D00FF 50%, #00B2FF 100%);">{strip}</div>
+    <div data-reveal class="mt-8 rounded-lg px-8 py-5 text-center text-[16px] leading-[1.4] text-white" style="font-family: 'Inter', sans-serif; font-weight: 600; background-image: linear-gradient(to right, #B636FF 0%, #6D00FF 50%, #00B2FF 100%);">{strip}</div>
   </Container>
 </section>

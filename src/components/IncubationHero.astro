@@ -42,7 +42,7 @@ const numbers = ['01', '02', '03']
 const colors = ['#dcdf30', '#ff4933', '#ff2e5b']
 ---
 
-<section>
+<section class="overflow-x-clip">
   <div class="relative h-[200px] w-full overflow-hidden">
     <img src="/incubation_hero_sx.png" alt="" aria-hidden="true" class="block h-full w-full object-cover xl:hidden" />
     <img src="/incubation_hero.png" alt="" aria-hidden="true" class="hidden h-full w-full object-cover xl:block" />
@@ -66,7 +66,7 @@ const colors = ['#dcdf30', '#ff4933', '#ff2e5b']
 
     <div class="mt-12 grid gap-6 md:grid-cols-3">
       {points.map((p, i) => (
-        <NumberCard number={numbers[i]} title={p.title} subtitle={p.subtitle} color={colors[i]} />
+        <NumberCard number={numbers[i]} title={p.title} subtitle={p.subtitle} color={colors[i]} reveal={i === 0 ? 'left' : i === 2 ? 'right' : 'up'} />
       ))}
     </div>
   </Container>

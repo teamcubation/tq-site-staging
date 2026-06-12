@@ -22,13 +22,13 @@ const {
 } = Astro.props
 ---
 
-<section class="bg-gray-light py-16">
+<section class="overflow-x-clip bg-gray-light py-16">
   <Container class="!max-w-[960px]">
     <h2 class="mx-auto max-w-[760px] text-center text-[28px] font-extrabold leading-[1.2] tracking-[-0.96px] text-content-primary">{title}</h2>
 
     <div class="mt-12 grid gap-6 md:grid-cols-3">
-      {features.map((f) => (
-        <FeatureCard icon="/big-tick-circle.png" titleClass="text-violet-main" title={f.title} description={f.description} />
+      {features.map((f, i) => (
+        <FeatureCard icon="/big-tick-circle.png" titleClass="text-violet-main" title={f.title} description={f.description} reveal={i === 0 ? 'left' : i === 2 ? 'right' : 'up'} />
       ))}
     </div>
   </Container>

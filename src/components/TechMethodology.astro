@@ -34,13 +34,13 @@ const {
 const images = ['/incubation_2.png', '/incubation_3.png']
 ---
 
-<section >
+<section class="overflow-x-clip">
   <Container class="!max-w-[960px] py-12">
-    <h2 class="mx-auto max-w-[760px] text-center text-[32px] font-extrabold leading-[1.2] tracking-[-0.96px] text-content-primary">{title}</h2>
+    <h2 data-reveal class="mx-auto max-w-[760px] text-center text-[32px] font-extrabold leading-[1.2] tracking-[-0.96px] text-content-primary">{title}</h2>
 
     <div class="mt-12 grid gap-6 md:grid-cols-2">
       {cards.map((c, i) => (
-        <article class="flex flex-col rounded-lg border border-border-main bg-white py-10 px-8">
+        <article data-reveal={i === 0 ? 'left' : 'right'} class="flex flex-col rounded-lg border border-border-main bg-white py-10 px-8">
           <h3 class="text-[20px] font-extrabold leading-none tracking-[0px] text-content-primary">{c.title}</h3>
           <p class="mt-6 mb-6 text-[16px] leading-[1.5] text-content-secondary" style="font-family: 'Inter', sans-serif; font-weight: 400;">{c.description}</p>
           <img src={images[i]} alt="" aria-hidden="true" class="mt-auto h-[240px] w-[380px] max-w-full rounded-lg object-cover" loading="lazy" />
