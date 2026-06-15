@@ -1,3 +1,6 @@
+# build output (deploy is served from docs/, not dist/)
+dist/
+
 # generated types
 .astro/
 
