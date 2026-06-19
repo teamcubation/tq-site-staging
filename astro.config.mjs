@@ -12,8 +12,8 @@ export default defineConfig({
     '/incubation-pt': '/pt/incubation',
     '/booster-ai-en': '/en/booster-ai',
     '/booster-ai-pt': '/pt/booster-ai',
-    '/contact-en': '/en/contact',
-    '/contato-pt': '/pt/contato',
+    '/contact': '/en/contact',
+    '/contato': '/pt/contato',
   },
   integrations: [sitemap()],
   vite: {
