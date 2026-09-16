@@ -1,0 +1,129 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import CierreCoral from "../components/CierreCoral.astro";
+import equipoPlanta from "../assets/fotos/equipo-planta-planos.png";
+import mentorUno from "../assets/fotos/mentor-uno-a-uno.png";
+---
+
+<Layout
+  title="Qué es Teamcubation: historia y fundadores"
+  description="Teamcubation fue fundada en 2021 en Buenos Aires por Mariano Wechsler y Diego Jolodenco. Conozca su historia y su método de entrenamiento."
+>
+  <main id="contenido">
+    <!-- Hero + definición -->
+    <section class="hero-nos">
+      <div class="contenedor">
+        <p class="kicker">Nosotros</p>
+        <h1 class="hero-nos__h1">Qué es Teamcubation y quiénes la fundaron.</h1>
+        <p class="hero-nos__bajada">Teamcubation fue fundada en 2021 en Argentina por Mariano Wechsler y Diego Jolodenco. Comenzó entrenando desarrolladores junior que ganaban experiencia y seniority construyendo software real para las empresas que los contrataban desde el inicio, sin esperar a que estuvieran listos. Hoy aplica ese mismo principio al entrenamiento de equipos en la adopción de IA sobre su propio trabajo.</p>
+        <p class="hero-nos__marca">La experiencia no se enseña: se entrena.</p>
+
+        <div class="dos-col dos-col--start">
+          <article>
+            <h2 class="h2-30">¿Qué es Teamcubation?</h2>
+            <p class="p21 mb16">Teamcubation desarrolla la capacidad de las empresas para usar y construir tecnología, entrenando a sus equipos sobre procesos y proyectos propios.</p>
+            <p class="p21">Training tech: la combinación de entrenamiento y tecnología que usamos para acompañar a los equipos. Los mentores trabajan sobre las tareas de las personas y Teamboarding aporta seguimiento del recorrido.</p>
+          </article>
+          <article>
+            <h2 class="h2-30">Una convicción que creció con el trabajo.</h2>
+            <h3 class="h3-22">2021: formar construyendo software.</h3>
+            <p class="p20 mb16">Teamcubation nació formando desarrolladores mientras trabajaban sobre proyectos de software. Esa forma de construir experiencia es la base del programa Incubation. <a class="enlace" href="/servicios/incubation">Conocer Incubation</a></p>
+            <h3 class="h3-22">Entrenar equipos para adoptar IA.</h3>
+            <p class="p20">Aplicamos el mismo principio a las tareas de negocio, la automatización y la construcción con IA: que las personas desarrollen experiencia trabajando sobre necesidades que conocen. <a class="enlace" href="/servicios">Conocer los programas</a></p>
+          </article>
+        </div>
+
+        <div class="foto-ancha foto-ancha--24-9">
+          <Image src={equipoPlanta} alt="Equipo trabajando sobre planos y procesos propios en planta" loading="lazy" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Fundadores -->
+    <section class="sec">
+      <div class="contenedor">
+        <h2 class="h2-32 mb28">Los fundadores.</h2>
+        <div class="dos-col">
+          <article class="ficha-gris">
+            <h3 class="fund__nombre">Mariano Wechsler</h3>
+            <p class="p20">Cofundador de Teamcubation.</p>
+          </article>
+          <article class="ficha-gris">
+            <h3 class="fund__nombre">Diego Jolodenco</h3>
+            <p class="p20">Cofundador de Teamcubation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Criterio (banda gris) -->
+    <section class="banda-gris">
+      <div class="contenedor angosto">
+        <div class="foto-ancha foto-ancha--16-9 mb32">
+          <Image src={mentorUno} alt="Mentora trabajando junto a un participante sobre su propia tarea" loading="lazy" />
+        </div>
+        <h2 class="h2-36 mb20">El <span class="resaltado">criterio</span> se forma haciendo.</h2>
+        <p class="p22 mb16">El criterio es saber qué problema atacar, si la IA puede ayudar a resolverlo y cómo encararlo. Se forma decidiendo sobre problemas propios, no sobre casos de ejemplo. Nuestros mentores no dan respuestas: preguntan por qué, hasta que el equipo reconoce el patrón y lo aplica solo.</p>
+        <p class="p20 mb28">Teamcubation trabajó con más de 90 empresas líderes en 6 países: Argentina, Brasil, Uruguay, Chile, Colombia y España.</p>
+        <div class="links">
+          <a class="enlace" href="/casos">Conocer nuestra trayectoria</a>
+          <a class="enlace" href="/metodologia">Conocer la metodología</a>
+          <a class="enlace" href="/teamboarding">Conocer Teamboarding</a>
+        </div>
+      </div>
+    </section>
+
+    <CierreCoral
+      titulo="Data Driven On-the-job Tech Training"
+      texto="Conversemos sobre cómo potenciar su compañía con AI."
+    />
+  </main>
+</Layout>
+
+<style>
+  .h2-30 { font-size: 30px; line-height: 1.12; margin: 0 0 14px; }
+  .h2-32 { font-size: 32px; line-height: 1.12; margin: 0; }
+  .h2-36 { font-size: 36px; line-height: 1.12; margin: 0; }
+  .h3-22 { font-size: 22px; line-height: 1.15; margin: 0 0 6px; }
+  .mb32 { margin-bottom: 32px; }
+  .mb28 { margin-bottom: 28px; }
+  .mb20 { margin-bottom: 20px; }
+  .mb16 { margin-bottom: 16px; }
+  .p20 { font-family: var(--font-body); font-weight: 500; font-size: 20px; line-height: 1.5; max-width: 64ch; margin: 0; }
+  .p21 { font-family: var(--font-body); font-weight: 500; font-size: 21px; line-height: 1.5; max-width: 64ch; margin: 0; }
+  .p22 { font-family: var(--font-body); font-weight: 500; font-size: 22px; line-height: 1.5; margin: 0; }
+
+  .sec { padding-block: 96px; }
+  .angosto { max-width: 900px; }
+
+  /* Hero */
+  .hero-nos { padding-block: 72px 0; }
+  .hero-nos__h1 { font-size: clamp(36px, 4.2vw, 54px); line-height: 1.1; letter-spacing: -0.02em; max-width: 22ch; margin: 0 0 20px; }
+  .hero-nos__bajada { font-family: var(--font-body); font-weight: 500; font-size: 23px; line-height: 1.45; max-width: 68ch; margin: 0 0 16px; }
+  .hero-nos__marca { font-family: var(--font-display); font-weight: 600; font-size: 24px; line-height: 1.2; color: var(--color-coral); margin: 0 0 40px; }
+
+  .dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .dos-col--start { align-items: start; }
+
+  .foto-ancha { border-radius: var(--radius-tarjeta); overflow: hidden; }
+  .foto-ancha--24-9 { aspect-ratio: 24 / 9; margin-top: 48px; }
+  .foto-ancha--16-9 { aspect-ratio: 16 / 9; }
+  .foto-ancha :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* Fundadores */
+  .ficha-gris { background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 32px; }
+  .fund__nombre { font-size: 26px; line-height: 1.12; color: var(--color-coral); margin: 0; }
+  .ficha-gris .p20 { margin-top: 10px; }
+
+  /* Criterio */
+  .banda-gris { background: var(--color-gris-claro); padding-block: 88px; }
+  .links { display: flex; flex-wrap: wrap; gap: 20px; }
+
+  @media (max-width: 1100px) {
+    .sec { padding-block: 64px; }
+    .banda-gris { padding-block: 64px; }
+    .dos-col { grid-template-columns: 1fr; gap: 40px; }
+    .foto-ancha--24-9 { aspect-ratio: 16 / 9; }
+  }
+</style>

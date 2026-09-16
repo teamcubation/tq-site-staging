@@ -8,11 +8,13 @@ interface Props {
   texto?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  grande?: boolean; // Home y Metodología usan 48px; el resto 44px (default).
+  enlaceExtra?: { label: string; href: string };
 }
-const { titulo, texto, ctaLabel, ctaHref } = Astro.props;
+const { titulo, texto, ctaLabel, ctaHref, grande = false, enlaceExtra } = Astro.props;
 ---
 
-<section class="cierre">
+<section class:list={["cierre", grande && "cierre--grande"]}>
   <div class="cierre__contenido">
     <img
       src="/brand/isotipo-blanco.svg"
@@ -27,6 +29,11 @@ const { titulo, texto, ctaLabel, ctaHref } = Astro.props;
     {texto && <p class="cierre__texto">{texto}</p>}
     <div class="cierre__cta">
       <Cta tamano="lg" label={ctaLabel} href={ctaHref} />
+      {enlaceExtra && (
+        <a class="cierre__enlace" href={enlaceExtra.href} target="_blank" rel="noreferrer">
+          {enlaceExtra.label}
+        </a>
+      )}
     </div>
   </div>
 </section>
@@ -52,8 +59,11 @@ const { titulo, texto, ctaLabel, ctaHref } = Astro.props;
   }
   .cierre__titulo {
     color: #fff;
-    font-size: clamp(30px, 3.6vw, 48px);
+    font-size: clamp(28px, 3.4vw, 44px);
     line-height: 1.1;
+  }
+  .cierre--grande .cierre__titulo {
+    font-size: clamp(30px, 3.6vw, 48px);
   }
   .cierre__texto {
     font-family: var(--font-body);
@@ -62,7 +72,22 @@ const { titulo, texto, ctaLabel, ctaHref } = Astro.props;
     line-height: 1.5;
     margin: 16px 0 0;
   }
-  .cierre__cta { margin-top: 32px; }
+  .cierre__cta {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+  .cierre__enlace {
+    color: #fff;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 19px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 
   @media (max-width: 720px) {
     .cierre { padding: 64px 24px; }

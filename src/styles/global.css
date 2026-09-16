@@ -145,6 +145,36 @@
 /* Remate coral (1–5 palabras del titular) */
 .coral { color: var(--color-coral); }
 
+/* Utilidades de margen inferior — ganan sobre los resets de margen de p/h. */
+.mb8 { margin-bottom: 8px !important; }
+.mb12 { margin-bottom: 12px !important; }
+.mb16 { margin-bottom: 16px !important; }
+.mb20 { margin-bottom: 20px !important; }
+.mb24 { margin-bottom: 24px !important; }
+.mb28 { margin-bottom: 28px !important; }
+.mb32 { margin-bottom: 32px !important; }
+
+/* Kicker/eyebrow coral de headers interiores. */
+.kicker {
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: clamp(17px, 1.5vw, 25px);
+  line-height: 1.2;
+  color: var(--color-coral);
+  margin: 0 0 14px;
+}
+
+/* Enlace de lectura/navegación en cuerpo — tinta subrayado. */
+.enlace {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--color-tinta);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
 /* Cápsula CTA: píldora lima con texto coral (Funnel Display) */
 .cta {
   display: inline-block;
@@ -170,3 +200,12 @@
   border-radius: 0 0 var(--radius-control) 0;
 }
 .saltar-al-contenido:focus { left: 0; }
+
+/* ---------- Escala tipográfica móvil (≤720px) — igual al v2 ----------
+   Solo dentro de <main>, para no afectar header/footer. Override de tags. */
+@media (max-width: 720px) {
+  main h1 { font-size: clamp(30px, 8.4vw, 44px) !important; }
+  main h2 { font-size: clamp(25px, 6.6vw, 34px) !important; }
+  main h3 { font-size: clamp(21px, 5.4vw, 26px) !important; }
+  main h4 { font-size: 21px !important; }
+}

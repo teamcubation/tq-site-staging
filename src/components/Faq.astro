@@ -8,7 +8,7 @@ interface Props {
 const { titulo, items } = Astro.props;
 ---
 
-<section class="faq">
+<div class="faq">
   {titulo && <h2 class="faq__titulo">{titulo}</h2>}
   <div class="faq__grid">
     {items.map((f) => (
@@ -18,7 +18,7 @@ const { titulo, items } = Astro.props;
       </article>
     ))}
   </div>
-</section>
+</div>
 
 <style>
   .faq__titulo {
