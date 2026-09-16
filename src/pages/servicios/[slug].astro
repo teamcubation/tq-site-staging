@@ -6,6 +6,7 @@ import Cta from "../../components/Cta.astro";
 import Faq from "../../components/Faq.astro";
 import CierreCoral from "../../components/CierreCoral.astro";
 import { servicios, ORDEN, type Servicio } from "../../data/servicios";
+import { serviceSchema, breadcrumbSchema } from "../../lib/seo";
 
 export const getStaticPaths = (() => {
   return ORDEN.map((key) => {
@@ -45,9 +46,18 @@ const otros = svc.otros.map((o) => {
   const s = servicios[o.k];
   return { label: s.nombre, href: s.slug, frase: o.p };
 });
+
+const schema = [
+  serviceSchema(svc),
+  breadcrumbSchema([
+    { name: "Inicio", path: "/" },
+    { name: "Servicios", path: "/servicios" },
+    { name: svc.nombre, path: svc.slug },
+  ]),
+];
 ---
 
-<Layout title={svc.title} description={svc.meta}>
+<Layout title={svc.title} description={svc.meta} schema={schema}>
   <main id="contenido">
     <!-- Hero + ficha -->
     <section class="hero-svc">

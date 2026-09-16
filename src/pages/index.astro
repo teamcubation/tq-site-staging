@@ -6,6 +6,7 @@ import TiraLogos from "../components/home/TiraLogos.astro";
 import CapasApiladas from "../components/home/CapasApiladas.astro";
 import CierreCoral from "../components/CierreCoral.astro";
 import piramide from "../assets/home/piramide-densa.png";
+import { websiteSchema } from "../lib/seo";
 import mentora from "../assets/home/mentora-laptop-dupla.png";
 import equipoResultado from "../assets/home/equipo-resultado.png";
 import esferaAmbar from "../assets/home/esfera-ambar.png";
@@ -16,6 +17,7 @@ import aiRank from "../assets/home/ai-rank-bloques.png";
 <Layout
   title="Adopción de IA en empresas | Teamcubation"
   description="Entrenamos a sus equipos para adoptar IA con impacto real en el negocio. Aprenden trabajando sobre procesos y proyectos reales, guiados por mentores expertos."
+  schema={[websiteSchema]}
 >
   <main id="contenido">
     <!-- 01 · Hero -->

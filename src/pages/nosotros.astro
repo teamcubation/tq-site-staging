@@ -4,11 +4,13 @@ import { Image } from "astro:assets";
 import CierreCoral from "../components/CierreCoral.astro";
 import equipoPlanta from "../assets/fotos/equipo-planta-planos.png";
 import mentorUno from "../assets/fotos/mentor-uno-a-uno.png";
+import { breadcrumbSchema } from "../lib/seo";
 ---
 
 <Layout
   title="Qué es Teamcubation: historia y fundadores"
   description="Teamcubation fue fundada en 2021 en Buenos Aires por Mariano Wechsler y Diego Jolodenco. Conozca su historia y su método de entrenamiento."
+  schema={[breadcrumbSchema([{ name: "Inicio", path: "/" }, { name: "Nosotros", path: "/nosotros" }])]}
 >
   <main id="contenido">
     <!-- Hero + definición -->

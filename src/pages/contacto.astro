@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { breadcrumbSchema } from "../lib/seo";
 
 const faqs = [
   {
@@ -21,6 +22,7 @@ const ayuda = [
 <Layout
   title="Contacto | Teamcubation"
   description="Conversemos sobre el próximo paso de su equipo: qué proceso necesita mejorar, qué quiere construir y qué programa se ajusta a su necesidad."
+  schema={[breadcrumbSchema([{ name: "Inicio", path: "/" }, { name: "Contacto", path: "/contacto" }])]}
 >
   <main id="contenido">
     <!-- Hero -->

@@ -6,6 +6,7 @@ import Faq from "../components/Faq.astro";
 import CierreCoral from "../components/CierreCoral.astro";
 import mural from "../assets/ilustraciones/mural-frontal-placas-figuras.png";
 import disco from "../assets/ilustraciones/macro-empuje-disco-ambar.png";
+import { breadcrumbSchema } from "../lib/seo";
 
 const registra = [
   {
@@ -56,6 +57,7 @@ const faqs = [
 <Layout
   title="Teamboarding: cómo medimos el avance y el impacto | Teamcubation"
   description="Teamboarding es la plataforma propia de Teamcubation que registra el avance de cada persona y el impacto en cada proceso, y genera los informes que recibe el sponsor."
+  schema={[breadcrumbSchema([{ name: "Inicio", path: "/" }, { name: "Teamboarding", path: "/teamboarding" }])]}
 >
   <main id="contenido">
     <!-- Hero -->

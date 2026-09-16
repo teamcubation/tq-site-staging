@@ -5,6 +5,7 @@ import HeroInterior from "../components/HeroInterior.astro";
 import Faq from "../components/Faq.astro";
 import CierreCoral from "../components/CierreCoral.astro";
 import { programas } from "../data/site";
+import { breadcrumbSchema } from "../lib/seo";
 import pedestal from "../assets/ilustraciones/pedestal-colaboracion-cargan-esfera.png";
 import placaDiana from "../assets/ilustraciones/placa-diana-figuras.png";
 import montana from "../assets/ilustraciones/montana-ascenso-cargando-piezas.png";
@@ -36,6 +37,7 @@ const faqs = [
 <Layout
   title="Entrenamiento en IA sobre procesos reales | Teamcubation"
   description="Cómo entrenamos equipos en IA: práctica sobre procesos reales, mentores expertos y seguimiento del avance y el impacto con Teamboarding."
+  schema={[breadcrumbSchema([{ name: "Inicio", path: "/" }, { name: "Metodología", path: "/metodologia" }])]}
 >
   <main id="contenido">
     <HeroInterior

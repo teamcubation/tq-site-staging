@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import Cta from "../components/Cta.astro";
 import CierreCoral from "../components/CierreCoral.astro";
 import equipoReunion from "../assets/fotos/equipo-reunion-mate.png";
+import { breadcrumbSchema } from "../lib/seo";
 
 const clientes = ["Mercado Libre", "Coca-Cola", "VISA", "EY", "Hewlett-Packard", "Cargill"];
 ---
@@ -11,6 +12,7 @@ const clientes = ["Mercado Libre", "Coca-Cola", "VISA", "EY", "Hewlett-Packard",
 <Layout
   title="Clientes y experiencia de Teamcubation"
   description="Conozca la trayectoria de Teamcubation: más de 90 empresas líderes en 5 países. Entre sus clientes están Mercado Libre y Banco Comafi."
+  schema={[breadcrumbSchema([{ name: "Inicio", path: "/" }, { name: "Clientes", path: "/casos" }])]}
 >
   <main id="contenido">
     <!-- Hero -->
