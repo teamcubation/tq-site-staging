@@ -1,0 +1,233 @@
+---
+// Hero de Home — video 3D scrubbeado por scroll (el scroll controla el frame).
+// Fallback al poster en reduced-motion / si el video falla. Texto EXACTO del render v2.
+import Cta from "../Cta.astro";
+---
+
+<section class="hero" data-hero>
+  <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" />
+  <video
+    class="hero__video"
+    data-hero-video
+    muted
+    playsinline
+    preload="auto"
+    poster="/media/hero-poster.jpg"
+    aria-hidden="true"
+  >
+    <source src="/media/scroll-hero.mp4" type="video/mp4" />
+  </video>
+  <div class="hero__veil" aria-hidden="true"></div>
+
+  <div class="hero__text">
+    <p class="hero__eyebrow">La inversión en IA necesita adopción.</p>
+    <h1 class="hero__titulo">
+      ¿Su compañía está aprovechando todo
+      <span class="resaltado">el potencial de la IA?</span>
+    </h1>
+    <p class="hero__subhead">
+      Entrenamos a sus equipos para adoptar IA con impacto real en el negocio.
+    </p>
+    <p class="hero__bajada">
+      A diferencia de un curso sus colaboradores aprenden, guiados por nuestros mentores
+      expertos, trabajando en procesos y proyectos reales de su día a día.<br />
+      Porque la experiencia no se enseña: <b>se entrena</b>.
+    </p>
+    <div class="hero__acciones">
+      <Cta />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    height: calc(56.25vw - 75px);
+    overflow: hidden;
+    background: #fff;
+  }
+  .hero__poster,
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right top;
+  }
+  .hero__poster { z-index: 0; }
+  .hero__video {
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 160ms linear;
+  }
+  .hero__veil {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      #fff 0%,
+      #fff 20%,
+      rgba(255, 255, 255, 0.6) 28%,
+      rgba(255, 255, 255, 0) 36%
+    );
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 38%, rgba(0, 0, 0, 0) 54%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 38%, rgba(0, 0, 0, 0) 54%);
+  }
+  .hero__text {
+    position: relative;
+    z-index: 3;
+    width: 50%;
+    max-width: 700px;
+    padding: clamp(48px, 7vh, 96px) clamp(24px, 3.6vw, 72px) clamp(56px, 8vh, 104px);
+  }
+  .hero__eyebrow {
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: clamp(17px, 1.5vw, 25px);
+    line-height: 1.2;
+    color: var(--color-coral);
+    margin: 0 0 10px;
+  }
+  .hero__titulo {
+    font-size: clamp(22px, 3.2vw, 58px);
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .hero__subhead {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(19px, 1.7vw, 28px);
+    line-height: 1.25;
+    max-width: 34ch;
+    margin: 18px 0 0;
+  }
+  .hero__bajada {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: clamp(18px, 1.4vw, 24px);
+    line-height: 1.2;
+    max-width: 44ch;
+    margin: 14px 0 0;
+  }
+  .hero__acciones {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: clamp(24px, 3.4vh, 44px);
+  }
+
+  @media (max-width: 1200px) {
+    .hero__text { width: 62%; }
+    .hero__titulo { max-width: 20ch; }
+  }
+  @media (max-width: 1000px) {
+    .hero {
+      height: auto;
+      min-height: max(138vw, 92svh);
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero__poster,
+    .hero__video {
+      inset: auto 0 0 0;
+      height: 82%;
+      object-position: 8% center;
+    }
+    .hero__veil {
+      background: linear-gradient(180deg, #fff 0%, #fff 30%, rgba(255, 255, 255, 0) 60%);
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .hero__text {
+      width: 100%;
+      max-width: 100%;
+      padding: clamp(32px, 5vh, 64px) 40px clamp(40px, 6vh, 72px);
+    }
+  }
+  @media (max-width: 720px) {
+    .hero__text { padding: clamp(32px, 5vh, 56px) 24px clamp(32px, 5vh, 56px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero { height: auto; min-height: 0; }
+    .hero__video { display: none; }
+  }
+</style>
+
+<script>
+  // Scrubbing del video por scroll — porta `iniciarHero` (design-tech-notes §9).
+  const seccion = document.querySelector<HTMLElement>("[data-hero]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (seccion && !reduce) {
+    const video = seccion.querySelector<HTMLVideoElement>("[data-hero-video]");
+    if (video) {
+      let visible = false;
+      let objetivo = 0;
+      let actual = 0;
+      let raf = 0;
+      let listo = false;
+
+      const revelar = () => {
+        if (listo) video.style.opacity = "1";
+      };
+      video.addEventListener("loadedmetadata", () => {
+        if (video.duration > 0) {
+          listo = true;
+          revelar();
+        }
+      });
+      video.addEventListener("error", () => {
+        video.style.display = "none";
+      });
+
+      const calcular = () => {
+        const r = seccion.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, -r.top / r.height));
+        objetivo = p * (video.duration || 0);
+      };
+
+      const tick = () => {
+        actual += (objetivo - actual) * 0.12;
+        if (Math.abs(objetivo - actual) < 0.001) actual = objetivo;
+        if (listo) {
+          try {
+            video.currentTime = actual;
+          } catch {
+            /* seeking aún no disponible */
+          }
+        }
+        if (visible) raf = requestAnimationFrame(tick);
+      };
+
+      const io = new IntersectionObserver(
+        (entradas) => {
+          entradas.forEach((e) => {
+            visible = e.isIntersecting;
+            cancelAnimationFrame(raf);
+            if (visible) {
+              calcular();
+              raf = requestAnimationFrame(tick);
+            }
+          });
+        },
+        { threshold: 0 }
+      );
+      io.observe(seccion);
+
+      window.addEventListener("scroll", calcular, { passive: true });
+      window.addEventListener("resize", calcular, { passive: true });
+
+      const prime = () => {
+        video.play().then(() => video.pause()).catch(() => {});
+      };
+      window.addEventListener("pointerdown", prime, { once: true, passive: true });
+      window.addEventListener("wheel", prime, { once: true, passive: true });
+    }
+  }
+</script>

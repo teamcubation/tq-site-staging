@@ -7,13 +7,13 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://teamcubation.com',
   outDir: './docs',
-  redirects: {
-    '/incubation-en': '/en/incubation',
-    '/incubation-pt': '/pt/incubation',
-    '/booster-ai-en': '/en/booster-ai',
-    '/booster-ai-pt': '/pt/booster-ai',
-    '/contact': '/en/contact',
-    '/contato': '/pt/contato',
+  // i18n: ES es el idioma raíz (sin prefijo); EN y PT quedan preparados.
+  i18n: {
+    locales: ['es', 'en', 'pt'],
+    defaultLocale: 'es',
+    routing: {
+      prefixDefaultLocale: false,
+    },
   },
   integrations: [sitemap()],
   vite: {
