@@ -2,19 +2,27 @@
 // Cierre coral — banda de sección coral con isotipo blanco, título y CTA.
 // Presente al final de casi todas las páginas.
 import Cta from "./Cta.astro";
+import { Image } from "astro:assets";
+import texturaImg from "../assets/texturas/placas-modulares-dispersas.png";
 
 interface Props {
-  titulo: string;
+  // El título es fijo (tagline de marca «Data Driven On-the-job Tech Training»);
+  // el prop se mantiene por compatibilidad con los llamados existentes.
+  titulo?: string;
   texto?: string;
   ctaLabel?: string;
   ctaHref?: string;
   grande?: boolean; // Home y Metodología usan 48px; el resto 44px (default).
   enlaceExtra?: { label: string; href: string };
+  textura?: boolean; // Servicios y los programas llevan la textura arriba a la derecha.
 }
-const { titulo, texto, ctaLabel, ctaHref, grande = false, enlaceExtra } = Astro.props;
+const { texto, ctaLabel, ctaHref, grande = false, enlaceExtra, textura = false } = Astro.props;
 ---
 
 <section class:list={["cierre", grande && "cierre--grande"]}>
+  {textura && (
+    <Image src={texturaImg} alt="" aria-hidden="true" class="cierre__textura" loading="lazy" />
+  )}
   <div class="cierre__contenido">
     <img
       src="/brand/isotipo-blanco.svg"
@@ -25,7 +33,7 @@ const { titulo, texto, ctaLabel, ctaHref, grande = false, enlaceExtra } = Astro.
       aria-hidden="true"
       decoding="async"
     />
-    <h2 class="cierre__titulo">{titulo}</h2>
+    <h2 class="cierre__titulo">Data Driven On-the-job<br />Tech Training</h2>
     {texto && <p class="cierre__texto">{texto}</p>}
     <div class="cierre__cta">
       <Cta tamano="lg" label={ctaLabel} href={ctaHref} />
@@ -40,12 +48,25 @@ const { titulo, texto, ctaLabel, ctaHref, grande = false, enlaceExtra } = Astro.
 
 <style>
   .cierre {
+    position: relative;
+    overflow: hidden;
     background: var(--color-coral);
     color: #fff;
-    padding: 96px 64px;
+    padding: 48px 64px;
     text-align: center;
   }
+  .cierre__textura {
+    position: absolute;
+    width: 520px;
+    height: auto;
+    right: -190px;
+    top: -130px;
+    pointer-events: none;
+    z-index: 0;
+  }
   .cierre__contenido {
+    position: relative;
+    z-index: 1;
     max-width: 820px;
     margin: 0 auto;
     display: flex;
@@ -67,7 +88,7 @@ const { titulo, texto, ctaLabel, ctaHref, grande = false, enlaceExtra } = Astro.
   }
   .cierre__texto {
     font-family: var(--font-body);
-    font-weight: 500;
+    font-weight: 600;
     font-size: 21px;
     line-height: 1.5;
     margin: 16px 0 0;
@@ -90,6 +111,6 @@ const { titulo, texto, ctaLabel, ctaHref, grande = false, enlaceExtra } = Astro.
   }
 
   @media (max-width: 720px) {
-    .cierre { padding: 64px 24px; }
+    .cierre { padding: 48px 24px; }
   }
 </style>
