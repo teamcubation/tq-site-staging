@@ -1,7 +1,11 @@
 // Helpers de SEO: constantes del sitio + generadores de JSON-LD (schema.org).
 
 export const SITE = {
+  // Dominio canónico (producción) — canonical, hreflang, JSON-LD.
   url: "https://teamcubation.com",
+  // Dominio donde vive ESTE build (staging) — og:image / og:url, para que
+  // la preview resuelva mientras producción no esté publicada.
+  deployUrl: "https://site-staging.teamcubation.com",
   name: "Teamcubation",
   email: "hola@teamcubation.com",
   ogImage: "/og/og-default.png",

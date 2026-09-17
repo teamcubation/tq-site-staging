@@ -33,8 +33,11 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// OG apunta al dominio donde vive el build (staging) para que la preview
+// resuelva; canonical/hreflang siguen en producción (SITE.url / Astro.site).
+const ogUrl = new URL(Astro.url.pathname, SITE.deployUrl).href;
 // OG por idioma (og-es/en/pt). Se puede override con la prop `image`.
-const ogImage = new URL(image ?? `/og/og-${lang}.png`, Astro.site).href;
+const ogImage = new URL(image ?? `/og/og-${lang}.png`, SITE.deployUrl).href;
 
 const ogLocales: Record<Locale, string> = { es: "es_AR", en: "en_US", pt: "pt_BR" };
 
@@ -106,7 +109,7 @@ const jsonLd = {
     <meta property="og:locale" content={ogLocales[lang]} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={ogUrl} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content={String(SITE.ogImageWidth)} />
     <meta property="og:image:height" content={String(SITE.ogImageHeight)} />
