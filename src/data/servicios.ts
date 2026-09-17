@@ -776,7 +776,7 @@ export const serviciosEn: Record<string, Servicio> = Object.fromEntries(
 const ptText: Record<string, ServicioEn> = {
   discovery: {
     nombre: "Discovery",
-    title: "Diagnóstico de oportunidades de IA | Teamcubation",
+    title: "Diagnóstico de oportunidades de IA na sua empresa | Teamcubation",
     meta: "O Discovery avalia os processos da sua empresa durante três semanas e entrega um mapa priorizado de oportunidades de IA com o primeiro passo recomendado.",
     foco: "Mapa priorizado de oportunidades",
     resumen: "Avalia seus processos e entrega um mapa priorizado de oportunidades de IA com o primeiro passo recomendado.",
