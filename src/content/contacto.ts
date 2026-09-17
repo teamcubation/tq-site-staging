@@ -27,7 +27,9 @@ export interface ContactoContent {
     mensajeLabel: string;
     mensajePlaceholder: string;
     error: string;
+    errorEnvio: string;
     boton: string;
+    enviando: string;
   };
   exito: { h2: string; p: string };
   ayudaH2: string;
@@ -67,7 +69,9 @@ export const contactoContent: Record<"es" | "en" | "pt", ContactoContent> = {
       mensajeLabel: "Su mensaje",
       mensajePlaceholder: "Qué proceso necesita mejorar, qué quiere construir y cómo trabaja hoy su equipo.",
       error: "Complete cómo se identifica, su nombre, un email válido y el mensaje.",
+      errorEnvio: "Ocurrió un error al enviar el formulario. Por favor, intente nuevamente.",
       boton: "Enviar mensaje",
+      enviando: "Enviando...",
     },
     exito: {
       h2: "Recibimos su mensaje.",
@@ -115,7 +119,9 @@ export const contactoContent: Record<"es" | "en" | "pt", ContactoContent> = {
       mensajeLabel: "Your message",
       mensajePlaceholder: "Which process you need to improve, what you want to build and how your team works today.",
       error: "Please complete how you identify, your name, a valid email and the message.",
+      errorEnvio: "An error occurred while sending the form. Please try again.",
       boton: "Send message",
+      enviando: "Sending...",
     },
     exito: {
       h2: "We received your message.",
@@ -163,7 +169,9 @@ export const contactoContent: Record<"es" | "en" | "pt", ContactoContent> = {
       mensajeLabel: "Sua mensagem",
       mensajePlaceholder: "Qual processo você precisa melhorar, o que quer construir e como sua equipe trabalha hoje.",
       error: "Preencha como você se identifica, seu nome, um e-mail válido e a mensagem.",
+      errorEnvio: "Ocorreu um erro ao enviar o formulário. Tente novamente.",
       boton: "Enviar mensagem",
+      enviando: "Enviando...",
     },
     exito: {
       h2: "Recebemos sua mensagem.",
