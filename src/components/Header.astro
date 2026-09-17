@@ -65,16 +65,34 @@ const items = navKeys.map((k) => rutas[k][lang]);
   .cabecera__nav { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; }
   .cabecera__nav a {
     font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 20px;
+    font-weight: var(--peso-cuerpo-semibold);
+    font-size: var(--fs-cuerpo);
     color: var(--color-tinta);
     text-decoration: none;
   }
-  .cabecera__acciones { display: flex; align-items: center; gap: 20px; flex: none; }
-  .lang { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 600; font-size: 15px; }
-  .lang a { color: var(--color-gris-texto); text-decoration: none; }
-  .lang a:hover { color: var(--color-tinta); }
-  .lang__actual { color: var(--color-tinta); }
+  /* Acciones = solo el CTA en el flujo (como el diseño), para que la nav
+     quede posicionada por space-between logo·nav·CTA. El selector de idioma
+     se posiciona a la izquierda del CTA sin empujar la nav. */
+  .cabecera__acciones { position: relative; display: flex; align-items: center; flex: none; }
+  .lang { position: absolute; right: calc(100% + 20px); top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px; }
+  .lang a,
+  .lang__actual {
+    display: inline-block;
+    background: var(--color-gris-claro);
+    color: var(--color-tinta);
+    font-family: var(--font-body);
+    font-weight: var(--peso-cuerpo-semibold);
+    font-size: var(--fs-caption);
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-transform: none;
+    border-radius: var(--radius-capsula);
+    padding: 5px 12px;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .lang a:hover { opacity: 0.85; }
+  .lang__actual { background: var(--color-lima); }
 
   @media (max-width: 1100px) {
     .cabecera {
@@ -84,6 +102,8 @@ const items = navKeys.map((k) => rutas[k][lang]);
       padding-left: 40px;
       padding-right: 40px;
     }
+    .cabecera__acciones { gap: 16px; }
+    .lang { position: static; transform: none; }
     .cabecera__nav {
       order: 3;
       flex: 1 1 100%;

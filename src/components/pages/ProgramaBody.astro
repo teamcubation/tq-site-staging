@@ -176,8 +176,8 @@ const otros = svc.otros.map((o) => {
   .mb28 { margin-bottom: 28px; }
   .mb24 { margin-bottom: 24px; }
   .mb16 { margin-bottom: 16px; }
-  .p21 { font-family: var(--font-body); font-weight: 500; font-size: 21px; line-height: 1.5; margin: 0; }
-  .p19 { font-family: var(--font-body); font-weight: 500; font-size: 19px; line-height: 1.5; margin: 0; }
+  .p21 { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; margin: 0; }
+  .p19 { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; margin: 0; }
   .mw68 { max-width: 68ch; }
   .mw72 { max-width: 72ch; }
 
@@ -191,7 +191,7 @@ const otros = svc.otros.map((o) => {
   .hero-svc__grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; }
   .hero-svc__h1 { font-size: clamp(34px, 3.9vw, 50px); line-height: 1.1; letter-spacing: -0.02em; max-width: 24ch; margin: 0; }
   .hero-svc__apoyo { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.2; color: var(--color-coral); max-width: 44ch; margin: 18px 0 0; }
-  .hero-svc__bajada { font-family: var(--font-body); font-weight: 500; font-size: 23px; line-height: 1.45; max-width: 60ch; margin: 18px 0 0; }
+  .hero-svc__bajada { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-bajada); line-height: 1.5; max-width: 60ch; margin: 18px 0 0; }
   .hero-svc__cta { margin-top: 32px; }
   .hero-svc__media :global(img) { width: 100%; height: auto; max-height: 420px; object-fit: contain; display: block; margin-inline: auto; }
 
@@ -201,8 +201,8 @@ const otros = svc.otros.map((o) => {
 
   .ficha { margin: 32px 0 0; max-width: 520px; border-top: 1px solid var(--color-linea); }
   .ficha__row { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--color-linea); }
-  .ficha__k { margin: 0; font-family: var(--font-body); font-weight: 600; font-size: 18px; color: var(--color-gris-texto); }
-  .ficha__v { margin: 0; text-align: right; font-family: var(--font-body); font-weight: 600; font-size: 18px; }
+  .ficha__k { margin: 0; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-secundario); color: var(--color-gris-texto); }
+  .ficha__v { margin: 0; text-align: right; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-secundario); }
 
   /* Para quién / alcance */
   .quien-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 56px; align-items: start; }
@@ -213,7 +213,7 @@ const otros = svc.otros.map((o) => {
   .pasos--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .paso { background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
   .paso__n { font-size: 21px; line-height: 1.15; color: var(--color-coral); margin: 0; }
-  .paso__t { font-family: var(--font-body); font-weight: 500; font-size: 18px; line-height: 1.5; margin: 0; }
+  .paso__t { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; margin: 0; }
 
   /* Entrega */
   .entrega-panel { background: var(--color-lima); border-radius: var(--radius-tarjeta); padding: 32px; }
@@ -221,8 +221,8 @@ const otros = svc.otros.map((o) => {
 
   /* Otros programas */
   .otros-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
-  .pill { display: inline-block; background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: 600; font-size: 18px; color: var(--color-tinta); text-decoration: none; }
-  .otros__frase { font-family: var(--font-body); font-weight: 500; font-size: 19px; line-height: 1.5; margin: 12px 0 0; }
+  .pill { display: inline-block; background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-cuerpo); color: var(--color-tinta); text-decoration: none; }
+  .otros__frase { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; margin: 12px 0 0; }
   .otros__met { margin: 28px 0 0; }
 
   @media (max-width: 1100px) {

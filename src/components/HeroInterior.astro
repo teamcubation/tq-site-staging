@@ -82,9 +82,9 @@ const {
   }
   .hero-int__bajada {
     font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 23px;
-    line-height: 1.45;
+    font-weight: var(--peso-cuerpo);
+    font-size: var(--fs-cuerpo);
+    line-height: 1.5;
     max-width: 64ch;
     margin: 24px 0 0;
   }
@@ -99,8 +99,5 @@ const {
 
   @media (max-width: 1100px) {
     .hero-int__grid { grid-template-columns: 1fr; gap: 40px; }
-  }
-  @media (max-width: 720px) {
-    .hero-int__bajada { font-size: 20px; }
   }
 </style>

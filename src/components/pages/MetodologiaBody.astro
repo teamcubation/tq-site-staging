@@ -70,7 +70,7 @@ const tbHref = ruta("teamboarding", lang);
       <div>
         <h2 class="h2" set:html={c.acomp.h2Html} />
         <h3 class="h3">{c.acomp.guiasH3}</h3>
-        <p class="p">{c.acomp.guiasP}</p>
+        <p class="p p--bajada">{c.acomp.guiasP}</p>
         <h3 class="h3">{c.acomp.tbH3}</h3>
         <p class="p">{c.acomp.tbP}</p>
         <p class="p nota-coral">{c.acomp.nota}</p>
@@ -146,7 +146,8 @@ const tbHref = ruta("teamboarding", lang);
   .h3 { font-size: 24px; line-height: 1.15; margin: 0 0 8px; }
   .queda .h3 { font-size: 22px; }
   .h2-sm { font-size: 28px; line-height: 1.12; margin: 0 0 16px; }
-  .p { font-family: var(--font-body); font-weight: 500; font-size: 21px; line-height: 1.5; max-width: 64ch; margin: 0 0 16px; }
+  .p { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; max-width: 64ch; margin: 0 0 16px; }
+  .p--bajada { font-size: var(--fs-bajada); }
   .p:last-child { margin-bottom: 0; }
 
   .dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
@@ -167,20 +168,20 @@ const tbHref = ruta("teamboarding", lang);
   .confianza .h2 { margin: 0; }
   .confianza .p { margin: 0; max-width: 66ch; }
 
-  .nota-coral { color: var(--color-coral); font-size: 19px; }
+  .nota-coral { color: var(--color-coral); font-size: var(--fs-cuerpo); }
   .media :global(img) { width: 100%; height: auto; max-height: 400px; object-fit: contain; display: block; }
 
   .pasos { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
   .paso { background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 24px; }
   .paso__titulo { font-size: 22px; line-height: 1.12; color: var(--color-coral); margin: 0; }
-  .paso__p { font-family: var(--font-body); font-weight: 500; font-size: 18px; line-height: 1.5; margin: 12px 0 0; }
+  .paso__p { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; margin: 12px 0 0; }
 
   .queda { display: flex; flex-direction: column; gap: 20px; }
-  .queda .p { font-size: 19px; margin: 0; }
+  .queda .p { margin: 0; }
 
   .programas { margin-top: 40px; }
   .pills { display: flex; flex-wrap: wrap; gap: 12px; }
-  .pill { background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: 600; font-size: 18px; color: var(--color-tinta); text-decoration: none; }
+  .pill { background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-cuerpo); color: var(--color-tinta); text-decoration: none; }
 
   @media (max-width: 1100px) {
     .sec { padding-block: 64px; }
@@ -191,6 +192,5 @@ const tbHref = ruta("teamboarding", lang);
   }
   @media (max-width: 720px) {
     .sec--flush-b { padding-bottom: 56px; }
-    .p { font-size: 19px; }
   }
 </style>

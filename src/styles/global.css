@@ -60,9 +60,21 @@
   --color-estado-riesgo: #ff4934;
   --color-estado-inactivo: #8a8686;
 
-  /* Tipografía */
+  /* Tipografía — títulos: Funnel Display · cuerpo: system-ui (cambio del diseño v2, 2026-09-17) */
   --font-display: "Funnel Display", system-ui, sans-serif;
-  --font-body: "Darker Grotesque", system-ui, sans-serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Pesos de cuerpo (system-ui) */
+  --peso-cuerpo: 300;
+  --peso-cuerpo-semibold: 500;
+  --peso-cuerpo-bold: 700;
+
+  /* Escala de tamaños web de cuerpo (tokens --tc-web-* del diseño) */
+  --fs-titulo-tarjeta: 22px;
+  --fs-bajada: 20px;
+  --fs-cuerpo: 16px;
+  --fs-secundario: 15px;
+  --fs-caption: 13px;
 
   /* Radios */
   --radius-tarjeta: 14px;
@@ -79,7 +91,7 @@
   }
   body {
     font-family: var(--font-body);
-    font-weight: 500; /* Darker Grotesque en 400 se ve anémica */
+    font-weight: 300; /* system-ui, peso base del diseño v2 */
     color: var(--color-tinta);
     background: var(--color-blanco);
     line-height: 1.5;
@@ -167,8 +179,8 @@
 /* Enlace de lectura/navegación en cuerpo — tinta subrayado. */
 .enlace {
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 19px;
+  font-weight: var(--peso-cuerpo-semibold);
+  font-size: var(--fs-cuerpo);
   color: var(--color-tinta);
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -208,4 +220,5 @@
   main h2 { font-size: clamp(25px, 6.6vw, 34px) !important; }
   main h3 { font-size: clamp(21px, 5.4vw, 26px) !important; }
   main h4 { font-size: 21px !important; }
+  main p { font-size: 18px !important; }
 }
