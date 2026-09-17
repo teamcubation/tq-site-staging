@@ -7,6 +7,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://teamcubation.com',
   outDir: './docs',
+  // Inlinea el CSS en el HTML para eliminar la cadena crítica de requests
+  // (CSS render-blocking). El CSS del sitio es chico (~7KB gzip por página).
+  build: { inlineStylesheets: 'always' },
   // i18n: ES es el idioma raíz (sin prefijo); EN y PT quedan preparados.
   i18n: {
     locales: ['es', 'en', 'pt'],

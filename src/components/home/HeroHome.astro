@@ -29,13 +29,13 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
 ---
 
 <section class="hero" data-hero>
-  <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" />
+  <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
   <video
     class="hero__video"
     data-hero-video
     muted
     playsinline
-    preload="auto"
+    preload="metadata"
     poster="/media/hero-poster.jpg"
     aria-hidden="true"
   >
