@@ -1,0 +1,17 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import HomeBody from "../../components/home/HomeBody.astro";
+import { websiteSchema } from "../../lib/seo";
+
+const translations = { es: "/", en: "/en/" };
+---
+
+<Layout
+  title="AI adoption for companies | Teamcubation"
+  description="We train your teams to adopt AI with real business impact. They learn by working on real processes and projects, guided by expert mentors."
+  lang="en"
+  schema={[websiteSchema("en")]}
+  translations={translations}
+>
+  <HomeBody lang="en" />
+</Layout>

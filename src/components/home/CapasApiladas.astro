@@ -7,100 +7,88 @@ import cuboEsferaLima from "../../assets/home/cubo-esfera-lima.png";
 import capaIntermedia from "../../assets/home/capa-intermedia.png";
 import nucleoIt from "../../assets/home/nucleo-it.png";
 
-const capas = [
-  {
-    titulo:
-      "Que las personas en su compañía utilicen todo el potencial de la AI para trabajar con mayor eficiencia.",
-    prefijo: "Capa de superficie — equipos de negocio.",
-    desc: "Sus equipos conocen las tareas que necesitan mejorar. El entrenamiento parte de ese conocimiento y trabaja sobre sus herramientas y procesos con foco en la adopción.",
-    img: cuboEsferaLima,
-    imgAlt:
-      "Colaboradores verdes y un mentor naranja moviendo una esfera lima sobre un bloque de concreto",
-    fondo: "gris" as const,
-    programas: [
-      {
-        nombre: "Starter AI",
-        href: "/servicios/starter-ai",
-        desc: "Equipos sin experiencia previa aprenden a usar IA sobre sus tareas y con las herramientas que ya tienen.",
-        dato: "Un mes.",
-      },
-      {
-        nombre: "Booster AI",
-        href: "/servicios/booster-ai",
-        desc: "Equipos de negocio automatizan procesos propios con IA y agentes, acompañados por mentores expertos.",
-        dato: "Cinco semanas.",
-      },
-      {
-        nombre: "Booster AI Intensivo",
-        href: "/servicios/booster-ai-intensivo",
-        desc: "Seis personas en tres duplas construyen una primera automatización real por dupla, en un piloto acotado.",
-        dato: "Una semana.",
-      },
-    ],
-  },
-  {
-    titulo:
-      "Que las personas más avanzadas en el uso de la IA, puedan construir tecnología.",
-    prefijo: "Capa intermedia — construcción con IA.",
-    desc: "Los perfiles de negocio pueden crear herramientas internas. Los perfiles técnicos pueden profundizar en integraciones y procesos de mayor complejidad.",
-    img: capaIntermedia,
-    imgAlt:
-      "Equipos verdes y naranjas construyendo estructuras de concreto con anillos ámbar y piezas lima",
-    fondo: "blanco" as const,
-    programas: [
-      {
-        nombre: "VibeCode Studio",
-        href: "/servicios/vibecode-studio",
-        desc: "Equipos que ya usan IA construyen micro-aplicaciones de negocio, sin programación tradicional.",
-        dato: "Dos meses.",
-      },
-      {
-        nombre: "AI Builders",
-        href: "/servicios/ai-builders",
-        desc: "Perfiles técnicos se forman para construir automatizaciones complejas e integraciones entre sistemas dentro de su empresa.",
-        dato: "Cuatro meses, dedicación completa.",
-      },
-    ],
-  },
-  {
-    titulo: "Incoporar talento y habilidades tech a su equipo.",
-    prefijo: "Núcleo IT — equipos de desarrollo.",
-    desc: "Entrenamos a los equipos de desarrollo para incorporar IA y formamos desarrolladores mientras construyen el software que la empresa necesita.",
-    img: nucleoIt,
-    imgAlt:
-      "Torre densa de concreto en contrapicado que equipos verdes y naranjas escalan con piezas lima y ámbar",
-    fondo: "gris" as const,
-    programas: [
-      {
-        nombre: "Booster AI Dev",
-        href: "/servicios/booster-ai-dev",
-        desc: "Equipos de desarrollo incorporan herramientas y agentes de IA sobre su sprint y sus repositorios.",
-        dato: "Un mes.",
-      },
-      {
-        nombre: "Incubation",
-        href: "/servicios/incubation",
-        desc: "Software construido mientras se forman los desarrolladores que después pueden integrarse a su equipo.",
-        dato: "Seis meses.",
-      },
-    ],
-  },
+export interface CapaContent {
+  titulo: string;
+  prefijo: string;
+  desc: string;
+  imgAlt: string;
+  programas: { nombre: string; href: string; desc: string; dato: string }[];
+}
+export interface CapasContent {
+  grande: string;
+  headH2: string;
+  intro: string;
+  capas: CapaContent[];
+}
+
+interface Props {
+  content?: CapasContent;
+}
+
+// Estructura fija (imágenes y fondos), igual en todos los idiomas.
+const estructura = [
+  { img: cuboEsferaLima, fondo: "gris" as const },
+  { img: capaIntermedia, fondo: "blanco" as const },
+  { img: nucleoIt, fondo: "gris" as const },
 ];
+
+const esDefault: CapasContent = {
+  grande: "¿Qué podemos lograr juntos?",
+  headH2: "Un punto de partida para cada equipo.",
+  intro:
+    "Desde aplicar IA en las tareas cotidianas hasta construir software y formar desarrolladores. Cada equipo empieza según lo que necesita resolver y la experiencia que ya tiene.",
+  capas: [
+    {
+      titulo:
+        "Que las personas en su compañía utilicen todo el potencial de la AI para trabajar con mayor eficiencia.",
+      prefijo: "Capa de superficie — equipos de negocio.",
+      desc: "Sus equipos conocen las tareas que necesitan mejorar. El entrenamiento parte de ese conocimiento y trabaja sobre sus herramientas y procesos con foco en la adopción.",
+      imgAlt:
+        "Colaboradores verdes y un mentor naranja moviendo una esfera lima sobre un bloque de concreto",
+      programas: [
+        { nombre: "Starter AI", href: "/servicios/starter-ai", desc: "Equipos sin experiencia previa aprenden a usar IA sobre sus tareas y con las herramientas que ya tienen.", dato: "Un mes." },
+        { nombre: "Booster AI", href: "/servicios/booster-ai", desc: "Equipos de negocio automatizan procesos propios con IA y agentes, acompañados por mentores expertos.", dato: "Cinco semanas." },
+        { nombre: "Booster AI Intensivo", href: "/servicios/booster-ai-intensivo", desc: "Seis personas en tres duplas construyen una primera automatización real por dupla, en un piloto acotado.", dato: "Una semana." },
+      ],
+    },
+    {
+      titulo: "Que las personas más avanzadas en el uso de la IA, puedan construir tecnología.",
+      prefijo: "Capa intermedia — construcción con IA.",
+      desc: "Los perfiles de negocio pueden crear herramientas internas. Los perfiles técnicos pueden profundizar en integraciones y procesos de mayor complejidad.",
+      imgAlt:
+        "Equipos verdes y naranjas construyendo estructuras de concreto con anillos ámbar y piezas lima",
+      programas: [
+        { nombre: "VibeCode Studio", href: "/servicios/vibecode-studio", desc: "Equipos que ya usan IA construyen micro-aplicaciones de negocio, sin programación tradicional.", dato: "Dos meses." },
+        { nombre: "AI Builders", href: "/servicios/ai-builders", desc: "Perfiles técnicos se forman para construir automatizaciones complejas e integraciones entre sistemas dentro de su empresa.", dato: "Cuatro meses, dedicación completa." },
+      ],
+    },
+    {
+      titulo: "Incoporar talento y habilidades tech a su equipo.",
+      prefijo: "Núcleo IT — equipos de desarrollo.",
+      desc: "Entrenamos a los equipos de desarrollo para incorporar IA y formamos desarrolladores mientras construyen el software que la empresa necesita.",
+      imgAlt:
+        "Torre densa de concreto en contrapicado que equipos verdes y naranjas escalan con piezas lima y ámbar",
+      programas: [
+        { nombre: "Booster AI Dev", href: "/servicios/booster-ai-dev", desc: "Equipos de desarrollo incorporan herramientas y agentes de IA sobre su sprint y sus repositorios.", dato: "Un mes." },
+        { nombre: "Incubation", href: "/servicios/incubation", desc: "Software construido mientras se forman los desarrolladores que después pueden integrarse a su equipo.", dato: "Seis meses." },
+      ],
+    },
+  ],
+};
+
+const { content = esDefault } = Astro.props;
+const capas = content.capas.map((c, i) => ({ ...c, ...estructura[i] }));
 ---
 
 <section class="capas">
   <div class="contenedor">
-    <p class="capas__grande"><span class="resaltado">¿Qué podemos lograr juntos?</span></p>
+    <p class="capas__grande"><span class="resaltado">{content.grande}</span></p>
 
     <div class="capas__head" data-capas-head>
-      <h2 class="capas__h2">Un punto de partida para cada equipo.</h2>
+      <h2 class="capas__h2">{content.headH2}</h2>
     </div>
 
-    <p class="capas__intro">
-      Desde aplicar IA en las tareas cotidianas hasta construir software y formar
-      desarrolladores. Cada equipo empieza según lo que necesita resolver y la experiencia
-      que ya tiene.
-    </p>
+    <p class="capas__intro">{content.intro}</p>
 
     <div class="capas__pila" data-capas-pila>
       {capas.map((capa, i) => (

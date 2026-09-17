@@ -36,15 +36,20 @@ export const organizationSchema = {
   areaServed: PAISES,
 };
 
-/** WebSite — para la Home. */
-export const websiteSchema = {
-  "@type": "WebSite",
-  "@id": `${SITE.url}/#website`,
-  url: SITE.url,
-  name: SITE.name,
-  inLanguage: "es",
-  publisher: { "@id": `${SITE.url}/#organization` },
-};
+// Códigos BCP-47 por idioma (para inLanguage de schema.org).
+export const langCode: Record<string, string> = { es: "es-AR", en: "en", pt: "pt-BR" };
+
+/** WebSite — para la Home, con inLanguage según el idioma. */
+export function websiteSchema(lang: string) {
+  return {
+    "@type": "WebSite",
+    "@id": `${SITE.url}/#website`,
+    url: SITE.url,
+    name: SITE.name,
+    inLanguage: langCode[lang] ?? lang,
+    publisher: { "@id": `${SITE.url}/#organization` },
+  };
+}
 
 /** BreadcrumbList a partir de una lista {name, path}. */
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
@@ -60,19 +65,20 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
 }
 
 /** Service — para las páginas de programa. Sin precios ni reviews (regla de marca). */
-export function serviceSchema(svc: {
-  nombre: string;
-  slug: string;
-  meta: string;
-  foco: string;
-}) {
+export function serviceSchema(
+  svc: { nombre: string; slug: string; meta: string; foco: string },
+  lang = "es",
+  url?: string
+) {
+  const pageUrl = url ?? `${SITE.url}${svc.slug}`;
   return {
     "@type": "Service",
-    "@id": `${SITE.url}${svc.slug}#service`,
+    "@id": `${pageUrl}#service`,
     name: svc.nombre,
     serviceType: svc.foco,
     description: svc.meta,
-    url: `${SITE.url}${svc.slug}`,
+    url: pageUrl,
+    inLanguage: langCode[lang] ?? lang,
     provider: { "@id": `${SITE.url}/#organization` },
     areaServed: PAISES,
   };

@@ -4,6 +4,7 @@
 import { Image } from "astro:assets";
 import Cta from "./Cta.astro";
 import Breadcrumb from "./Breadcrumb.astro";
+import { defaultLocale, type Locale } from "../i18n/config";
 
 interface Props {
   kicker?: string;
@@ -18,6 +19,7 @@ interface Props {
   padBottom?: number;
   cta?: boolean;
   tituloSize?: string;
+  lang?: Locale;
 }
 
 const {
@@ -33,6 +35,7 @@ const {
   padBottom = 88,
   cta = true,
   tituloSize = "clamp(36px, 4.2vw, 54px)",
+  lang = defaultLocale,
 } = Astro.props;
 ---
 
@@ -45,7 +48,7 @@ const {
       <p class="hero-int__bajada">{bajada}</p>
       {cta && (
         <div class="hero-int__cta">
-          <Cta />
+          <Cta lang={lang} />
         </div>
       )}
     </div>

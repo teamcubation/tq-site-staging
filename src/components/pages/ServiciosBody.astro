@@ -1,0 +1,138 @@
+---
+import HeroInterior from "../HeroInterior.astro";
+import CierreCoral from "../CierreCoral.astro";
+import escenaHero from "../../assets/ilustraciones/escena-hero-anillo-salto.png";
+import { serviciosContent } from "../../content/servicios";
+import { servicios } from "../../data/servicios";
+import { ruta, rutaPrograma } from "../../i18n/routes";
+import { defaultLocale, type Locale } from "../../i18n/config";
+
+interface Props { lang?: Locale }
+const { lang = defaultLocale } = Astro.props;
+const c = serviciosContent[lang === "pt" ? "es" : lang];
+---
+
+<main id="contenido">
+  <HeroInterior
+    kicker={c.hero.kicker}
+    titulo={c.hero.tituloHtml}
+    bajada={c.hero.bajada}
+    imagen={escenaHero}
+    imagenAlt={c.hero.imgAlt}
+    cols="1.15fr 0.85fr"
+    maxImg={400}
+    padBottom={64}
+    lang={lang}
+  />
+
+  <section class="titulo-capas">
+    <div class="contenedor"><h2 class="h2">{c.tituloCapas}</h2></div>
+  </section>
+
+  <section class="capas-svc">
+    <div class="contenedor capas-svc__wrap">
+      {c.capas.map((capa) => (
+        <article>
+          <h3 class="capa-svc__titulo">{capa.titulo}</h3>
+          <p class="capa-svc__bajada">
+            <strong class="capa-svc__etiqueta">{capa.etiqueta}</strong> {capa.bajada}
+          </p>
+          <div class="scards">
+            {capa.keys.map((k) => {
+              const s = c.items[k];
+              const href = rutaPrograma(servicios[k].slug, lang);
+              return (
+                <a class="scard" href={href}>
+                  <p class="scard__necesita">{c.labels.necesita} {s.necesita}</p>
+                  <h4 class="scard__titulo">{s.nombre}</h4>
+                  <p class="scard__resumen">{s.resumen}</p>
+                  <p class="scard__meta">
+                    {c.labels.publico} {s.publico}<br />{c.labels.duracion} {s.duracion}<br />{c.labels.foco} {s.foco}
+                  </p>
+                </a>
+              );
+            })}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="primer-paso">
+    <div class="contenedor">
+      <h2 class="h2 mb28">{c.primerPaso.h2}</h2>
+      <div class="dos-col">
+        {c.primerPaso.cols.map((col) => (
+          <div>
+            <h3 class="h3">{col.h3}</h3>
+            <p class="p" set:html={col.pHtml} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="panel-exp-sec">
+    <div class="contenedor">
+      <div class="panel-exp">
+        <h2 class="h2 mb16">{c.panel.h2}</h2>
+        <p class="p">{c.panel.p1}</p>
+        <p class="p p--sm">{c.panel.p2}</p>
+        <div class="panel-exp__links">
+          {c.panel.links.map((l) => (
+            <a class="enlace" href={ruta(l.routeKey, lang)}>{l.label}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CierreCoral lang={lang} textura />
+</main>
+
+<style>
+  .h2 { font-size: 36px; line-height: 1.12; margin: 0; }
+  .mb28 { margin-bottom: 28px; }
+  .mb16 { margin-bottom: 16px; }
+  .panel-exp .h2 { font-size: 32px; }
+  .h3 { font-size: 24px; line-height: 1.15; margin: 0 0 8px; }
+  .p { font-family: var(--font-body); font-weight: 500; font-size: 21px; line-height: 1.5; max-width: 62ch; margin: 0; }
+
+  .titulo-capas { padding-block: 24px 0; }
+
+  .capas-svc { padding-block: 40px 88px; }
+  .capas-svc__wrap { display: flex; flex-direction: column; gap: 64px; }
+  .capa-svc__titulo { font-family: var(--font-display); font-weight: 600; font-size: 30px; line-height: 1.12; letter-spacing: -0.02em; max-width: 30ch; margin: 0 0 12px; }
+  .capa-svc__bajada { font-family: var(--font-body); font-weight: 500; font-size: 19px; line-height: 1.5; max-width: 68ch; margin: 0 0 24px; }
+  .capa-svc__etiqueta { font-weight: 700; color: var(--color-coral); }
+
+  .scards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+  .scard { display: flex; flex-direction: column; gap: 10px; height: 100%; background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 24px; color: var(--color-tinta); text-decoration: none; transition: opacity 160ms ease-out; }
+  .scard:hover { opacity: 0.9; }
+  .scard__necesita { font-family: var(--font-body); font-weight: 600; font-size: 16px; color: var(--color-gris-texto); margin: 0; }
+  .scard__titulo { font-size: 22px; line-height: 1.12; color: var(--color-coral); margin: 0; }
+  .scard__resumen { font-family: var(--font-body); font-weight: 500; font-size: 18px; line-height: 1.5; margin: 0; }
+  .scard__meta { margin: auto 0 0; padding-top: 12px; font-family: var(--font-body); font-weight: 500; font-size: 17px; line-height: 1.5; }
+
+  .primer-paso { padding-block: 0 96px; }
+  .dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .dos-col .p { font-size: 20px; }
+
+  .panel-exp-sec { padding-block: 0 112px; }
+  .panel-exp { background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 48px; }
+  .panel-exp .p { max-width: 70ch; margin-bottom: 14px; }
+  .panel-exp .p--sm { font-size: 19px; margin-bottom: 24px; }
+  .panel-exp__links { display: flex; flex-wrap: wrap; gap: 20px; }
+
+  @media (max-width: 1100px) {
+    .capas-svc { padding-block: 40px 64px; }
+    .scards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dos-col { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (max-width: 720px) {
+    .scards { grid-template-columns: 1fr; }
+    .panel-exp { padding: 32px 24px; }
+    .primer-paso { padding-bottom: 56px; }
+    .panel-exp-sec { padding-bottom: 56px; }
+  }
+</style>

@@ -1,134 +1,19 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Image } from "astro:assets";
-import Cta from "../components/Cta.astro";
-import CierreCoral from "../components/CierreCoral.astro";
-import equipoReunion from "../assets/fotos/equipo-reunion-mate.png";
+import CasosBody from "../components/pages/CasosBody.astro";
+import { casosContent } from "../content/casos";
 import { breadcrumbSchema } from "../lib/seo";
 
-const clientes = ["Mercado Libre", "Coca-Cola", "VISA", "EY", "Hewlett-Packard", "Cargill"];
+const c = casosContent.es;
+const translations = { es: "/casos", en: "/en/clients" };
 ---
 
 <Layout
-  title="Clientes y experiencia de Teamcubation"
-  description="Conozca la trayectoria de Teamcubation: más de 90 empresas líderes en 5 países. Entre sus clientes están Mercado Libre y Banco Comafi."
+  title={c.seoTitle}
+  description={c.seoDesc}
+  lang="es"
+  translations={translations}
   schema={[breadcrumbSchema([{ name: "Inicio", path: "/" }, { name: "Clientes", path: "/casos" }])]}
 >
-  <main id="contenido">
-    <!-- Hero -->
-    <section class="hero-casos">
-      <div class="contenedor hero-casos__grid">
-        <div>
-          <p class="kicker">Clientes</p>
-          <h1 class="hero-casos__h1">La experiencia de Teamcubation trabajando con empresas.</h1>
-          <p class="hero-casos__bajada">Teamcubation opera actualmente en 6 países —Argentina, Brasil, Uruguay, Chile, Colombia y España— y entrega sus programas de forma remota a equipos en cualquier geografía. Más de 90 empresas líderes confían en ellos, entre ellas Mercado Libre, Coca-Cola Latam y Visa.</p>
-          <div class="hero-casos__cta"><Cta /></div>
-        </div>
-        <div class="hero-casos__foto">
-          <Image src={equipoReunion} alt="Equipo reunido alrededor de una mesa de trabajo" loading="eager" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Industrias + clientes -->
-    <section class="sec-b96">
-      <div class="contenedor">
-        <h2 class="h2-36 mb32">Equipos y procesos en distintas industrias.</h2>
-        <div class="cards3">
-          <div class="stat">
-            <p class="stat__num">+90</p>
-            <p class="stat__lbl">Más de 90 empresas líderes.</p>
-          </div>
-          <div class="stat">
-            <p class="stat__num">5</p>
-            <p class="stat__lbl">5 países.</p>
-          </div>
-          <div class="stat stat--texto">
-            <p class="stat__lbl">Nuestra trayectoria incluye empresas de banca, salud, logística, energía y tecnología.</p>
-          </div>
-        </div>
-        <h3 class="h3-28">Entre nuestros clientes.</h3>
-        <div class="pills-grandes">
-          {clientes.map((c) => <span class="pill-grande">{c}</span>)}
-        </div>
-      </div>
-    </section>
-
-    <!-- Impacto -->
-    <section class="sec-b96">
-      <div class="contenedor">
-        <div class="angosto">
-          <h2 class="h2-36 mb20">Impacto en los procesos intervenidos.</h2>
-          <p class="destacado">Teamcubation registra resultados de hasta 35% de eficiencia en los procesos intervenidos.</p>
-          <p class="nota">Es un resultado agregado de la experiencia de Teamcubation. No representa un promedio ni una mejora general de toda la empresa, y no se atribuye a cada cliente nombrado en esta página.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Punto de partida -->
-    <section class="sec-b96">
-      <div class="contenedor">
-        <div class="angosto">
-          <h2 class="h2-36 mb20">El punto de partida es una necesidad concreta.</h2>
-          <p class="p21 mb24">Un proceso que necesita automatizarse, un equipo que empieza a usar IA o un producto que debe construirse. El trabajo de Teamcubation parte de esa necesidad y de la capacidad que la empresa quiere desarrollar en su gente.</p>
-          <div class="links">
-            <a class="enlace" href="/metodologia">Conocer la metodología</a>
-            <a class="enlace" href="/servicios">Comparar los programas</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <CierreCoral
-      titulo="Data Driven On-the-job Tech Training"
-      texto="Conversemos sobre cómo potenciar su compañía con AI."
-    />
-  </main>
+  <CasosBody lang="es" />
 </Layout>
-
-<style>
-  .h2-36 { font-size: 36px; line-height: 1.12; margin: 0; }
-  .h3-28 { font-size: 28px; line-height: 1.12; margin: 48px 0 20px; }
-  .mb32 { margin-bottom: 32px; }
-  .mb24 { margin-bottom: 24px; }
-  .mb20 { margin-bottom: 20px; }
-  .p21 { font-family: var(--font-body); font-weight: 500; font-size: 21px; line-height: 1.5; margin: 0; }
-
-  .sec-b96 { padding-block: 0 96px; }
-  .angosto { max-width: 900px; margin-inline: auto; }
-
-  /* Hero */
-  .hero-casos { padding-block: 72px 64px; }
-  .hero-casos__grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
-  .hero-casos__h1 { font-size: clamp(36px, 4.2vw, 54px); line-height: 1.1; letter-spacing: -0.02em; max-width: 20ch; margin: 0; }
-  .hero-casos__bajada { font-family: var(--font-body); font-weight: 500; font-size: 23px; line-height: 1.45; max-width: 64ch; margin: 24px 0 0; }
-  .hero-casos__cta { margin-top: 32px; }
-  .hero-casos__foto { aspect-ratio: 16 / 10; border-radius: var(--radius-tarjeta); overflow: hidden; }
-  .hero-casos__foto :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-  /* Stats */
-  .cards3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
-  .stat { background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 32px; }
-  .stat--texto { display: flex; align-items: center; }
-  .stat__num { font-family: var(--font-display); font-weight: 650; font-size: 52px; line-height: 1; letter-spacing: -0.02em; margin: 0; }
-  .stat__lbl { font-family: var(--font-body); font-weight: 500; font-size: 19px; line-height: 1.5; margin: 8px 0 0; }
-  .stat--texto .stat__lbl { margin: 0; }
-
-  .pills-grandes { display: flex; flex-wrap: wrap; gap: 16px; }
-  .pill-grande { background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 12px 26px; font-family: var(--font-display); font-weight: 650; font-size: 24px; }
-
-  /* Impacto */
-  .destacado { font-family: var(--font-display); font-weight: 600; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.25; margin: 0 0 20px; }
-  .nota { font-family: var(--font-body); font-weight: 500; font-size: 19px; line-height: 1.5; color: var(--color-gris-texto); margin: 0; }
-
-  .links { display: flex; flex-wrap: wrap; gap: 20px; }
-
-  @media (max-width: 1100px) {
-    .hero-casos__grid { grid-template-columns: 1fr; gap: 40px; }
-    .cards3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 720px) {
-    .cards3 { grid-template-columns: 1fr; }
-    .sec-b96 { padding-bottom: 56px; }
-  }
-</style>

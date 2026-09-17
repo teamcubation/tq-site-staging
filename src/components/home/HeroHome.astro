@@ -1,7 +1,31 @@
 ---
 // Hero de Home — video 3D scrubbeado por scroll (el scroll controla el frame).
-// Fallback al poster en reduced-motion / si el video falla. Texto EXACTO del render v2.
+// Fallback al poster en reduced-motion / si el video falla. Content-driven (ES default).
 import Cta from "../Cta.astro";
+import { defaultLocale, type Locale } from "../../i18n/config";
+
+export interface HeroContent {
+  eyebrow: string;
+  tituloHtml: string; // permite <span class="resaltado">
+  subhead: string;
+  bajadaHtml: string; // permite <br> y <b>
+}
+
+interface Props {
+  content?: HeroContent;
+  lang?: Locale;
+}
+
+const esDefault: HeroContent = {
+  eyebrow: "La inversión en IA necesita adopción.",
+  tituloHtml:
+    '¿Su compañía está aprovechando todo <span class="resaltado">el potencial de la IA?</span>',
+  subhead: "Entrenamos a sus equipos para adoptar IA con impacto real en el negocio.",
+  bajadaHtml:
+    "A diferencia de un curso sus colaboradores aprenden, guiados por nuestros mentores expertos, trabajando en procesos y proyectos reales de su día a día.<br />Porque la experiencia no se enseña: <b>se entrena</b>.",
+};
+
+const { content = esDefault, lang = defaultLocale } = Astro.props;
 ---
 
 <section class="hero" data-hero>
@@ -20,21 +44,12 @@ import Cta from "../Cta.astro";
   <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="hero__text">
-    <p class="hero__eyebrow">La inversión en IA necesita adopción.</p>
-    <h1 class="hero__titulo">
-      ¿Su compañía está aprovechando todo
-      <span class="resaltado">el potencial de la IA?</span>
-    </h1>
-    <p class="hero__subhead">
-      Entrenamos a sus equipos para adoptar IA con impacto real en el negocio.
-    </p>
-    <p class="hero__bajada">
-      A diferencia de un curso sus colaboradores aprenden, guiados por nuestros mentores
-      expertos, trabajando en procesos y proyectos reales de su día a día.<br />
-      Porque la experiencia no se enseña: <b>se entrena</b>.
-    </p>
+    <p class="hero__eyebrow">{content.eyebrow}</p>
+    <h1 class="hero__titulo" set:html={content.tituloHtml} />
+    <p class="hero__subhead">{content.subhead}</p>
+    <p class="hero__bajada" set:html={content.bajadaHtml} />
     <div class="hero__acciones">
-      <Cta />
+      <Cta lang={lang} />
     </div>
   </div>
 </section>

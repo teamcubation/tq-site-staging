@@ -1,10 +1,22 @@
 ---
 import Cta from "./Cta.astro";
-import { navPrincipal, ctaPrincipal } from "../data/site";
+import { rutas, ruta } from "../i18n/routes";
+import { ui } from "../i18n/ui";
+import { defaultLocale, locales, type Locale } from "../i18n/config";
+
+interface Props {
+  lang?: Locale;
+  /** Path equivalente por idioma (para el selector). Opcional. */
+  translations?: Partial<Record<Locale, string>>;
+}
+const { lang = defaultLocale, translations } = Astro.props;
+
+const navKeys = ["metodologia", "servicios", "teamboarding", "casos", "nosotros"];
+const items = navKeys.map((k) => rutas[k][lang]);
 ---
 
 <header class="cabecera" data-cabecera>
-  <a class="cabecera__logo" href="/" aria-label="Teamcubation — inicio">
+  <a class="cabecera__logo" href={ruta("home", lang)} aria-label="Teamcubation">
     <img
       src="/brand/logo-horizontal-color.svg"
       alt="Teamcubation"
@@ -14,11 +26,24 @@ import { navPrincipal, ctaPrincipal } from "../data/site";
     />
   </a>
 
-  <nav class="cabecera__nav" aria-label="Navegación principal">
-    {navPrincipal.map((item) => <a href={item.href}>{item.label}</a>)}
+  <nav class="cabecera__nav" aria-label={ui[lang].navAria}>
+    {items.map((item) => <a href={item.path}>{item.label}</a>)}
   </nav>
 
-  <Cta href={ctaPrincipal.href} label={ctaPrincipal.label} tamano="sm" class="cabecera__cta" />
+  <div class="cabecera__acciones">
+    {translations && (
+      <div class="lang" aria-label="Idioma">
+        {locales.map((loc) =>
+          loc === lang ? (
+            <span class="lang__actual" aria-current="true">{loc.toUpperCase()}</span>
+          ) : translations[loc] ? (
+            <a href={translations[loc]} hreflang={loc} title={ui[loc].langNombre}>{loc.toUpperCase()}</a>
+          ) : null
+        )}
+      </div>
+    )}
+    <Cta lang={lang} tamano="sm" class="cabecera__cta" />
+  </div>
 </header>
 
 <style>
@@ -35,21 +60,9 @@ import { navPrincipal, ctaPrincipal } from "../data/site";
     -webkit-backdrop-filter: blur(8px);
     padding: 20px 64px;
   }
-  .cabecera__logo {
-    flex: none;
-    display: block;
-  }
-  .cabecera__logo img {
-    height: 38px;
-    width: auto;
-    display: block;
-  }
-  .cabecera__nav {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 28px;
-  }
+  .cabecera__logo { flex: none; display: block; }
+  .cabecera__logo img { height: 38px; width: auto; display: block; }
+  .cabecera__nav { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; }
   .cabecera__nav a {
     font-family: var(--font-body);
     font-weight: 600;
@@ -57,11 +70,12 @@ import { navPrincipal, ctaPrincipal } from "../data/site";
     color: var(--color-tinta);
     text-decoration: none;
   }
-  .cabecera__cta {
-    flex: none;
-  }
+  .cabecera__acciones { display: flex; align-items: center; gap: 20px; flex: none; }
+  .lang { display: flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 600; font-size: 15px; }
+  .lang a { color: var(--color-gris-texto); text-decoration: none; }
+  .lang a:hover { color: var(--color-tinta); }
+  .lang__actual { color: var(--color-tinta); }
 
-  /* ≤1100px: la nav pasa a una segunda fila (sin hamburguesa, como el diseño). */
   @media (max-width: 1100px) {
     .cabecera {
       flex-wrap: wrap;
@@ -79,22 +93,11 @@ import { navPrincipal, ctaPrincipal } from "../data/site";
     }
   }
   @media (max-width: 720px) {
-    .cabecera {
-      padding-left: 24px;
-      padding-right: 24px;
-    }
+    .cabecera { padding-left: 24px; padding-right: 24px; }
   }
   @media (max-width: 480px) {
-    .cabecera {
-      padding-top: 16px;
-      padding-bottom: 16px;
-      row-gap: 12px;
-    }
-    .cabecera__nav {
-      column-gap: 16px;
-    }
-    .cabecera__logo img {
-      height: 28px;
-    }
+    .cabecera { padding-top: 16px; padding-bottom: 16px; row-gap: 12px; }
+    .cabecera__nav { column-gap: 16px; }
+    .cabecera__logo img { height: 28px; }
   }
 </style>

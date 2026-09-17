@@ -1,35 +1,46 @@
 ---
-import { conozca, programas, footerBrand, email } from "../data/site";
+import { rutas, ruta, rutaPrograma } from "../i18n/routes";
+import { servicios, ORDEN } from "../data/servicios";
+import { ui, email } from "../i18n/ui";
+import { defaultLocale, type Locale } from "../i18n/config";
+
+interface Props {
+  lang?: Locale;
+}
+const { lang = defaultLocale } = Astro.props;
+
+const t = ui[lang];
+const conoce = ["metodologia", "servicios", "teamboarding", "casos", "nosotros", "contacto"].map(
+  (k) => rutas[k][lang]
+);
+const programas = ORDEN.map((k) => ({
+  label: servicios[k].nombre,
+  href: rutaPrograma(servicios[k].slug, lang),
+}));
 ---
 
 <footer class="pie">
   <div class="pie__grid">
     <div class="pie__marca">
-      <a href="/" aria-label="Teamcubation — inicio" class="pie__logo">
-        <img
-          src="/brand/logo-horizontal-color.svg"
-          alt="Teamcubation"
-          width="177"
-          height="39"
-          decoding="async"
-        />
+      <a href={ruta("home", lang)} aria-label="Teamcubation" class="pie__logo">
+        <img src="/brand/logo-horizontal-color.svg" alt="Teamcubation" width="177" height="39" decoding="async" />
       </a>
-      <p class="pie__claim">{footerBrand.claim}</p>
-      <p class="pie__desc">{footerBrand.descripcion}</p>
+      <p class="pie__claim">{t.footerClaim}</p>
+      <p class="pie__desc">{t.footerDesc}</p>
       <a class="pie__email" href={`mailto:${email}`}>{email}</a>
     </div>
 
-    <nav class="pie__nav" aria-label="Pie de página">
+    <nav class="pie__nav" aria-label={t.footerAria}>
       <div class="pie__grupo">
-        <h2 class="pie__titulo">Conozca Teamcubation</h2>
+        <h2 class="pie__titulo">{t.footerConoce}</h2>
         <ul>
-          {conozca.map((i) => (
-            <li><a href={i.href}>{i.label}</a></li>
+          {conoce.map((i) => (
+            <li><a href={i.path}>{i.label}</a></li>
           ))}
         </ul>
       </div>
       <div class="pie__grupo">
-        <h2 class="pie__titulo">Programas</h2>
+        <h2 class="pie__titulo">{t.footerProgramas}</h2>
         <ul>
           {programas.map((i) => (
             <li><a href={i.href}>{i.label}</a></li>
@@ -39,101 +50,31 @@ import { conozca, programas, footerBrand, email } from "../data/site";
     </nav>
   </div>
 
-  <p class="pie__copy">{footerBrand.copyright}</p>
+  <p class="pie__copy">{t.footerCopy}</p>
 </footer>
 
 <style>
-  .pie {
-    background: var(--color-gris-claro);
-    padding: 64px;
-  }
-  .pie__grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 48px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .pie__logo img {
-    height: 39px;
-    width: auto;
-    display: block;
-  }
-  .pie__claim {
-    font-family: var(--font-display);
-    font-weight: 650;
-    font-size: 22px;
-    line-height: 1.15;
-    margin: 20px 0 0;
-  }
-  .pie__desc {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 17px;
-    line-height: 1.5;
-    margin: 12px 0 0;
-    max-width: 34ch;
-  }
-  .pie__email {
-    display: inline-block;
-    margin-top: 16px;
-    font-weight: 600;
-    text-decoration: none;
-  }
-  .pie__nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px;
-  }
-  .pie__titulo {
-    font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 16px;
-    margin: 0 0 12px;
-  }
-  .pie__grupo ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .pie__grupo a {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 16px;
-    color: var(--color-tinta);
-    text-decoration: none;
-  }
-  .pie__copy {
-    max-width: 1200px;
-    margin: 40px auto 0;
-    color: var(--color-gris-texto);
-    font-size: 17px;
-  }
+  .pie { background: var(--color-gris-claro); padding: 64px; }
+  .pie__grid { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; max-width: 1200px; margin: 0 auto; }
+  .pie__logo img { height: 39px; width: auto; display: block; }
+  .pie__claim { font-family: var(--font-display); font-weight: 650; font-size: 22px; line-height: 1.15; margin: 20px 0 0; }
+  .pie__desc { font-family: var(--font-body); font-weight: 500; font-size: 17px; line-height: 1.5; margin: 12px 0 0; max-width: 34ch; }
+  .pie__email { display: inline-block; margin-top: 16px; font-weight: 600; text-decoration: none; }
+  .pie__nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  .pie__titulo { font-family: var(--font-body); font-weight: 700; font-size: 16px; margin: 0 0 12px; }
+  .pie__grupo ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .pie__grupo a { font-family: var(--font-body); font-weight: 500; font-size: 16px; color: var(--color-tinta); text-decoration: none; }
+  .pie__copy { max-width: 1200px; margin: 40px auto 0; color: var(--color-gris-texto); font-size: 17px; }
 
   @media (max-width: 1100px) {
-    .pie {
-      padding: 48px 40px;
-    }
-    .pie__grid {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
+    .pie { padding: 48px 40px; }
+    .pie__grid { grid-template-columns: 1fr; gap: 40px; }
   }
   @media (max-width: 720px) {
-    .pie {
-      padding-left: 24px;
-      padding-right: 24px;
-    }
+    .pie { padding-left: 24px; padding-right: 24px; }
   }
   @media (max-width: 480px) {
-    .pie {
-      padding: 48px 24px;
-    }
-    .pie__nav {
-      grid-template-columns: 1fr;
-    }
+    .pie { padding: 48px 24px; }
+    .pie__nav { grid-template-columns: 1fr; }
   }
 </style>
