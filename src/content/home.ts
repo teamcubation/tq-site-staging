@@ -54,7 +54,7 @@ export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
         '¿Su compañía está aprovechando todo <span class="resaltado">el potencial de la IA?</span>',
       subhead: "Entrenamos a sus equipos para adoptar IA con impacto real en el negocio.",
       bajadaHtml:
-        "A diferencia de un curso sus colaboradores aprenden, guiados por nuestros mentores expertos, trabajando en procesos y proyectos reales de su día a día.<br />Porque la experiencia no se enseña: <b>se entrena</b>.",
+        "A diferencia de un curso sus colaboradores aprenden, guiados por nuestros mentores expertos, trabajando en procesos y proyectos reales de su día a día.<br />Porque la experiencia no se enseña: se entrena.",
     },
     capacidad: {
       h2: "Desarrollamos la capacidad de tu empresa para usar y construir la tecnología que necesita.",
@@ -154,7 +154,7 @@ export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
         'Is your company harnessing all <span class="resaltado">the potential of AI?</span>',
       subhead: "We train your teams to adopt AI with real business impact.",
       bajadaHtml:
-        "Unlike a course, your people learn by working on the real processes and projects of their day-to-day, guided by our expert mentors.<br />Because experience isn't taught: <b>it's trained</b>.",
+        "Unlike a course, your people learn by working on the real processes and projects of their day-to-day, guided by our expert mentors.<br />Because experience isn't taught: it's trained.",
     },
     capacidad: {
       h2: "We build your company's capability to use and build the technology it needs.",
@@ -253,7 +253,7 @@ export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
         'A sua empresa está aproveitando todo <span class="resaltado">o potencial da IA?</span>',
       subhead: "Treinamos as suas equipes para adotar IA com impacto real no negócio.",
       bajadaHtml:
-        "Diferente de um curso, as suas pessoas aprendem trabalhando nos processos e projetos reais do seu dia a dia, guiadas pelos nossos mentores especialistas.<br />Porque a experiência não se ensina: <b>se treina</b>.",
+        "Diferente de um curso, as suas pessoas aprendem trabalhando nos processos e projetos reais do seu dia a dia, guiadas pelos nossos mentores especialistas.<br />Porque a experiência não se ensina: se treina.",
     },
     capacidad: {
       h2: "Desenvolvemos a capacidade da sua empresa para usar e construir a tecnologia que ela precisa.",

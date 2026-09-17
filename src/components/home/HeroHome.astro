@@ -94,8 +94,8 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
   .hero__text {
     position: relative;
     z-index: 3;
-    width: 50%;
-    max-width: 700px;
+    width: 54%;
+    max-width: 780px;
     padding: clamp(48px, 7vh, 96px) clamp(24px, 3.6vw, 72px) clamp(56px, 8vh, 104px);
   }
   .hero__eyebrow {
@@ -112,6 +112,19 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
     letter-spacing: -0.02em;
     margin: 0;
   }
+  /* En desktop, la frase resaltada del h1 no se parte de renglón y su
+     fondo lima tiene un alto fijo de 69px (texto centrado). */
+  @media (min-width: 1000px) {
+    .hero__titulo :global(.resaltado) {
+      white-space: nowrap;
+      height: 69px;
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
   .hero__subhead {
     font-family: var(--font-display);
     font-weight: 600;
@@ -121,9 +134,9 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
     margin: 18px 0 0;
   }
   .hero__bajada {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: clamp(18px, 1.4vw, 24px);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
     line-height: 1.2;
     max-width: 44ch;
     margin: 14px 0 0;
@@ -138,7 +151,7 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
 
   @media (max-width: 1200px) {
     .hero__text { width: 62%; }
-    .hero__titulo { max-width: 20ch; }
+    .hero__titulo { max-width: 23ch; }
   }
   @media (max-width: 1000px) {
     .hero {
