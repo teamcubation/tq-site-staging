@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import Cta from "../Cta.astro";
 import Faq from "../Faq.astro";
 import CierreCoral from "../CierreCoral.astro";
-import { servicios, serviciosEn, type Servicio } from "../../data/servicios";
+import { getServicios, type Servicio } from "../../data/servicios";
 import { ruta, rutaPrograma } from "../../i18n/routes";
 import { defaultLocale, type Locale } from "../../i18n/config";
 
@@ -12,9 +12,9 @@ interface Props {
   lang?: Locale;
 }
 const { svc, lang = defaultLocale } = Astro.props;
-const all = lang === "en" ? serviciosEn : servicios;
+const all = getServicios(lang);
 
-// Strings fijos del template por idioma (PT cae a ES por ahora).
+// Strings fijos del template por idioma.
 const strings = {
   es: {
     inicio: "Inicio",
@@ -34,8 +34,17 @@ const strings = {
     alt: `3D scene of the ${svc.nombre} program`,
     migaAria: "Breadcrumb",
   },
+  pt: {
+    inicio: "Início",
+    servicios: "Serviços",
+    faqH2: "Perguntas frequentes.",
+    otrosH2: "Explore outros programas.",
+    metLink: "Como trabalhamos na Teamcubation",
+    alt: `Cena 3D do programa ${svc.nombre}`,
+    migaAria: "Trilha de navegação",
+  },
 };
-const t = strings[lang === "en" ? "en" : "es"];
+const t = strings[lang];
 
 // Ilustración del hero (astro:assets, optimizada).
 const modulos = import.meta.glob<{ default: ImageMetadata }>(

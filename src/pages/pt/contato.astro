@@ -1,0 +1,19 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContactoBody from "../../components/pages/ContactoBody.astro";
+import { contactoContent } from "../../content/contacto";
+import { breadcrumbSchema } from "../../lib/seo";
+
+const c = contactoContent.pt;
+const translations = { es: "/contacto", en: "/en/contact", pt: "/pt/contato" };
+---
+
+<Layout
+  title={c.seoTitle}
+  description={c.seoDesc}
+  lang="pt"
+  translations={translations}
+  schema={[breadcrumbSchema([{ name: "Início", path: "/pt/" }, { name: "Contato", path: "/pt/contato" }])]}
+>
+  <ContactoBody lang="pt" />
+</Layout>

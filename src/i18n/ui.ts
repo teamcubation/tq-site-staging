@@ -53,7 +53,7 @@ export const ui: Record<Locale, {
     footerClaim: "A capacidade fica nas pessoas.",
     footerDesc: "A Teamcubation treina equipes para adotar IA nos seus processos e construir capacidades que crescem dentro da empresa.",
     footerCopy: "Teamcubation. A experiência não se ensina: se treina.",
-    cierreTexto: "Vamos conversar sobre como potencializar sua empresa com AI.",
+    cierreTexto: "Vamos conversar sobre como potencializar sua empresa com IA.",
     langNombre: "Português",
   },
 };

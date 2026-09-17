@@ -26,7 +26,7 @@ export interface CasosContent {
   cierreTexto: string;
 }
 
-export const casosContent: Record<"es" | "en", CasosContent> = {
+export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   es: {
     seoTitle: "Clientes y experiencia de Teamcubation",
     seoDesc: "Conozca la trayectoria de Teamcubation: más de 90 empresas líderes en 5 países. Entre sus clientes están Mercado Libre y Banco Comafi.",
@@ -79,5 +79,32 @@ export const casosContent: Record<"es" | "en", CasosContent> = {
       { label: "Compare the programs", href: "/en/services" },
     ],
     cierreTexto: "Let's talk about how to power your company with AI.",
+  },
+
+  pt: {
+    seoTitle: "Clientes e experiência da Teamcubation",
+    seoDesc: "Conheça a trajetória da Teamcubation: mais de 90 empresas líderes em 5 países. Entre seus clientes estão o Mercado Livre e o Banco Comafi.",
+    kicker: "Clientes",
+    heroH1: "A experiência da Teamcubation trabalhando com empresas.",
+    heroBajada: "A Teamcubation atua atualmente em 6 países —Argentina, Brasil, Uruguai, Chile, Colômbia e Espanha— e entrega seus programas de forma remota a equipes em qualquer geografia. Mais de 90 empresas líderes confiam neles, entre elas Mercado Livre, Coca-Cola Latam e Visa.",
+    heroImgAlt: "Equipe reunida ao redor de uma mesa de trabalho",
+    industriasH2: "Equipes e processos em diferentes indústrias.",
+    stats: [
+      { num: "+90", lbl: "Mais de 90 empresas líderes." },
+      { num: "5", lbl: "5 países." },
+      { lbl: "Nossa trajetória inclui empresas de banca, saúde, logística, energia e tecnologia." },
+    ],
+    clientesH3: "Entre nossos clientes.",
+    clientes: ["Mercado Libre", "Coca-Cola", "VISA", "EY", "Hewlett-Packard", "Cargill"],
+    impactoH2: "Impacto nos processos em que atuamos.",
+    destacado: "A Teamcubation registra resultados de até 35% de eficiência nos processos em que atuou.",
+    nota: "É um resultado agregado da experiência da Teamcubation. Não representa uma média nem uma melhoria geral de toda a empresa, e não é atribuído a cada cliente citado nesta página.",
+    partidaH2: "O ponto de partida é uma necessidade concreta.",
+    partidaP: "Um processo que precisa ser automatizado, uma equipe que começa a usar IA ou um produto que precisa ser construído. O trabalho da Teamcubation parte dessa necessidade e da capacidade que a empresa quer desenvolver em sua gente.",
+    links: [
+      { label: "Conheça nossa metodologia", href: "/pt/metodologia" },
+      { label: "Comparar os programas", href: "/pt/servicos" },
+    ],
+    cierreTexto: "Vamos conversar sobre como potencializar a sua empresa com IA.",
   },
 };

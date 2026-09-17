@@ -46,7 +46,7 @@ export interface HomeContent {
   };
 }
 
-export const homeContent: Record<"es" | "en", HomeContent> = {
+export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
   es: {
     hero: {
       eyebrow: "La inversión en IA necesita adopción.",
@@ -243,6 +243,105 @@ export const homeContent: Record<"es" | "en", HomeContent> = {
       criterioFoto: "A mentor points at a laptop screen next to a collaborator taking notes",
       resultadoFoto: "A team looking at a result on screen",
       airankImg: "Concrete steps that green teams climb with lime glass and amber resin pieces, while an orange mentor points from above",
+    },
+  },
+
+  pt: {
+    hero: {
+      eyebrow: "O investimento em IA precisa de adoção.",
+      tituloHtml:
+        'A sua empresa está aproveitando todo <span class="resaltado">o potencial da IA?</span>',
+      subhead: "Treinamos as suas equipes para adotar IA com impacto real no negócio.",
+      bajadaHtml:
+        "Diferente de um curso, as suas pessoas aprendem trabalhando nos processos e projetos reais do seu dia a dia, guiadas pelos nossos mentores especialistas.<br />Porque a experiência não se ensina: <b>se treina</b>.",
+    },
+    capacidad: {
+      h2: "Desenvolvemos a capacidade da sua empresa para usar e construir a tecnologia que ela precisa.",
+      listaIntro: "Na Teamcubation treinamos as equipes sobre os seus próprios processos e projetos:",
+      bullets: [
+        "Acompanhamos as pessoas não técnicas que precisam incorporar IA ao seu trabalho.",
+        "Também treinamos novos desenvolvedores enquanto constroem o software que a empresa precisa.",
+      ],
+      p: "A experiência que se constrói fazendo fica nas pessoas e permite que encarem o próximo desafio com mais autonomia.",
+      chips: ["Processos reais", "Experiência", "Capacidade"],
+      link: { label: "Conheça a nossa metodologia", href: "/pt/metodologia" },
+    },
+    dosfotos: {
+      criterioH2Html: 'O <span class="resaltado">critério</span> se forma fazendo.',
+      criterioP:
+        "Ter acesso a uma ferramenta é o começo. Aprender a pensar de forma sistêmica, escolher qual problema resolver, entender como funciona uma solução e avaliar como implementá-la exige execução sobre o trabalho real.",
+      criterioLink: { label: "Conheça a nossa metodologia", href: "/pt/metodologia" },
+      capacidadH2: "A capacidade fica nas pessoas.",
+      panelP:
+        "O nosso objetivo é que cada equipe possa sustentar o que constrói e resolver o próximo problema com mais autonomia.",
+    },
+    capas: {
+      grande: "O que podemos alcançar juntos?",
+      headH2: "Um ponto de partida para cada equipe.",
+      intro:
+        "Desde aplicar IA nas tarefas do dia a dia até construir software e formar desenvolvedores. Cada equipe começa conforme o que precisa resolver e a experiência que já tem.",
+      capas: [
+        {
+          titulo: "Fazer com que as pessoas da sua empresa usem todo o potencial da IA para trabalhar com mais eficiência.",
+          prefijo: "Camada de superfície — equipes de negócio.",
+          desc: "As suas equipes conhecem as tarefas que precisam melhorar. O treinamento parte desse conhecimento e trabalha sobre as suas ferramentas e processos com foco na adoção.",
+          imgAlt: "Colaboradores verdes e um mentor laranja movendo uma esfera lima sobre um bloco de concreto",
+          programas: [
+            { nombre: "Starter AI", href: "/pt/servicos/starter-ai", desc: "Equipes sem experiência prévia aprendem a usar IA nas suas tarefas e com as ferramentas que já têm.", dato: "Um mês." },
+            { nombre: "Booster AI", href: "/pt/servicos/booster-ai", desc: "Equipes de negócio automatizam os seus próprios processos com IA e agentes, acompanhadas por mentores especialistas.", dato: "Cinco semanas." },
+            { nombre: "Booster AI Intensivo", href: "/pt/servicos/booster-ai-intensivo", desc: "Seis pessoas em três duplas constroem uma primeira automação real por dupla, em um piloto delimitado.", dato: "Uma semana." },
+          ],
+        },
+        {
+          titulo: "Fazer com que as pessoas mais avançadas no uso da IA possam construir tecnologia.",
+          prefijo: "Camada intermediária — construção com IA.",
+          desc: "Os perfis de negócio podem criar ferramentas internas. Os perfis técnicos podem se aprofundar em integrações e processos de maior complexidade.",
+          imgAlt: "Equipes verdes e laranjas construindo estruturas de concreto com anéis âmbar e peças lima",
+          programas: [
+            { nombre: "VibeCode Studio", href: "/pt/servicos/vibecode-studio", desc: "Equipes que já usam IA constroem microaplicações de negócio, sem programação tradicional.", dato: "Dois meses." },
+            { nombre: "AI Builders", href: "/pt/servicos/ai-builders", desc: "Perfis técnicos se formam para construir automações complexas e integrações entre sistemas dentro da sua empresa.", dato: "Quatro meses, dedicação integral." },
+          ],
+        },
+        {
+          titulo: "Incorporar talento e habilidades tech à sua equipe.",
+          prefijo: "Núcleo IT — equipes de desenvolvimento.",
+          desc: "Treinamos as equipes de desenvolvimento para incorporar IA e formamos desenvolvedores enquanto constroem o software que a empresa precisa.",
+          imgAlt: "Torre densa de concreto em contra-plongée que equipes verdes e laranjas escalam com peças lima e âmbar",
+          programas: [
+            { nombre: "Booster AI Dev", href: "/pt/servicos/booster-ai-dev", desc: "Equipes de desenvolvimento incorporam ferramentas e agentes de IA sobre o seu sprint e os seus repositórios.", dato: "Um mês." },
+            { nombre: "Incubation", href: "/pt/servicos/incubation", desc: "Software construído enquanto se formam os desenvolvedores que depois podem se integrar à sua equipe.", dato: "Seis meses." },
+          ],
+        },
+      ],
+    },
+    airank: {
+      eyebrow: "Diagnóstico · sem custo",
+      h2: "Como as pessoas da sua organização usam a IA?",
+      intro: "Antes de escolher um programa, convém saber de onde parte cada pessoa.",
+      cardTitulo: "AI Rank",
+      cardDesc: "Diagnóstico gratuito de adoção de IA. Mede o nível real de cada pessoa por função e por dimensão.",
+      bullets: [
+        "A distância entre o nível atual e o que a sua empresa precisa",
+        "Qual programa corresponde conforme a lacuna",
+        "Sem custo e sem compromisso.",
+      ],
+      accion: "Fazer o diagnóstico",
+    },
+    evidencia: {
+      h2: "Experiência construída com empresas de diferentes setores.",
+      p: "Trabalhamos com mais de 90 empresas líderes na Argentina, Brasil, Uruguai, Colômbia e Espanha. Entre os nossos clientes estão empresas como Mercado Livre, Coca-Cola e Visa.",
+      stats: [
+        { num: "+90", lbl: "Mais de 90 empresas líderes." },
+        { num: "5", lbl: "5 países: Argentina, Brasil, Uruguai, Colômbia e Espanha." },
+        { num: "35%", lbl: "Até 35% de melhoria de eficiência nos processos em que atuamos." },
+      ],
+      link: { label: "Conheça a nossa trajetória", href: "/pt/clientes" },
+    },
+    alts: {
+      capacidadImg: "Torre de concreto branco em contra-plongée que equipes verdes e laranjas escalam com peças âmbar e lima",
+      criterioFoto: "Uma mentora aponta para a tela de um laptop ao lado de um colaborador que faz anotações",
+      resultadoFoto: "Equipe olhando um resultado na tela",
+      airankImg: "Degraus de concreto que equipes verdes sobem com peças de vidro lima e resina âmbar, enquanto um mentor laranja aponta de cima",
     },
   },
 };

@@ -17,7 +17,7 @@ export const getStaticPaths = (() => {
 
 const { svc } = Astro.props;
 const slug = svc.slug.replace("/servicios/", "");
-const translations = { es: svc.slug, en: `/en/services/${slug}` };
+const translations = { es: svc.slug, en: `/en/services/${slug}`, pt: `/pt/servicos/${slug}` };
 const schema = [
   serviceSchema(svc, "es"),
   breadcrumbSchema([

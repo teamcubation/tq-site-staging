@@ -15,7 +15,7 @@ export interface ServiciosContent {
   panel: { h2: string; p1: string; p2: string; links: { label: string; routeKey: string }[] };
 }
 
-export const serviciosContent: Record<"es" | "en", ServiciosContent> = {
+export const serviciosContent: Record<"es" | "en" | "pt", ServiciosContent> = {
   es: {
     seoTitle: "Programas de IA para empresas y talento | Teamcubation",
     seoDesc: "Compare ocho servicios según su equipo y su objetivo: adoptar IA, automatizar procesos, crear aplicaciones o desarrollar software formando talento.",
@@ -98,6 +98,49 @@ export const serviciosContent: Record<"es" | "en", ServiciosContent> = {
       links: [
         { label: "Explore our methodology", routeKey: "metodologia" },
         { label: "Discover Teamboarding", routeKey: "teamboarding" },
+      ],
+    },
+  },
+
+  pt: {
+    seoTitle: "Programas de IA para empresas e talentos | Teamcubation",
+    seoDesc: "Compare oito serviços de acordo com a sua equipe e o seu objetivo: adotar IA, automatizar processos, criar aplicações ou desenvolver software formando talentos.",
+    hero: {
+      kicker: "Serviços",
+      tituloHtml: 'Programas de IA e formação de talentos para <span class="resaltado">a sua empresa.</span>',
+      bajada: "A Teamcubation oferece oito serviços para identificar oportunidades de IA, treinar equipes de negócio, formar especialistas internos e desenvolver software enquanto forma desenvolvedores. O ponto de partida depende das suas necessidades e da experiência das suas equipes.",
+      imgAlt: "Figuras verdes e laranjas atravessando juntas um anel âmbar",
+    },
+    tituloCapas: "O que podemos alcançar juntos?",
+    labels: { necesita: "Se você precisa:", publico: "Para quem:", duracion: "Duração:", foco: "Foco:" },
+    capas: [
+      { titulo: "Que as pessoas da sua empresa aproveitem a IA para trabalhar com mais eficiência.", etiqueta: "Camada de superfície — equipes de negócio.", bajada: "Suas equipes conhecem as tarefas que precisam melhorar. O treinamento parte desse conhecimento e trabalha sobre suas ferramentas e processos.", keys: ["starter", "booster", "intensivo"] },
+      { titulo: "Que as pessoas mais avançadas no uso da IA possam construir tecnologia.", etiqueta: "Camada intermediária — construção com IA.", bajada: "Os perfis de negócio podem criar ferramentas internas. Os perfis técnicos podem aprofundar em integrações e processos de maior complexidade.", keys: ["vibecode", "builders"] },
+      { titulo: "Incorporar talentos e novas habilidades tecnológicas à sua equipe de desenvolvimento.", etiqueta: "Núcleo IT — equipes de desenvolvimento.", bajada: "Treinamos as equipes de desenvolvimento para incorporar IA e formamos desenvolvedores enquanto constroem o software que a empresa precisa.", keys: ["dev", "incubation"] },
+    ],
+    items: {
+      starter: { nombre: "Starter AI", necesita: "Usar IA nas tarefas diárias", resumen: "Equipes sem experiência prévia aprendem a usar IA em suas tarefas e com as ferramentas que já têm.", publico: "Equipes não técnicas, até 16 pessoas", duracion: "Um mês", foco: "Aplicação de ferramentas sobre as próprias tarefas" },
+      booster: { nombre: "Booster AI", necesita: "Automatizar processos da equipe", resumen: "Equipes de negócio automatizam seus próprios processos com IA e agentes, acompanhadas por mentores especialistas.", publico: "Equipes de negócio, até 8 pessoas", duracion: "Cinco semanas mais dois meses de acompanhamento", foco: "Automação com IA e agentes" },
+      intensivo: { nombre: "Booster AI Intensivo", necesita: "Testar um piloto delimitado", resumen: "Seis pessoas em três duplas constroem uma primeira automação real por dupla, em um piloto delimitado.", publico: "Seis pessoas em três duplas", duracion: "Uma semana", foco: "Primeira automação real por dupla" },
+      vibecode: { nombre: "VibeCode Studio", necesita: "Criar aplicações internas", resumen: "Equipes que já usam IA constroem micro-aplicações de negócio, sem programação tradicional.", publico: "Equipes que já adotaram IA, até 8 pessoas", duracion: "Dois meses", foco: "Micro-aplicações de negócio" },
+      builders: { nombre: "AI Builders", necesita: "Desenvolver capacidade técnica de automação", resumen: "Perfis técnicos se formam para construir automações complexas e integrações entre sistemas dentro da sua empresa.", publico: "Perfis técnicos, até 3 pessoas", duracion: "Quatro meses, tempo integral", foco: "Automações complexas e integrações" },
+      dev: { nombre: "Booster AI Dev", necesita: "Incorporar IA ao desenvolvimento", resumen: "Equipes de desenvolvimento incorporam ferramentas e agentes de IA em seu sprint e seus repositórios.", publico: "Equipes de desenvolvimento, até 8 pessoas", duracion: "Um mês", foco: "Adoção sobre o sprint real" },
+      incubation: { nombre: "Incubation", necesita: "Construir software e formar desenvolvedores", resumen: "Software construído enquanto se formam os desenvolvedores que depois podem integrar a sua equipe.", publico: "Sua organização e uma equipe mista da Teamcubation", duracion: "Seis meses", foco: "Software e formação sobre o projeto" },
+    },
+    primerPaso: {
+      h2: "O primeiro passo depende do seu ponto de partida.",
+      cols: [
+        { h3: "Sua equipe ainda não usa IA?", pHtml: 'Starter AI trabalha sobre as ferramentas e as tarefas de cada pessoa para construir uma base de uso cotidiano. <a class="enlace" href="/pt/servicos/starter-ai">Começar com Starter AI</a>' },
+        { h3: "Já usa IA e quer automatizar processos?", pHtml: 'Booster AI acompanha a automação dos seus próprios processos. Booster AI Intensivo permite conhecer o método com um piloto delimitado de uma semana. <a class="enlace" href="/pt/servicos/booster-ai">Ver Booster AI</a> · <a class="enlace" href="/pt/servicos/booster-ai-intensivo">Ver o formato Intensivo</a>' },
+      ],
+    },
+    panel: {
+      h2: "Uma forma de construir experiência.",
+      p1: "Os programas de treinamento trabalham sobre necessidades concretas com mentores especialistas e acompanhamento no Teamboarding. Discovery define prioridades; Incubation combina desenvolvimento de software e formação dentro do projeto.",
+      p2: "Starter AI e Booster AI incluem Charlas AI como ponto de partida e acompanhamento aos líderes.",
+      links: [
+        { label: "Conhecer a metodologia", routeKey: "metodologia" },
+        { label: "Conhecer o Teamboarding", routeKey: "teamboarding" },
       ],
     },
   },

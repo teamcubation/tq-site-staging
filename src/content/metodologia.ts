@@ -24,7 +24,7 @@ export interface MetodologiaContent {
   programasH2: string;
 }
 
-export const metodologiaContent: Record<"es" | "en", MetodologiaContent> = {
+export const metodologiaContent: Record<"es" | "en" | "pt", MetodologiaContent> = {
   es: {
     seoTitle: "Entrenamiento en IA sobre procesos reales | Teamcubation",
     seoDesc: "Cómo entrenamos equipos en IA: práctica sobre procesos reales, mentores expertos y seguimiento del avance y el impacto con Teamboarding.",
@@ -149,5 +149,68 @@ export const metodologiaContent: Record<"es" | "en", MetodologiaContent> = {
       { pregunta: "How is progress tracked?", respuesta: "With Teamboarding, which records people's progress and the impact on the processes worked on and generates reports for those supporting the program within the company." },
     ],
     programasH2: "Our programs",
+  },
+
+  pt: {
+    seoTitle: "Treinamento em IA sobre processos reais | Teamcubation",
+    seoDesc: "Como treinamos equipes em IA: prática sobre processos reais, mentores especialistas e acompanhamento do avanço e do impacto com Teamboarding.",
+    kicker: "Metodologia",
+    heroTituloHtml: "A experiência não se ensina: <span class=\"resaltado\">se treina.</span>",
+    heroBajada: "O treinamento acontece dentro do trabalho real: nossos mentores especialistas acompanham cada equipe e cada pessoa enquanto resolvem uma necessidade concreta do negócio.",
+    heroImgAlt: "Um colaborador verde e um mentor laranja carregando juntos uma esfera de concreto",
+    s2: [
+      { h2: "Nós vamos até a mesa das pessoas.", ps: [
+        "Quando alguém faz um curso, diz: «Vou para o curso.» Na Teamcubation, nós vamos até a mesa das pessoas, para trabalhar ao lado delas.",
+        "Partimos da planilha que você precisa organizar, do relatório que você tem que preparar ou do software que você está construindo. O treinamento acontece sobre suas ferramentas, suas tarefas e as decisões do seu trabalho.",
+      ] },
+      { h2: "O trabalho avança. A experiência fica nas pessoas.", ps: [
+        "Um treinamento prévio é uma boa base. Nós acompanhamos sua aplicação a uma necessidade concreta: entender o problema, construir uma resposta e verificar se funciona.",
+        "Assim, o que foi aprendido fica nas pessoas, somado ao trabalho concreto realizado com esses aprendizados no processo.",
+      ] },
+    ],
+    fichas: [
+      { titulo: "Aprender a pensar em processos e sistemas.", ps: [
+        "Com IA, mais pessoas podem construir soluções. Para fazer isso com critério, elas precisam compreender o problema: dividi-lo em passos, identificar quais informações entram, quais regras e exceções existem e como cada mudança afeta o restante.",
+        "Essa forma de pensar, comum no desenvolvimento de software, também é útil em finanças, operações ou recursos humanos. Nossa experiência treinando desenvolvedores orienta como acompanhamos as equipes de negócio.",
+      ] },
+      { titulo: "Um mentor para desenvolver critério.", ps: [
+        "Critério é saber qual problema atacar e quando a solução é boa o suficiente.",
+        "O mentor ajuda a organizar o problema, questionar suposições, destravar o trabalho e avaliar resultados. À medida que avança, a equipe aprende a explicar suas decisões, detectar erros e resolver com mais autonomia.",
+      ], cierreHtml: 'O <span class="resaltado">critério</span> se forma fazendo.' },
+    ],
+    confianza: {
+      h2: "A confiança se constrói com experiência.",
+      p: "Entender uma explicação ou um novo conceito é o começo. Aplicá-la, testar, errar e corrigir sobre uma tarefa própria permite reconhecer o que funciona e por quê. Essa experiência é a base para encarar o próximo problema e adotar o uso da tecnologia de maneira natural.",
+    },
+    acomp: {
+      h2Html: 'Acompanhamento humano, guiado por <span class="resaltado">dados.</span>',
+      guiasH3: "Guias especialistas.",
+      guiasP: "Nos programas de treinamento, os mentores guiam e os participantes constroem. Incubation combina desenvolvedores experientes e pessoas em formação em uma equipe que trabalha sobre o projeto da empresa.",
+      tbH3: "Teamboarding.",
+      tbP: "Teamboarding é a plataforma própria da Teamcubation que registra o avanço de cada pessoa e o impacto em cada processo, personaliza o treinamento e gera os relatórios que o sponsor recebe.",
+      nota: "O sponsor é o responsável pelo programa dentro da sua empresa.",
+      linkLabel: "Conhecer a medição no Teamboarding",
+    },
+    pasosH2: "Como se trabalha, na prática?",
+    pasos: [
+      { titulo: "1. Treinar sobre o trabalho real.", p: "Um guia especialista trabalha junto à equipe sobre suas ferramentas e tarefas. Cada participante constrói experiência enquanto avança sobre um problema que conhece." },
+      { titulo: "2. Medir o avanço.", p: "Teamboarding registra o progresso das pessoas e o impacto sobre os processos trabalhados. Os responsáveis recebem relatórios para acompanhar o percurso." },
+      { titulo: "3. Sustentar o que foi aprendido.", p: "O objetivo é que a equipe possa utilizar o que foi construído e encarar o próximo problema com mais autonomia. A entrega e o acompanhamento são definidos conforme cada programa." },
+    ],
+    quedaImgAlt: "Figuras subindo uma montanha de concreto carregando peças âmbar",
+    quedaH2: "O que fica ao terminar?",
+    queda: [
+      { h3: "IA aplicada às tarefas.", pHtml: 'Starter AI treina o uso de ferramentas sobre as tarefas de cada pessoa.<br><a class="enlace" href="/pt/servicos/starter-ai">Ver Starter AI</a>' },
+      { h3: "Processos e ferramentas próprios.", pHtml: 'Os programas de automação e construção trabalham sobre processos ou aplicações concretos e treinam a equipe para sustentá-los, com o escopo definido em cada programa. <a class="enlace" href="/pt/servicos">Comparar os programas</a>' },
+      { h3: "Software e desenvolvedores formados no projeto.", pHtml: 'Incubation combina a construção de software com a formação de desenvolvedores que podem se integrar à empresa. <a class="enlace" href="/pt/servicos/incubation">Ver Incubation</a>' },
+    ],
+    faqH2: "Perguntas sobre a metodologia.",
+    faqs: [
+      { pregunta: "O que significa on-the-job?", respuesta: "Significa que o treinamento acontece sobre as tarefas da pessoa. Na Teamcubation, cada participante aprende trabalhando sobre uma necessidade própria, acompanhado por um guia especialista." },
+      { pregunta: "O que significa entrega dupla?", respuesta: "A entrega dupla é a solução em produção mais a equipe capacitada para sustentá-la. Expressa o objetivo dos programas de construção e automação da Teamcubation. O escopo concreto é descrito em cada programa; Discovery entrega um diagnóstico." },
+      { pregunta: "Os mentores fazem o trabalho pela equipe?", respuesta: "Nos programas de treinamento, os mentores guiam e os participantes constroem. Incubation combina desenvolvedores experientes e pessoas em formação em uma equipe que trabalha sobre o projeto da empresa." },
+      { pregunta: "Como se acompanha o avanço?", respuesta: "Com Teamboarding, que registra o progresso das pessoas e o impacto nos processos trabalhados e gera relatórios para quem acompanha o programa dentro da empresa." },
+    ],
+    programasH2: "Nossos programas",
   },
 };

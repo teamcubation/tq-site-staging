@@ -27,7 +27,7 @@ export interface TeamboardingContent {
   cierreEnlaceLabel: string;
 }
 
-export const teamboardingContent: Record<"es" | "en", TeamboardingContent> = {
+export const teamboardingContent: Record<"es" | "en" | "pt", TeamboardingContent> = {
   es: {
     seoTitle: "Teamboarding: cómo medimos el avance y el impacto | Teamcubation",
     seoDesc: "Teamboarding es la plataforma propia de Teamcubation que registra el avance de cada persona y el impacto en cada proceso, y genera los informes que recibe el sponsor.",
@@ -98,5 +98,41 @@ export const teamboardingContent: Record<"es" | "en", TeamboardingContent> = {
       { pregunta: "How can the person responsible at my company get to know it?", respuesta: "We can talk about the program your team needs and how its progress is supported with Teamboarding." },
     ],
     cierreEnlaceLabel: "Discover the Teamboarding platform",
+  },
+
+  pt: {
+    seoTitle: "Teamboarding: como medimos o progresso e o impacto | Teamcubation",
+    seoDesc: "O Teamboarding é a plataforma própria da Teamcubation que registra o progresso de cada pessoa e o impacto em cada processo, e gera os relatórios que o sponsor recebe.",
+    kicker: "Teamboarding / Nossa tecnologia",
+    heroH1: "Teamboarding: é como medimos o progresso e o impacto da adoção de IA.",
+    heroSub: "Por trás de cada treinamento: dados.",
+    heroBajada: "O Teamboarding é a plataforma proprietária da Teamcubation que registra o progresso de cada pessoa e o impacto em cada processo, personaliza o treinamento e gera os relatórios que o sponsor recebe.",
+    heroNota: "O sponsor é o responsável pelo programa dentro da sua empresa. Os dados acompanham o trabalho dos mentores e permitem seguir a trajetória da equipe.",
+    heroImgAlt: "Mural de placas de concreto onde figuras registram o progresso da equipe",
+    chips: ["Pessoas", "Processos", "Relatórios"],
+    registraH2: "O que o Teamboarding registra?",
+    registra: [
+      { titulo: "Impacto no que foi trabalhado.", texto: "O trabalho sobre o processo, a aplicação ou o desenvolvimento que cada participante aborda, conforme o programa." },
+      { titulo: "Crescimento de habilidades.", texto: "O progresso das pessoas ao longo do treinamento, para acompanhar sua trajetória e adaptar o trabalho ao seu nível." },
+      { titulo: "Participação no programa.", texto: "Presença, horas de mentoria e satisfação de participantes e responsáveis: informação para acompanhar como o treinamento se desenvolve." },
+    ],
+    infoH2: "Informação que serve para acompanhar a equipe.",
+    informacion: [
+      { titulo: "Relatórios de progresso e impacto.", texto: "Os responsáveis pelo programa recebem informação sobre a trajetória das pessoas e o trabalho sobre os processos." },
+      { titulo: "Guias e resumos.", texto: "O treinamento deixa materiais de referência que ajudam a recuperar e reutilizar o que foi trabalhado." },
+      { titulo: "Uma trajetória que se adapta.", texto: "A informação registrada ajuda a personalizar o acompanhamento conforme o nível e o progresso de cada participante." },
+    ],
+    mentoriaH2: "Mentoria humana e guiada por dados.",
+    mentoriaP: "O mentor trabalha junto às pessoas. O Teamboarding fornece informação para acompanhar esse trabalho. São os dois motores do método da Teamcubation: experiência humana e acompanhamento da trajetória com IA.",
+    linkMetodologia: "Conhecer a metodologia",
+    linkServicios: "Comparar os programas",
+    discoImgAlt: "Figuras empurrando juntas um disco âmbar sobre uma placa de concreto",
+    faqH2: "Perguntas sobre o Teamboarding.",
+    faqs: [
+      { pregunta: "O Teamboarding faz parte da Teamcubation?", respuesta: "Sim. O Teamboarding é a nossa plataforma própria. Funciona como copiloto do mentor: organiza o processo, resguarda seu cumprimento e torna o progresso e os resultados visíveis em tempo real." },
+      { pregunta: "A plataforma substitui o mentor?", respuesta: "O trabalho do mentor e os dados do Teamboarding se complementam. A pessoa treina com acompanhamento especialista; a plataforma registra informação para seguir e personalizar a trajetória." },
+      { pregunta: "Como o responsável da minha empresa pode conhecê-la?", respuesta: "Podemos conversar sobre o programa que sua equipe precisa e como o seu progresso é acompanhado com o Teamboarding." },
+    ],
+    cierreEnlaceLabel: "Conhecer a plataforma Teamboarding",
   },
 };

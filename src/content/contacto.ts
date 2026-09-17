@@ -37,7 +37,7 @@ export interface ContactoContent {
   linkFinal: string;
 }
 
-export const contactoContent: Record<"es" | "en", ContactoContent> = {
+export const contactoContent: Record<"es" | "en" | "pt", ContactoContent> = {
   es: {
     seoTitle: "Contacto | Teamcubation",
     seoDesc: "Conversemos sobre el próximo paso de su equipo: qué proceso necesita mejorar, qué quiere construir y qué programa se ajusta a su necesidad.",
@@ -132,5 +132,53 @@ export const contactoContent: Record<"es" | "en", ContactoContent> = {
       { pregunta: "Can I get in touch if my company doesn't use AI yet?", respuesta: "Yes. We can review the starting point and assess whether it's best to begin with Starter AI or run a Discovery to prioritize opportunities." },
     ],
     linkFinal: "Compare Teamcubation's programs",
+  },
+
+  pt: {
+    seoTitle: "Contato | Teamcubation",
+    seoDesc: "Vamos conversar sobre o próximo passo da sua equipe: qual processo você precisa melhorar, o que quer construir e qual programa se encaixa na sua necessidade.",
+    migaHome: "Início",
+    migaActual: "Contato",
+    heroH1: "Vamos conversar sobre o próximo passo da sua equipe.",
+    heroP: "Conte para a gente qual processo você precisa melhorar, o que quer construir e como sua equipe trabalha hoje. Em uma conversa com a Teamcubation, podemos identificar qual programa se encaixa na sua necessidade e quais informações são necessárias para definir o primeiro passo.",
+    form: {
+      perfilLabel: "Como você se identifica?",
+      perfilPlaceholder: "Selecione uma opção",
+      perfilOpciones: [
+        { value: "empresa", label: "Represento uma empresa" },
+        { value: "rrhh", label: "Trabalho com RH ou desenvolvimento de talentos" },
+        { value: "tech", label: "Lidero uma equipe de tecnologia" },
+        { value: "persona", label: "Busco me treinar individualmente" },
+        { value: "otro", label: "Outro" },
+      ],
+      nombreLabel: "Nome",
+      emailLabel: "E-mail",
+      telLabel: "Telefone",
+      telPaisPlaceholder: "País",
+      telPaisAria: "Código do país",
+      telAreaPlaceholder: "Área",
+      telAreaAria: "Código de área",
+      telNumeroPlaceholder: "Número",
+      telNumeroAria: "Número",
+      mensajeLabel: "Sua mensagem",
+      mensajePlaceholder: "Qual processo você precisa melhorar, o que quer construir e como sua equipe trabalha hoje.",
+      error: "Preencha como você se identifica, seu nome, um e-mail válido e a mensagem.",
+      boton: "Enviar mensagem",
+    },
+    exito: {
+      h2: "Recebemos sua mensagem.",
+      p: "Entraremos em contato em menos de 48 horas úteis para agendar a conversa.",
+    },
+    ayudaH2: "O que nos ajuda a entender sua necessidade?",
+    ayuda: [
+      { titulo: "A equipe.", texto: "Quem participa e qual experiência tem usando IA ou desenvolvendo software." },
+      { titulo: "O ponto de partida.", texto: "Quais ferramentas você usa hoje e qual resultado quer alcançar." },
+    ],
+    faqH2: "Antes de conversar.",
+    faqs: [
+      { pregunta: "Preciso ter escolhido um programa?", respuesta: "Não. Podemos conversar sobre o objetivo da sua equipe e avaliar qual programa faz sentido." },
+      { pregunta: "Posso entrar em contato se minha empresa ainda não usa IA?", respuesta: "Sim. Podemos revisar o ponto de partida e avaliar se vale a pena começar com o Starter AI ou realizar um Discovery para priorizar oportunidades." },
+    ],
+    linkFinal: "Comparar os programas da Teamcubation",
   },
 };

@@ -5,7 +5,7 @@ import { defaultLocale, type Locale } from "../../i18n/config";
 
 interface Props { lang?: Locale }
 const { lang = defaultLocale } = Astro.props;
-const c = contactoContent[lang === "pt" ? "es" : lang];
+const c = contactoContent[lang];
 
 const homeHref = ruta("home", lang);
 const serviciosHref = ruta("servicios", lang);

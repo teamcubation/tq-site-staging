@@ -23,7 +23,7 @@ export interface NosotrosContent {
   criterioLinks: Enlace[];
 }
 
-export const nosotrosContent: Record<"es" | "en", NosotrosContent> = {
+export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
   es: {
     seoTitle: "Qué es Teamcubation: historia y fundadores",
     seoDesc: "Teamcubation fue fundada en 2021 en Buenos Aires por Mariano Wechsler y Diego Jolodenco. Conozca su historia y su método de entrenamiento.",
@@ -97,6 +97,44 @@ export const nosotrosContent: Record<"es" | "en", NosotrosContent> = {
       { label: "Explore our track record", href: "/en/clients" },
       { label: "Explore our methodology", href: "/en/methodology" },
       { label: "Explore Teamboarding", href: "/en/teamboarding" },
+    ],
+  },
+
+  pt: {
+    seoTitle: "O que é a Teamcubation: história e fundadores",
+    seoDesc: "A Teamcubation foi fundada em 2021 em Buenos Aires por Mariano Wechsler e Diego Jolodenco. Conheça a sua história e o seu método de treinamento.",
+    kicker: "Sobre",
+    heroH1: "O que é a Teamcubation e quem a fundou.",
+    heroBajada: "A Teamcubation foi fundada em 2021 na Argentina por Mariano Wechsler e Diego Jolodenco. Começou treinando desenvolvedores juniores que ganhavam experiência e senioridade construindo software real para as empresas que os contratavam desde o início, sem esperar que estivessem prontos. Hoje aplica esse mesmo princípio ao treinamento de equipes na adoção de IA sobre o seu próprio trabalho.",
+    heroMarca: "A experiência não se ensina: se treina.",
+    defQ: {
+      h2: "O que é a Teamcubation?",
+      ps: [
+        "A Teamcubation desenvolve a capacidade das empresas de usar e construir tecnologia, treinando as suas equipes sobre processos e projetos próprios.",
+        "Training tech: a combinação de treinamento e tecnologia que usamos para acompanhar as equipes. Os mentores trabalham sobre as tarefas das pessoas e o Teamboarding contribui com o acompanhamento do percurso.",
+      ],
+    },
+    conviccion: {
+      h2: "Uma convicção que cresceu com o trabalho.",
+      bloques: [
+        { h3: "2021: formar construindo software.", pHtml: 'A Teamcubation nasceu formando desenvolvedores enquanto trabalhavam sobre projetos de software. Essa forma de construir experiência é a base do programa Incubation. <a class="enlace" href="/pt/servicos/incubation">Conhecer o Incubation</a>' },
+        { h3: "Treinar equipes para adotar IA.", pHtml: 'Aplicamos o mesmo princípio às tarefas de negócio, à automação e à construção com IA: que as pessoas desenvolvam experiência trabalhando sobre necessidades que conhecem. <a class="enlace" href="/pt/servicos">Conhecer os programas</a>' },
+      ],
+    },
+    heroImgAlt: "Equipe trabalhando sobre planos e processos próprios na planta",
+    fundadoresH2: "Os fundadores.",
+    fundadores: [
+      { nombre: "Mariano Wechsler", rol: "Cofundador da Teamcubation." },
+      { nombre: "Diego Jolodenco", rol: "Cofundador da Teamcubation." },
+    ],
+    criterioImgAlt: "Mentora trabalhando junto a um participante sobre a sua própria tarefa",
+    criterioH2Html: 'O <span class="resaltado">critério</span> se forma fazendo.',
+    criterioP: "O critério é saber qual problema atacar, se a IA pode ajudar a resolvê-lo e como encará-lo. Se forma decidindo sobre problemas próprios, não sobre casos de exemplo. Os nossos mentores não dão respostas: perguntam por quê, até que a equipe reconheça o padrão e o aplique sozinha.",
+    criterioPaises: "A Teamcubation trabalhou com mais de 90 empresas líderes em 6 países: Argentina, Brasil, Uruguai, Chile, Colômbia e Espanha.",
+    criterioLinks: [
+      { label: "Conhecer a nossa trajetória", href: "/pt/clientes" },
+      { label: "Conhecer a metodologia", href: "/pt/metodologia" },
+      { label: "Conhecer o Teamboarding", href: "/pt/teamboarding" },
     ],
   },
 };
