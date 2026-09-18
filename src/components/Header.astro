@@ -26,23 +26,38 @@ const items = navKeys.map((k) => rutas[k][lang]);
     />
   </a>
 
-  <nav class="cabecera__nav" aria-label={ui[lang].navAria}>
-    {items.map((item) => <a href={item.path}>{item.label}</a>)}
-  </nav>
+  <button
+    class="cabecera__burger"
+    data-burger
+    type="button"
+    aria-label="Abrir menú"
+    aria-expanded="false"
+    aria-controls="menu-principal"
+  >
+    <span class="cabecera__burger-linea"></span>
+    <span class="cabecera__burger-linea"></span>
+    <span class="cabecera__burger-linea"></span>
+  </button>
 
-  <div class="cabecera__acciones">
-    {translations && (
-      <div class="lang" aria-label="Idioma">
-        {locales.map((loc) =>
-          loc === lang ? (
-            <span class="lang__actual" aria-current="true">{loc.toUpperCase()}</span>
-          ) : translations[loc] ? (
-            <a href={translations[loc]} hreflang={loc} title={ui[loc].langNombre}>{loc.toUpperCase()}</a>
-          ) : null
-        )}
-      </div>
-    )}
-    <Cta lang={lang} tamano="sm" class="cabecera__cta" />
+  <div class="cabecera__menu" id="menu-principal" data-menu>
+    <nav class="cabecera__nav" aria-label={ui[lang].navAria}>
+      {items.map((item) => <a href={item.path}>{item.label}</a>)}
+    </nav>
+
+    <div class="cabecera__acciones">
+      {translations && (
+        <div class="lang" aria-label="Idioma">
+          {locales.map((loc) =>
+            loc === lang ? (
+              <span class="lang__actual" aria-current="true">{loc.toUpperCase()}</span>
+            ) : translations[loc] ? (
+              <a href={translations[loc]} hreflang={loc} title={ui[loc].langNombre}>{loc.toUpperCase()}</a>
+            ) : null
+          )}
+        </div>
+      )}
+      <Cta lang={lang} tamano="sm" class="cabecera__cta" />
+    </div>
   </div>
 </header>
 
@@ -62,6 +77,12 @@ const items = navKeys.map((k) => rutas[k][lang]);
   }
   .cabecera__logo { flex: none; display: block; }
   .cabecera__logo img { height: 38px; width: auto; display: block; }
+
+  /* Desktop: el wrapper desaparece y nav + acciones actúan como hijos
+     directos del header (space-between logo·nav·CTA). El burger se oculta. */
+  .cabecera__menu { display: contents; }
+  .cabecera__burger { display: none; }
+
   .cabecera__nav { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; }
   .cabecera__nav a {
     font-family: var(--font-body);
@@ -94,30 +115,98 @@ const items = navKeys.map((k) => rutas[k][lang]);
   .lang a:hover { opacity: 0.85; }
   .lang__actual { background: var(--color-lima); }
 
+  /* Botón hamburguesa (oculto en desktop, visible ≤1100) */
+  .cabecera__burger {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+  }
+  .cabecera__burger-linea {
+    display: block;
+    width: 24px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-tinta);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
   @media (max-width: 1100px) {
     .cabecera {
-      flex-wrap: wrap;
-      row-gap: 14px;
-      column-gap: 24px;
+      position: sticky;
+      flex-wrap: nowrap;
       padding-left: 40px;
       padding-right: 40px;
     }
-    .cabecera__acciones { gap: 16px; }
-    .lang { position: static; transform: none; }
-    .cabecera__nav {
-      order: 3;
-      flex: 1 1 100%;
-      justify-content: flex-start;
-      column-gap: 22px;
-      row-gap: 8px;
+    .cabecera__burger { display: flex; }
+
+    /* Menú colapsable: panel desplegable bajo el header */
+    .cabecera__menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+      padding: 24px 40px 32px;
+      background: #fff;
+      border-top: 1px solid var(--color-linea);
+      box-shadow: 0 10px 24px rgba(23, 20, 20, 0.08);
     }
+    .cabecera.is-open .cabecera__menu { display: flex; }
+
+    .cabecera__nav { flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; }
+    .cabecera__acciones { position: static; flex-direction: column; align-items: flex-start; gap: 18px; width: 100%; }
+    .lang { position: static; transform: none; }
+
+    /* Hamburguesa → X cuando está abierto */
+    .cabecera.is-open .cabecera__burger-linea:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .cabecera.is-open .cabecera__burger-linea:nth-child(2) { opacity: 0; }
+    .cabecera.is-open .cabecera__burger-linea:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   }
   @media (max-width: 720px) {
     .cabecera { padding-left: 24px; padding-right: 24px; }
+    .cabecera__menu { padding-left: 24px; padding-right: 24px; }
   }
   @media (max-width: 480px) {
-    .cabecera { padding-top: 16px; padding-bottom: 16px; row-gap: 12px; }
-    .cabecera__nav { column-gap: 16px; }
+    .cabecera { padding-top: 16px; padding-bottom: 16px; }
     .cabecera__logo img { height: 28px; }
   }
 </style>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-cabecera]");
+  const burger = header?.querySelector<HTMLButtonElement>("[data-burger]");
+  if (header && burger) {
+    const cerrar = () => {
+      header.classList.remove("is-open");
+      burger.setAttribute("aria-expanded", "false");
+      burger.setAttribute("aria-label", "Abrir menú");
+    };
+    burger.addEventListener("click", () => {
+      const abierto = header.classList.toggle("is-open");
+      burger.setAttribute("aria-expanded", String(abierto));
+      burger.setAttribute("aria-label", abierto ? "Cerrar menú" : "Abrir menú");
+    });
+    // Cerrar al navegar (click en cualquier link del menú)
+    header.querySelectorAll(".cabecera__menu a").forEach((a) =>
+      a.addEventListener("click", cerrar)
+    );
+    // Cerrar con Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") cerrar();
+    });
+    // Cerrar si se agranda a desktop
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1100) cerrar();
+    });
+  }
+</script>
