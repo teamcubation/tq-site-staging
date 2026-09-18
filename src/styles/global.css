@@ -221,8 +221,9 @@
   main h3 { font-size: clamp(21px, 5.4vw, 26px) !important; }
   main h4 { font-size: 21px !important; }
   main p { font-size: 18px !important; }
-  /* Secciones de contenido: 48px arriba/abajo en mobile (heroes excluidos). */
-  main > section:not([class*="hero"]) {
+  /* Secciones en mobile: 48px arriba/abajo. Se excluye solo el hero del home
+     (.hero, full-height con video); los heroes interiores sí llevan 48px. */
+  main > section:not(.hero) {
     padding-top: 48px !important;
     padding-bottom: 48px !important;
   }
