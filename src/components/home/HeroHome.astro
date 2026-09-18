@@ -188,101 +188,72 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
 </style>
 
 <script>
-  // Hero video: en desktop se scrubbea por scroll; en mobile va autoplay
-  // muteado en loop (el scrubbing es poco fiable en mobile, sobre todo iOS).
+  // Hero video: scrubbeado por scroll en desktop y mobile (el video es
+  // all-intra, así el seek es suave). Prime por gesto habilita el seek en iOS.
   const seccion = document.querySelector<HTMLElement>("[data-hero]");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (seccion && !reduce) {
     const video = seccion.querySelector<HTMLVideoElement>("[data-hero-video]");
     if (video) {
-      const mostrar = () => { video.style.opacity = "1"; };
+      let visible = false;
+      let objetivo = 0;
+      let actual = 0;
+      let raf = 0;
+      let listo = false;
+
+      const mostrar = () => { if (listo) video.style.opacity = "1"; };
+      video.addEventListener("loadedmetadata", () => {
+        if (video.duration > 0) {
+          listo = true;
+          mostrar();
+        }
+      });
       video.addEventListener("error", () => { video.style.display = "none"; });
 
-      if (window.matchMedia("(max-width: 1000px)").matches) {
-        // Mobile: ping-pong (adelante y atrás) moviendo currentTime, en vez de
-        // loop nativo (que corta seco de fin a principio).
-        video.muted = true;
-        video.addEventListener("loadeddata", mostrar);
-        let dir = 1;
-        let prev = 0;
-        let raf = 0;
-        const paso = (t: number) => {
-          if (!prev) prev = t;
-          const dt = Math.min((t - prev) / 1000, 0.05);
-          prev = t;
-          const dur = video.duration || 5;
-          let nt = video.currentTime + dir * dt;
-          if (nt >= dur) { nt = dur; dir = -1; }
-          else if (nt <= 0) { nt = 0; dir = 1; }
-          try { video.currentTime = nt; } catch { /* seeking no disponible aún */ }
-          raf = requestAnimationFrame(paso);
-        };
-        const iniciar = () => { prev = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(paso); mostrar(); };
-        // Prime (habilita el seeking en iOS) y arranca el ping-pong.
-        video.play().then(() => { video.pause(); iniciar(); }).catch(() => {
-          window.addEventListener("pointerdown", () => {
-            video.play().then(() => { video.pause(); iniciar(); }).catch(iniciar);
-          }, { once: true, passive: true });
-        });
-      } else {
-        // Desktop: scrubbing del video por scroll.
-        let visible = false;
-        let objetivo = 0;
-        let actual = 0;
-        let raf = 0;
-        let listo = false;
+      const calcular = () => {
+        const r = seccion.getBoundingClientRect();
+        const p = Math.min(1, Math.max(0, -r.top / r.height));
+        objetivo = p * (video.duration || 0);
+      };
 
-        video.addEventListener("loadedmetadata", () => {
-          if (video.duration > 0) {
-            listo = true;
-            mostrar();
+      const tick = () => {
+        actual += (objetivo - actual) * 0.12;
+        if (Math.abs(objetivo - actual) < 0.001) actual = objetivo;
+        if (listo) {
+          try {
+            video.currentTime = actual;
+          } catch {
+            /* seeking aún no disponible */
           }
-        });
+        }
+        if (visible) raf = requestAnimationFrame(tick);
+      };
 
-        const calcular = () => {
-          const r = seccion.getBoundingClientRect();
-          const p = Math.min(1, Math.max(0, -r.top / r.height));
-          objetivo = p * (video.duration || 0);
-        };
-
-        const tick = () => {
-          actual += (objetivo - actual) * 0.12;
-          if (Math.abs(objetivo - actual) < 0.001) actual = objetivo;
-          if (listo) {
-            try {
-              video.currentTime = actual;
-            } catch {
-              /* seeking aún no disponible */
+      const io = new IntersectionObserver(
+        (entradas) => {
+          entradas.forEach((e) => {
+            visible = e.isIntersecting;
+            cancelAnimationFrame(raf);
+            if (visible) {
+              calcular();
+              raf = requestAnimationFrame(tick);
             }
-          }
-          if (visible) raf = requestAnimationFrame(tick);
-        };
+          });
+        },
+        { threshold: 0 }
+      );
+      io.observe(seccion);
 
-        const io = new IntersectionObserver(
-          (entradas) => {
-            entradas.forEach((e) => {
-              visible = e.isIntersecting;
-              cancelAnimationFrame(raf);
-              if (visible) {
-                calcular();
-                raf = requestAnimationFrame(tick);
-              }
-            });
-          },
-          { threshold: 0 }
-        );
-        io.observe(seccion);
+      window.addEventListener("scroll", calcular, { passive: true });
+      window.addEventListener("resize", calcular, { passive: true });
 
-        window.addEventListener("scroll", calcular, { passive: true });
-        window.addEventListener("resize", calcular, { passive: true });
-
-        const prime = () => {
-          video.play().then(() => video.pause()).catch(() => {});
-        };
-        window.addEventListener("pointerdown", prime, { once: true, passive: true });
-        window.addEventListener("wheel", prime, { once: true, passive: true });
-      }
+      // Prime: habilita el seeking en iOS (requiere un gesto); pointerdown cubre touch.
+      const prime = () => {
+        video.play().then(() => video.pause()).catch(() => {});
+      };
+      window.addEventListener("pointerdown", prime, { once: true, passive: true });
+      window.addEventListener("wheel", prime, { once: true, passive: true });
     }
   }
 </script>
