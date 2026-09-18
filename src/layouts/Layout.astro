@@ -60,6 +60,26 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Redirect por idioma del browser (solo en la raíz ES). Excluye crawlers
+         para que indexen todas las versiones vía hreflang; una vez por sesión. -->
+    <script is:inline>
+      (function () {
+        if (window.location.pathname !== "/") return;
+        var ua = navigator.userAgent || "";
+        if (/bot|crawl|spider|slurp|mediapartners|baidu|yandex|sogou|duckduckgo|applebot|bingpreview|facebookexternalhit|ia_archiver/i.test(ua)) return;
+        if (sessionStorage.getItem("lang-redirected")) return;
+        var lang = (navigator.language || "").toLowerCase();
+        var target = null;
+        if (lang.indexOf("en") === 0) target = "/en/";
+        else if (lang.indexOf("pt") === 0) target = "/pt/";
+        if (target) {
+          sessionStorage.setItem("lang-redirected", "1");
+          window.location.replace(target);
+        }
+      })();
+    </script>
+
     <meta name="theme-color" content="#ffffff" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
