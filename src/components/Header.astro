@@ -42,18 +42,34 @@ const items = navKeys.map((k) => rutas[k][lang]);
   <div class="cabecera__menu" id="menu-principal" data-menu>
     <nav class="cabecera__nav" aria-label={ui[lang].navAria}>
       {items.map((item) => <a href={item.path}>{item.label}</a>)}
+      <a href="https://blog.teamcubation.com/" target="_blank" rel="noopener">Blog</a>
     </nav>
 
     <div class="cabecera__acciones">
       {translations && (
-        <div class="lang" aria-label="Idioma">
-          {locales.map((loc) =>
-            loc === lang ? (
-              <span class="lang__actual" aria-current="true">{loc.toUpperCase()}</span>
-            ) : translations[loc] ? (
-              <a href={translations[loc]} hreflang={loc} title={ui[loc].langNombre}>{loc.toUpperCase()}</a>
-            ) : null
-          )}
+        <div class="lang" data-lang>
+          <button
+            class="lang__toggle"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-label="Idioma"
+            data-lang-toggle
+          >
+            <span>{lang.toUpperCase()}</span>
+            <svg class="lang__chevron" width="10" height="7" viewBox="0 0 10 7" aria-hidden="true">
+              <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+          <ul class="lang__menu" role="menu">
+            {locales
+              .filter((loc) => loc !== lang && translations[loc])
+              .map((loc) => (
+                <li role="none">
+                  <a role="menuitem" href={translations[loc]} hreflang={loc} title={ui[loc].langNombre}>{loc.toUpperCase()}</a>
+                </li>
+              ))}
+          </ul>
         </div>
       )}
       <Cta lang={lang} tamano="sm" class="cabecera__cta" />
@@ -69,7 +85,7 @@ const items = navKeys.map((k) => rutas[k][lang]);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 32px;
+    gap: 24px;
     background: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -78,12 +94,13 @@ const items = navKeys.map((k) => rutas[k][lang]);
   .cabecera__logo { flex: none; display: block; }
   .cabecera__logo img { height: 38px; width: auto; display: block; }
 
-  /* Desktop: el wrapper desaparece y nav + acciones actúan como hijos
-     directos del header (space-between logo·nav·CTA). El burger se oculta. */
+  /* Desktop: el wrapper desaparece; logo (izq) y acciones (der) van con
+     space-between, y la nav se centra ABSOLUTA en el header → queda siempre
+     al medio de la página, sin importar el ancho de logo/acciones. */
   .cabecera__menu { display: contents; }
   .cabecera__burger { display: none; }
 
-  .cabecera__nav { display: flex; align-items: center; flex-wrap: wrap; gap: 28px; }
+  .cabecera__nav { display: flex; align-items: center; gap: 22px; }
   .cabecera__nav a {
     font-family: var(--font-body);
     font-weight: var(--peso-cuerpo-semibold);
@@ -94,26 +111,57 @@ const items = navKeys.map((k) => rutas[k][lang]);
   /* Acciones = solo el CTA en el flujo (como el diseño), para que la nav
      quede posicionada por space-between logo·nav·CTA. El selector de idioma
      se posiciona a la izquierda del CTA sin empujar la nav. */
-  .cabecera__acciones { position: relative; display: flex; align-items: center; flex: none; }
-  .lang { position: absolute; right: calc(100% + 20px); top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 8px; }
-  .lang a,
-  .lang__actual {
-    display: inline-block;
-    background: var(--color-gris-claro);
+  .cabecera__acciones { justify-self: end; display: flex; align-items: center; gap: 16px; flex: none; }
+  /* Selector de idioma: dropdown compacto (ahorra ancho en el header). */
+  .lang { position: relative; }
+  .lang__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--color-lima);
     color: var(--color-tinta);
     font-family: var(--font-body);
     font-weight: var(--peso-cuerpo-semibold);
     font-size: var(--fs-caption);
     line-height: 1.2;
-    letter-spacing: normal;
-    text-transform: none;
+    border: 0;
     border-radius: var(--radius-capsula);
-    padding: 5px 12px;
+    padding: 5px 10px;
+    cursor: pointer;
     white-space: nowrap;
+  }
+  .lang__chevron { transition: transform 0.18s ease; }
+  .lang.is-open .lang__chevron { transform: rotate(180deg); }
+  .lang__menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 100%;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--color-gris-claro);
+    border-radius: 12px;
+    z-index: 10;
+  }
+  .lang.is-open .lang__menu { display: flex; }
+  .lang__menu a {
+    display: block;
+    background: #fff;
+    color: var(--color-tinta);
+    font-family: var(--font-body);
+    font-weight: var(--peso-cuerpo-semibold);
+    font-size: var(--fs-caption);
+    line-height: 1.2;
+    border-radius: var(--radius-capsula);
+    padding: 6px 12px;
+    text-align: center;
     text-decoration: none;
   }
-  .lang a:hover { opacity: 0.85; }
-  .lang__actual { background: var(--color-lima); }
+  .lang__menu a:hover { opacity: 0.85; }
 
   /* Botón hamburguesa (oculto en desktop, visible ≤1100) */
   .cabecera__burger {
@@ -137,9 +185,10 @@ const items = navKeys.map((k) => rutas[k][lang]);
     transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
-  @media (max-width: 1100px) {
+  @media (max-width: 1200px) {
     .cabecera {
-      position: sticky;
+      display: flex;
+      justify-content: space-between;
       flex-wrap: nowrap;
       padding-left: 40px;
       padding-right: 40px;
@@ -164,8 +213,22 @@ const items = navKeys.map((k) => rutas[k][lang]);
     .cabecera.is-open .cabecera__menu { display: flex; }
 
     .cabecera__nav { flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; }
-    .cabecera__acciones { position: static; flex-direction: column; align-items: flex-start; gap: 18px; width: 100%; }
-    .lang { position: static; transform: none; }
+    .cabecera__acciones { flex-direction: column; align-items: flex-start; gap: 18px; width: 100%; }
+
+    /* En el menú mobile: los 3 idiomas en fila (sin dropdown). */
+    .lang { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+    .lang__toggle { pointer-events: none; cursor: default; }
+    .lang__chevron { display: none; }
+    .lang__menu {
+      position: static;
+      display: flex !important;
+      flex-direction: row;
+      gap: 8px;
+      padding: 0;
+      background: transparent;
+      min-width: 0;
+    }
+    .lang__menu a { background: var(--color-gris-claro); }
 
     /* Hamburguesa → X cuando está abierto */
     .cabecera.is-open .cabecera__burger-linea:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -206,7 +269,28 @@ const items = navKeys.map((k) => rutas[k][lang]);
     });
     // Cerrar si se agranda a desktop
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 1100) cerrar();
+      if (window.innerWidth > 1200) cerrar();
+    });
+  }
+
+  // Dropdown de idioma (click para abrir; hover/focus también vía CSS).
+  const menuLang = document.querySelector<HTMLElement>("[data-lang]");
+  const btnLang = menuLang?.querySelector<HTMLButtonElement>("[data-lang-toggle]");
+  if (menuLang && btnLang) {
+    const cerrarLang = () => {
+      menuLang.classList.remove("is-open");
+      btnLang.setAttribute("aria-expanded", "false");
+    };
+    btnLang.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const abierto = menuLang.classList.toggle("is-open");
+      btnLang.setAttribute("aria-expanded", String(abierto));
+    });
+    document.addEventListener("click", (e) => {
+      if (!menuLang.contains(e.target as Node)) cerrarLang();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") cerrarLang();
     });
   }
 </script>
