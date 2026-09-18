@@ -200,14 +200,31 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
       video.addEventListener("error", () => { video.style.display = "none"; });
 
       if (window.matchMedia("(max-width: 1000px)").matches) {
-        // Mobile: autoplay muteado en loop, sin scrubbing.
-        video.loop = true;
+        // Mobile: ping-pong (adelante y atrás) moviendo currentTime, en vez de
+        // loop nativo (que corta seco de fin a principio).
         video.muted = true;
         video.addEventListener("loadeddata", mostrar);
-        const reproducir = () => video.play().then(mostrar).catch(() => {});
-        reproducir();
-        // Si el navegador bloquea el autoplay, reintenta al primer toque.
-        window.addEventListener("pointerdown", reproducir, { once: true, passive: true });
+        let dir = 1;
+        let prev = 0;
+        let raf = 0;
+        const paso = (t: number) => {
+          if (!prev) prev = t;
+          const dt = Math.min((t - prev) / 1000, 0.05);
+          prev = t;
+          const dur = video.duration || 5;
+          let nt = video.currentTime + dir * dt;
+          if (nt >= dur) { nt = dur; dir = -1; }
+          else if (nt <= 0) { nt = 0; dir = 1; }
+          try { video.currentTime = nt; } catch { /* seeking no disponible aún */ }
+          raf = requestAnimationFrame(paso);
+        };
+        const iniciar = () => { prev = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(paso); mostrar(); };
+        // Prime (habilita el seeking en iOS) y arranca el ping-pong.
+        video.play().then(() => { video.pause(); iniciar(); }).catch(() => {
+          window.addEventListener("pointerdown", () => {
+            video.play().then(() => { video.pause(); iniciar(); }).catch(iniciar);
+          }, { once: true, passive: true });
+        });
       } else {
         // Desktop: scrubbing del video por scroll.
         let visible = false;
