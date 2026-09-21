@@ -29,7 +29,7 @@ export const metodologiaContent: Record<"es" | "en" | "pt", MetodologiaContent> 
     seoTitle: "Metodología | Cómo entrenamos equipos en IA: práctica sobre procesos reales, mentores expertos y seguimiento del avance y el impacto con Teamboarding.",
     seoDesc: "Cómo entrenamos equipos en IA: práctica sobre procesos reales, mentores expertos y seguimiento del avance y el impacto con Teamboarding.",
     kicker: "Metodología",
-    heroTituloHtml: 'La experiencia no se enseña: <span class="resaltado">se entrena.</span>',
+    heroTituloHtml: 'La experiencia no se enseña: <br /><span class="resaltado">se entrena.</span>',
     heroBajada: "El entrenamiento sucede dentro del trabajo real: nuestros mentores expertos acompañan a cada equipo y a cada persona mientras resuelven una necesidad concreta del negocio.",
     heroImgAlt: "Un colaborador verde y un mentor naranja cargando juntos una esfera de concreto",
     s2: [
@@ -92,7 +92,7 @@ export const metodologiaContent: Record<"es" | "en" | "pt", MetodologiaContent> 
     seoTitle: "Methodology | How we train teams in AI: practice on real processes, expert mentors and tracking of progress and impact with Teamboarding.",
     seoDesc: "How we train teams in AI: practice on real processes, expert mentors and tracking of progress and impact with Teamboarding.",
     kicker: "Methodology",
-    heroTituloHtml: "Experience isn't taught: <span class=\"resaltado\">it's trained.</span>",
+    heroTituloHtml: "Experience isn't taught: <br /><span class=\"resaltado\">it's trained.</span>",
     heroBajada: "Training happens inside real work: our expert mentors support each team and each person while they solve a concrete business need.",
     heroImgAlt: "A green collaborator and an orange mentor carrying a concrete sphere together",
     s2: [
@@ -155,7 +155,7 @@ export const metodologiaContent: Record<"es" | "en" | "pt", MetodologiaContent> 
     seoTitle: "Metodologia | Como treinamos equipes em IA: prática sobre processos reais, mentores especialistas e acompanhamento do avanço e do impacto com Teamboarding.",
     seoDesc: "Como treinamos equipes em IA: prática sobre processos reais, mentores especialistas e acompanhamento do avanço e do impacto com Teamboarding.",
     kicker: "Metodologia",
-    heroTituloHtml: "A experiência não se ensina: <span class=\"resaltado\">se treina.</span>",
+    heroTituloHtml: "A experiência não se ensina: <br /><span class=\"resaltado\">se treina.</span>",
     heroBajada: "O treinamento acontece dentro do trabalho real: nossos mentores especialistas acompanham cada equipe e cada pessoa enquanto resolvem uma necessidade concreta do negócio.",
     heroImgAlt: "Um colaborador verde e um mentor laranja carregando juntos uma esfera de concreto",
     s2: [

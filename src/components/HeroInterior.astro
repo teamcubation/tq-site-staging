@@ -19,6 +19,7 @@ interface Props {
   padBottom?: number;
   cta?: boolean;
   tituloSize?: string;
+  tituloMaxWidth?: string;
   lang?: Locale;
 }
 
@@ -35,6 +36,7 @@ const {
   padBottom = 88,
   cta = true,
   tituloSize = "clamp(36px, 4.2vw, 54px)",
+  tituloMaxWidth,
   lang = defaultLocale,
 } = Astro.props;
 ---
@@ -44,7 +46,7 @@ const {
     <div class="hero-int__texto">
       {breadcrumb && <Breadcrumb items={breadcrumb} />}
       {kicker && <p class="hero-int__kicker">{kicker}</p>}
-      <h1 class="hero-int__titulo" style={`font-size:${tituloSize}`} set:html={titulo} />
+      <h1 class="hero-int__titulo" style={`font-size:${tituloSize}${tituloMaxWidth ? `;max-width:${tituloMaxWidth}` : ""}`} set:html={titulo} />
       <p class="hero-int__bajada">{bajada}</p>
       {cta && (
         <div class="hero-int__cta">
