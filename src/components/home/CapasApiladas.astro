@@ -215,11 +215,11 @@ const capas = content.capas.map((c, i) => ({ ...c, ...estructura[i] }));
     padding: 24px;
     color: var(--color-tinta);
     text-decoration: none;
-    transition: opacity 160ms ease-out;
+    transition: background-color 160ms ease-out;
   }
   .capa--gris .subficha { background: #fff; }
   .capa--blanco .subficha { background: var(--color-gris-claro); }
-  .subficha:hover { opacity: 0.85; }
+  .subficha:hover { background: var(--color-superficie-hover); }
   .subficha__titulo {
     font-size: 22px;
     line-height: 1.12;

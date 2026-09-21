@@ -181,7 +181,8 @@ const tbHref = ruta("teamboarding", lang);
 
   .programas { margin-top: 40px; }
   .pills { display: flex; flex-wrap: wrap; gap: 12px; }
-  .pill { background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-cuerpo); color: var(--color-tinta); text-decoration: none; }
+  .pill { background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-cuerpo); color: var(--color-tinta); text-decoration: none; transition: background-color 160ms ease-out; }
+  .pill:hover { background: var(--color-superficie-hover); }
 
   @media (max-width: 1100px) {
     .sec { padding-block: 64px; }

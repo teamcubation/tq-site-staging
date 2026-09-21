@@ -107,8 +107,8 @@ const c = serviciosContent[lang];
   .capa-svc__etiqueta { font-weight: var(--peso-cuerpo-bold); color: var(--color-coral); }
 
   .scards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
-  .scard { display: flex; flex-direction: column; gap: 10px; height: 100%; background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 24px; color: var(--color-tinta); text-decoration: none; transition: opacity 160ms ease-out; }
-  .scard:hover { opacity: 0.9; }
+  .scard { display: flex; flex-direction: column; gap: 10px; height: 100%; background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 24px; color: var(--color-tinta); text-decoration: none; transition: background-color 160ms ease-out; }
+  .scard:hover { background: var(--color-superficie-hover); }
   .scard__necesita { font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-secundario); color: var(--color-gris-texto); margin: 0; }
   .scard__titulo { font-size: 22px; line-height: 1.12; color: var(--color-coral); margin: 0; }
   .scard__resumen { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; margin: 0; }

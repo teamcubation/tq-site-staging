@@ -108,6 +108,11 @@ const items = navKeys.map((k) => rutas[k][lang]);
     color: var(--color-tinta);
     text-decoration: none;
   }
+  .cabecera__nav a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
   /* Acciones = solo el CTA en el flujo (como el diseño), para que la nav
      quede posicionada por space-between logo·nav·CTA. El selector de idioma
      se posiciona a la izquierda del CTA sin empujar la nav. */
@@ -129,7 +134,9 @@ const items = navKeys.map((k) => rutas[k][lang]);
     padding: 5px 10px;
     cursor: pointer;
     white-space: nowrap;
+    transition: background-color 160ms ease-out;
   }
+  .lang__toggle:hover { background: var(--color-lima-hover); }
   .lang__chevron { transition: transform 0.18s ease; }
   .lang.is-open .lang__chevron { transform: rotate(180deg); }
   .lang__menu {
@@ -160,8 +167,9 @@ const items = navKeys.map((k) => rutas[k][lang]);
     padding: 6px 12px;
     text-align: center;
     text-decoration: none;
+    transition: background-color 160ms ease-out;
   }
-  .lang__menu a:hover { opacity: 0.85; }
+  .lang__menu a:hover { background: var(--color-superficie-hover); }
 
   /* Botón hamburguesa (oculto en desktop, visible ≤1100) */
   .cabecera__burger {
