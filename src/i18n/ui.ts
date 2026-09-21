@@ -14,6 +14,8 @@ export const ui: Record<Locale, {
   footerClaim: string;
   footerDesc: string;
   footerCopy: string;
+  legalTerminos: string;
+  legalPrivacidad: string;
   cierreTexto: string;
   langNombre: string;
 }> = {
@@ -27,6 +29,8 @@ export const ui: Record<Locale, {
     footerClaim: "La capacidad queda en las personas.",
     footerDesc: "Teamcubation entrena equipos para adoptar IA sobre sus procesos y construir capacidades que crecen dentro de la empresa.",
     footerCopy: "Teamcubation. La experiencia no se enseña: se entrena.",
+    legalTerminos: "Términos y Condiciones",
+    legalPrivacidad: "Política de Privacidad",
     cierreTexto: "Conversemos sobre cómo potenciar su compañía con AI.",
     langNombre: "Español",
   },
@@ -40,6 +44,8 @@ export const ui: Record<Locale, {
     footerClaim: "The capability stays with your people.",
     footerDesc: "Teamcubation trains teams to adopt AI on their own processes and build capabilities that grow inside the company.",
     footerCopy: "Teamcubation. Experience isn't taught: it's trained.",
+    legalTerminos: "Terms and Conditions",
+    legalPrivacidad: "Privacy Policy",
     cierreTexto: "Let's talk about how to power your company with AI.",
     langNombre: "English",
   },
@@ -53,6 +59,8 @@ export const ui: Record<Locale, {
     footerClaim: "A capacidade fica nas pessoas.",
     footerDesc: "A Teamcubation treina equipes para adotar IA nos seus processos e construir capacidades que crescem dentro da empresa.",
     footerCopy: "Teamcubation. A experiência não se ensina: se treina.",
+    legalTerminos: "Termos e Condições",
+    legalPrivacidad: "Política de Privacidade",
     cierreTexto: "Vamos conversar sobre como potencializar sua empresa com IA.",
     langNombre: "Português",
   },

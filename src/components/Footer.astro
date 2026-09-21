@@ -50,7 +50,13 @@ const programas = ORDEN.map((k) => ({
     </nav>
   </div>
 
-  <p class="pie__copy">{t.footerCopy}</p>
+  <div class="pie__bottom">
+    <p class="pie__copy">{t.footerCopy}</p>
+    <nav class="pie__legal" aria-label={t.legalTerminos}>
+      <a href="/terms">{t.legalTerminos}</a>
+      <a href="/privacy-policy">{t.legalPrivacidad}</a>
+    </nav>
+  </div>
 </footer>
 
 <style>
@@ -65,7 +71,11 @@ const programas = ORDEN.map((k) => ({
   .pie__grupo ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
   .pie__grupo a { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-secundario); color: var(--color-tinta); text-decoration: none; }
   .pie__grupo a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
-  .pie__copy { max-width: 1200px; margin: 40px auto 0; color: var(--color-gris-texto); font-size: var(--fs-secundario); }
+  .pie__bottom { max-width: 1200px; margin: 40px auto 0; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px; }
+  .pie__copy { margin: 0; color: var(--color-gris-texto); font-size: var(--fs-secundario); }
+  .pie__legal { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .pie__legal a { color: var(--color-gris-texto); font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-secundario); text-decoration: none; }
+  .pie__legal a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 
   @media (max-width: 1100px) {
     .pie { padding: 48px 40px; }

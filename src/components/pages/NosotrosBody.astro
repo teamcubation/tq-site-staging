@@ -51,7 +51,7 @@ const c = nosotrosContent[lang];
       <div class="dos-col">
         {c.fundadores.map((f) => (
           <article class="ficha-gris">
-            <h3 class="fund__nombre">{f.nombre}</h3>
+            <h3 class="fund__nombre"><a class="fund__link" href={f.linkedin} target="_blank" rel="noopener noreferrer">{f.nombre}</a></h3>
             <p class="p20">{f.rol}</p>
           </article>
         ))}
@@ -112,6 +112,8 @@ const c = nosotrosContent[lang];
   /* Fundadores */
   .ficha-gris { background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 32px; }
   .fund__nombre { font-size: 26px; line-height: 1.12; color: var(--color-coral); margin: 0; }
+  .fund__link { color: inherit; text-decoration: none; }
+  .fund__link:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
   .ficha-gris .p20 { margin-top: 10px; }
 
   /* Criterio */
