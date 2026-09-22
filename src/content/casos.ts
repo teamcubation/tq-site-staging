@@ -28,7 +28,7 @@ export interface CasosContent {
 
 export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   es: {
-    seoTitle: "Clientes y experiencia de Teamcubation",
+    seoTitle: "Clientes | Conozca la trayectoria de Teamcubation: más de 90 empresas líderes en 5 países. Entre sus clientes están Mercado Libre y Banco Comafi.",
     seoDesc: "Conozca la trayectoria de Teamcubation: más de 90 empresas líderes en 5 países. Entre sus clientes están Mercado Libre y Banco Comafi.",
     kicker: "Clientes",
     heroH1: "La experiencia de Teamcubation trabajando con empresas.",
@@ -55,7 +55,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   },
 
   en: {
-    seoTitle: "Teamcubation's clients and experience",
+    seoTitle: "Clients | Explore Teamcubation's track record: more than 90 leading companies in 5 countries. Its clients include Mercado Libre and Banco Comafi.",
     seoDesc: "Explore Teamcubation's track record: more than 90 leading companies in 5 countries. Its clients include Mercado Libre and Banco Comafi.",
     kicker: "Clients",
     heroH1: "Teamcubation's experience working with companies.",
@@ -82,7 +82,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   },
 
   pt: {
-    seoTitle: "Clientes e experiência da Teamcubation",
+    seoTitle: "Clientes | Conheça a trajetória da Teamcubation: mais de 90 empresas líderes em 5 países. Entre seus clientes estão o Mercado Livre e o Banco Comafi.",
     seoDesc: "Conheça a trajetória da Teamcubation: mais de 90 empresas líderes em 5 países. Entre seus clientes estão o Mercado Livre e o Banco Comafi.",
     kicker: "Clientes",
     heroH1: "A experiência da Teamcubation trabalhando com empresas.",

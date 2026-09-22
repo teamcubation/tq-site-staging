@@ -53,6 +53,8 @@
   --color-logo-rojo: #ff2d14; /* reservado: vive solo en el isotipo */
   --color-linea: #e9e7e5; /* separadores / bordes de control */
   --color-gris-texto: #8a8686; /* texto secundario / inactivo */
+  --color-lima-hover: #b3dd5c; /* botones lima al hover (fondo más profundo) */
+  --color-superficie-hover: #ececec; /* tarjetas/pills clickeables al hover */
 
   /* Estado (solo producto, siempre con etiqueta de texto) */
   --color-estado-ok: #41874a;
@@ -183,7 +185,6 @@
   font-size: var(--fs-cuerpo);
   color: var(--color-tinta);
   text-decoration: underline;
-  text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
 
@@ -196,9 +197,9 @@
   font-weight: 650;
   border-radius: var(--radius-capsula);
   padding: 0.55em 1.5em;
-  transition: opacity 160ms ease-out;
+  transition: background-color 160ms ease-out;
 }
-.cta:hover { opacity: 0.9; }
+.cta:hover { background: var(--color-lima-hover); }
 
 /* Skip link accesible */
 .saltar-al-contenido {

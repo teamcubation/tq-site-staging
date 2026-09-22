@@ -1,7 +1,7 @@
 // Contenido de Nosotros por idioma. ES = original; EN traducido con
 // criterio empresarial (pendiente de revisión humana).
 interface ConviccionBloque { h3: string; pHtml: string }
-interface Fundador { nombre: string; rol: string }
+interface Fundador { nombre: string; rol: string; linkedin: string }
 interface Enlace { label: string; href: string }
 
 export interface NosotrosContent {
@@ -25,7 +25,7 @@ export interface NosotrosContent {
 
 export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
   es: {
-    seoTitle: "Qué es Teamcubation: historia y fundadores",
+    seoTitle: "Nosotros | Teamcubation fue fundada en 2021 en Buenos Aires por Mariano Wechsler y Diego Jolodenco. Conozca su historia y su método de entrenamiento.",
     seoDesc: "Teamcubation fue fundada en 2021 en Buenos Aires por Mariano Wechsler y Diego Jolodenco. Conozca su historia y su método de entrenamiento.",
     kicker: "Nosotros",
     heroH1: "Qué es Teamcubation y quiénes la fundaron.",
@@ -48,8 +48,8 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
     heroImgAlt: "Equipo trabajando sobre planos y procesos propios en planta",
     fundadoresH2: "Los fundadores.",
     fundadores: [
-      { nombre: "Mariano Wechsler", rol: "Cofundador de Teamcubation." },
-      { nombre: "Diego Jolodenco", rol: "Cofundador de Teamcubation." },
+      { nombre: "Mariano Wechsler", rol: "Cofundador de Teamcubation.", linkedin: "https://www.linkedin.com/in/marianowechsler/" },
+      { nombre: "Diego Jolodenco", rol: "Cofundador de Teamcubation.", linkedin: "https://www.linkedin.com/in/diegojolodenco/" },
     ],
     criterioImgAlt: "Mentora trabajando junto a un participante sobre su propia tarea",
     criterioH2Html: 'El <span class="resaltado">criterio</span> se forma haciendo.',
@@ -63,7 +63,7 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
   },
 
   en: {
-    seoTitle: "What Teamcubation is: history and founders",
+    seoTitle: "About | Teamcubation was founded in 2021 in Buenos Aires by Mariano Wechsler and Diego Jolodenco. Learn about its history and its training method.",
     seoDesc: "Teamcubation was founded in 2021 in Buenos Aires by Mariano Wechsler and Diego Jolodenco. Learn about its history and its training method.",
     kicker: "About",
     heroH1: "What Teamcubation is and who founded it.",
@@ -86,8 +86,8 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
     heroImgAlt: "Team working on their own plans and processes on site",
     fundadoresH2: "The founders.",
     fundadores: [
-      { nombre: "Mariano Wechsler", rol: "Co-founder of Teamcubation." },
-      { nombre: "Diego Jolodenco", rol: "Co-founder of Teamcubation." },
+      { nombre: "Mariano Wechsler", rol: "Co-founder of Teamcubation.", linkedin: "https://www.linkedin.com/in/marianowechsler/" },
+      { nombre: "Diego Jolodenco", rol: "Co-founder of Teamcubation.", linkedin: "https://www.linkedin.com/in/diegojolodenco/" },
     ],
     criterioImgAlt: "A mentor working alongside a participant on their own task",
     criterioH2Html: 'Good <span class="resaltado">judgment</span> is formed by doing.',
@@ -101,7 +101,7 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
   },
 
   pt: {
-    seoTitle: "O que é a Teamcubation: história e fundadores",
+    seoTitle: "Sobre | A Teamcubation foi fundada em 2021 em Buenos Aires por Mariano Wechsler e Diego Jolodenco. Conheça a sua história e o seu método de treinamento.",
     seoDesc: "A Teamcubation foi fundada em 2021 em Buenos Aires por Mariano Wechsler e Diego Jolodenco. Conheça a sua história e o seu método de treinamento.",
     kicker: "Sobre",
     heroH1: "O que é a Teamcubation e quem a fundou.",
@@ -124,8 +124,8 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
     heroImgAlt: "Equipe trabalhando sobre planos e processos próprios na planta",
     fundadoresH2: "Os fundadores.",
     fundadores: [
-      { nombre: "Mariano Wechsler", rol: "Cofundador da Teamcubation." },
-      { nombre: "Diego Jolodenco", rol: "Cofundador da Teamcubation." },
+      { nombre: "Mariano Wechsler", rol: "Cofundador da Teamcubation.", linkedin: "https://www.linkedin.com/in/marianowechsler/" },
+      { nombre: "Diego Jolodenco", rol: "Cofundador da Teamcubation.", linkedin: "https://www.linkedin.com/in/diegojolodenco/" },
     ],
     criterioImgAlt: "Mentora trabalhando junto a um participante sobre a sua própria tarefa",
     criterioH2Html: 'O <span class="resaltado">critério</span> se forma fazendo.',

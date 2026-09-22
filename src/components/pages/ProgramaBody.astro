@@ -221,7 +221,8 @@ const otros = svc.otros.map((o) => {
 
   /* Otros programas */
   .otros-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
-  .pill { display: inline-block; background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-cuerpo); color: var(--color-tinta); text-decoration: none; }
+  .pill { display: inline-block; background: var(--color-gris-claro); border-radius: var(--radius-capsula); padding: 10px 20px; font-family: var(--font-body); font-weight: var(--peso-cuerpo-semibold); font-size: var(--fs-cuerpo); color: var(--color-tinta); text-decoration: none; transition: background-color 160ms ease-out; }
+  .pill:hover { background: var(--color-superficie-hover); }
   .otros__frase { font-family: var(--font-body); font-weight: var(--peso-cuerpo); font-size: var(--fs-cuerpo); line-height: 1.5; margin: 12px 0 0; }
   .otros__met { margin: 28px 0 0; }
 

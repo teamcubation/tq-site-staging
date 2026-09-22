@@ -1,7 +1,8 @@
 ---
 import Cta from "./Cta.astro";
-import { rutas, ruta } from "../i18n/routes";
+import { rutas, ruta, rutaPrograma } from "../i18n/routes";
 import { ui } from "../i18n/ui";
+import { getServicios } from "../data/servicios";
 import { defaultLocale, locales, type Locale } from "../i18n/config";
 
 interface Props {
@@ -12,7 +13,39 @@ interface Props {
 const { lang = defaultLocale, translations } = Astro.props;
 
 const navKeys = ["metodologia", "servicios", "teamboarding", "casos", "nosotros"];
-const items = navKeys.map((k) => rutas[k][lang]);
+
+// Mega-menú de Servicios (hover) — 3 grupos, como el diseño v2. Discovery queda fuera.
+const MENU_GRUPOS: { keys: string[]; titulo: Record<Locale, string> }[] = [
+  {
+    keys: ["starter", "booster", "intensivo"],
+    titulo: {
+      es: "AI para el trabajo diario de sus equipos",
+      en: "AI for your teams' everyday work",
+      pt: "IA para o trabalho diário das suas equipes",
+    },
+  },
+  {
+    keys: ["builders", "vibecode"],
+    titulo: {
+      es: "AI para procesos cross área o masivos",
+      en: "AI for cross-area or large-scale processes",
+      pt: "IA para processos entre áreas ou em escala",
+    },
+  },
+  {
+    keys: ["dev", "incubation"],
+    titulo: {
+      es: "Talento y capacidad IT",
+      en: "IT talent and capability",
+      pt: "Talento e capacidade de IT",
+    },
+  },
+];
+const svc = getServicios(lang);
+const menuServicios = MENU_GRUPOS.map((g) => ({
+  titulo: g.titulo[lang],
+  items: g.keys.map((k) => ({ label: svc[k].nombre, href: rutaPrograma(svc[k].slug, lang) })),
+}));
 ---
 
 <header class="cabecera" data-cabecera>
@@ -41,7 +74,42 @@ const items = navKeys.map((k) => rutas[k][lang]);
 
   <div class="cabecera__menu" id="menu-principal" data-menu>
     <nav class="cabecera__nav" aria-label={ui[lang].navAria}>
-      {items.map((item) => <a href={item.path}>{item.label}</a>)}
+      {navKeys.map((k) => {
+        const item = rutas[k][lang];
+        return k === "servicios" ? (
+          <div class="nav-svc" data-nav-svc>
+            <div class="nav-svc__head">
+              <a class="nav-svc__trigger" href={item.path}>{item.label}</a>
+              <button
+                class="nav-svc__icon"
+                type="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-label={item.label}
+                data-svc-icon
+              >
+                <svg class="nav-svc__chevron" width="11" height="7" viewBox="0 0 11 7" aria-hidden="true">
+                  <path d="M1 1l4.5 4.5L10 1" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="nav-svc__panel">
+              <div class="nav-svc__box">
+                {menuServicios.map((grupo) => (
+                  <div class="nav-svc__grupo">
+                    <p class="nav-svc__titulo">{grupo.titulo}</p>
+                    <div class="nav-svc__items">
+                      {grupo.items.map((s) => <a href={s.href}>{s.label}</a>)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a href={item.path}>{item.label}</a>
+        );
+      })}
       <a href="https://blog.teamcubation.com/" target="_blank" rel="noopener">Blog</a>
     </nav>
 
@@ -108,6 +176,60 @@ const items = navKeys.map((k) => rutas[k][lang]);
     color: var(--color-tinta);
     text-decoration: none;
   }
+  .cabecera__nav a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  /* Mega-menú de Servicios (hover en desktop / acordeón por icono en mobile) — como el v2 */
+  .nav-svc { position: relative; display: flex; align-items: center; }
+  .nav-svc__head { display: inline-flex; align-items: center; gap: 8px; }
+  .nav-svc__icon {
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    color: var(--color-tinta);
+  }
+  .nav-svc__chevron { display: block; flex: none; transition: transform 0.2s ease; }
+  .nav-svc__panel {
+    position: absolute;
+    top: 100%;
+    left: -32px;
+    z-index: 120;
+    padding-top: 22px; /* puente invisible: el hover no se corta al bajar el cursor */
+    display: none;
+  }
+  /* Desktop (>1200): abre en hover/foco */
+  @media (min-width: 1201px) {
+    .nav-svc:hover > .nav-svc__panel,
+    .nav-svc:focus-within > .nav-svc__panel { display: block; }
+  }
+  .nav-svc__box {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    gap: 32px;
+    align-items: stretch;
+    background: #fff;
+    border: 1px solid var(--color-linea);
+    border-radius: var(--radius-tarjeta);
+    padding: 28px 32px;
+  }
+  .nav-svc__grupo { display: flex; flex-direction: column; gap: 12px; }
+  .nav-svc__titulo {
+    margin: 0;
+    min-height: 2.4em;
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: 19px;
+    line-height: 1.2;
+    color: var(--color-coral);
+    max-width: 24ch;
+  }
+  .nav-svc__items { display: flex; flex-direction: column; gap: 8px; }
+  .nav-svc__items a { font-size: 14px; line-height: 1.3; white-space: nowrap; }
   /* Acciones = solo el CTA en el flujo (como el diseño), para que la nav
      quede posicionada por space-between logo·nav·CTA. El selector de idioma
      se posiciona a la izquierda del CTA sin empujar la nav. */
@@ -129,7 +251,9 @@ const items = navKeys.map((k) => rutas[k][lang]);
     padding: 5px 10px;
     cursor: pointer;
     white-space: nowrap;
+    transition: background-color 160ms ease-out;
   }
+  .lang__toggle:hover { background: var(--color-lima-hover); }
   .lang__chevron { transition: transform 0.18s ease; }
   .lang.is-open .lang__chevron { transform: rotate(180deg); }
   .lang__menu {
@@ -160,8 +284,9 @@ const items = navKeys.map((k) => rutas[k][lang]);
     padding: 6px 12px;
     text-align: center;
     text-decoration: none;
+    transition: background-color 160ms ease-out;
   }
-  .lang__menu a:hover { opacity: 0.85; }
+  .lang__menu a:hover { background: var(--color-superficie-hover); }
 
   /* Botón hamburguesa (oculto en desktop, visible ≤1100) */
   .cabecera__burger {
@@ -214,6 +339,17 @@ const items = navKeys.map((k) => rutas[k][lang]);
 
     .cabecera__nav { flex-direction: column; align-items: flex-start; gap: 16px; width: 100%; }
     .cabecera__acciones { flex-direction: column; align-items: flex-start; gap: 18px; width: 100%; }
+
+    /* Servicios: acordeón en el menú colapsable, abre con el icono (chevron) */
+    .nav-svc { position: static; display: block; width: 100%; }
+    .nav-svc__head { display: flex; align-items: center; justify-content: space-between; width: 100%; }
+    .nav-svc__icon { padding: 6px; margin: -6px; }
+    .nav-svc.is-open .nav-svc__chevron { transform: rotate(180deg); }
+    .nav-svc__panel { position: static; padding-top: 0; } /* colapsado por defecto (display:none base) */
+    .nav-svc.is-open > .nav-svc__panel { display: block; }
+    .nav-svc__box { grid-template-columns: 1fr; gap: 16px; border: 0; border-radius: 0; padding: 12px 0 0 16px; }
+    .nav-svc__titulo { min-height: 0; font-size: 17px; }
+    .nav-svc__items a { font-size: var(--fs-secundario); font-weight: var(--peso-cuerpo); white-space: normal; }
 
     /* En el menú mobile: los 3 idiomas en fila (sin dropdown). */
     .lang { display: flex; flex-direction: row; align-items: center; gap: 8px; }
@@ -270,6 +406,27 @@ const items = navKeys.map((k) => rutas[k][lang]);
     // Cerrar si se agranda a desktop
     window.addEventListener("resize", () => {
       if (window.innerWidth > 1200) cerrar();
+    });
+  }
+
+  // Mega-menú de Servicios: en mobile el icono abre/cierra (acordeón); en desktop abre por hover/foco (CSS).
+  const navSvc = document.querySelector<HTMLElement>("[data-nav-svc]");
+  const svcIcon = navSvc?.querySelector<HTMLButtonElement>("[data-svc-icon]");
+  if (navSvc && svcIcon) {
+    const sync = (abierto: boolean) => svcIcon.setAttribute("aria-expanded", String(abierto));
+    const abiertoPorClase = () => navSvc.classList.contains("is-open");
+    // Mobile: click en el icono togglea el submenú
+    svcIcon.addEventListener("click", () => sync(navSvc.classList.toggle("is-open")));
+    // Desktop: reflejar el estado hover/foco en aria-expanded
+    navSvc.addEventListener("mouseenter", () => sync(true));
+    navSvc.addEventListener("mouseleave", () => { if (!abiertoPorClase()) sync(false); });
+    navSvc.addEventListener("focusin", () => sync(true));
+    navSvc.addEventListener("focusout", () => {
+      if (!navSvc.contains(document.activeElement) && !abiertoPorClase()) sync(false);
+    });
+    // Al pasar a desktop, resetear el acordeón mobile
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1200) { navSvc.classList.remove("is-open"); sync(false); }
     });
   }
 
