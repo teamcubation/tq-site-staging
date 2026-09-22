@@ -4,6 +4,11 @@
         if (window.location.pathname !== "/") return;
         var ua = navigator.userAgent || "";
         if (/bot|crawl|spider|slurp|mediapartners|baidu|yandex|sogou|duckduckgo|applebot|bingpreview|facebookexternalhit|ia_archiver/i.test(ua)) return;
+        // Navegación interna (p.ej. elegir "ES" desde /pt o /en) = elección
+        // deliberada del usuario → no auto-redirigir por idioma del sistema.
+        try {
+          if (document.referrer && new URL(document.referrer).origin === window.location.origin) return;
+        } catch (e) {}
         if (sessionStorage.getItem("lang-redirected")) return;
         var lang = (navigator.language || "").toLowerCase();
         var target = null;
