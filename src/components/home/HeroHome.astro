@@ -158,7 +158,9 @@ const FRAMES = 90;
     .hero__canvas {
       inset: auto 0 0 0;
       height: 82%;
-      object-position: 8% center;
+      /* En móvil la escena entra completa (no recortada) y anclada abajo. */
+      object-fit: contain;
+      object-position: center bottom;
     }
     .hero__veil {
       background: linear-gradient(180deg, #fff 0%, #fff 46%, rgba(255, 255, 255, 0) 62%);
@@ -209,12 +211,15 @@ const FRAMES = 90;
         if (!im || !cargado[idx]) return;
         const W = canvas.width;
         const H = canvas.height;
-        const s = Math.max(W / im.naturalWidth, H / im.naturalHeight);
+        const movil = window.matchMedia("(max-width:1000px)").matches;
+        // Desktop: cover (llena y recorta). Móvil: contain (entra completa).
+        const s = movil
+          ? Math.min(W / im.naturalWidth, H / im.naturalHeight)
+          : Math.max(W / im.naturalWidth, H / im.naturalHeight);
         const w = im.naturalWidth * s;
         const h = im.naturalHeight * s;
-        const movil = window.matchMedia("(max-width:1000px)").matches;
-        const px = movil ? 0.08 : 1; // X: desktop derecha, móvil 8%
-        const py = movil ? 0.5 : 0; // Y: desktop arriba, móvil centro
+        const px = movil ? 0.5 : 1; // X: desktop derecha, móvil centrado
+        const py = movil ? 1 : 0; // Y: desktop arriba, móvil abajo
         ctx.clearRect(0, 0, W, H);
         ctx.drawImage(im, (W - w) * px, (H - h) * py, w, h);
         dibujado = idx;
