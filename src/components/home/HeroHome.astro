@@ -156,24 +156,26 @@ const FRAMES = 90;
     .hero__titulo { max-width: 23ch; }
   }
   @media (max-width: 1000px) {
+    /* El hero ocupa el viewport (descontando el header): texto arriba y la
+       imagen rellena TODO el espacio restante justo debajo del CTA. Sin
+       hueco y sin irse fuera de pantalla. */
     .hero {
       height: auto;
-      min-height: 0;
+      min-height: calc(100svh - 64px);
       display: flex;
       flex-direction: column;
     }
-    /* Media en flujo, DEBAJO del texto: bloque 16:9 a ancho completo → la
-       escena 3D entra completa y a buen tamaño (sin recorte ni blancos). */
     .hero__media {
       position: relative;
       order: 2;
+      flex: 1;
+      min-height: 0;
       width: 100%;
-      aspect-ratio: 16 / 9;
       z-index: auto;
     }
     .hero__poster,
     .hero__canvas {
-      object-position: center bottom;
+      object-position: center;
     }
     .hero__veil {
       display: none;
@@ -182,7 +184,7 @@ const FRAMES = 90;
       order: 1;
       width: 100%;
       max-width: 100%;
-      padding: clamp(32px, 5vh, 64px) 40px clamp(40px, 6vh, 72px);
+      padding: clamp(28px, 4vh, 48px) 40px clamp(18px, 2.4vh, 28px);
     }
   }
   @media (max-width: 720px) {
@@ -230,7 +232,7 @@ const FRAMES = 90;
         const w = im.naturalWidth * s;
         const h = im.naturalHeight * s;
         const px = movil ? 0.5 : 1; // X: desktop derecha, móvil centrado
-        const py = movil ? 1 : 0; // Y: desktop arriba, móvil abajo
+        const py = movil ? 0.5 : 0; // Y: desktop arriba, móvil centrado
         ctx.clearRect(0, 0, W, H);
         ctx.drawImage(im, (W - w) * px, (H - h) * py, w, h);
         dibujado = idx;
