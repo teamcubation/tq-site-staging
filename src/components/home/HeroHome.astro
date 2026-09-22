@@ -1,6 +1,7 @@
 ---
-// Hero de Home — video 3D scrubbeado por scroll (el scroll controla el frame).
-// Fallback al poster en reduced-motion / si el video falla. Content-driven (ES default).
+// Hero de Home — secuencia de frames WebP scrubbeada por scroll (self-hosted).
+// El scroll elige el frame, dibujado en un <canvas>. Sin video: adiós al
+// seek de iOS / Range / blob. Fallback al poster en reduced-motion. ES default.
 import Cta from "../Cta.astro";
 import { defaultLocale, type Locale } from "../../i18n/config";
 
@@ -26,21 +27,14 @@ const esDefault: HeroContent = {
 };
 
 const { content = esDefault, lang = defaultLocale } = Astro.props;
+
+// Secuencia de frames en /public/media/hero-frames/ (f_001.webp … f_090.webp).
+const FRAMES = 90;
 ---
 
-<section class="hero" data-hero>
+<section class="hero" data-hero data-frames={FRAMES}>
   <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
-  <video
-    class="hero__video"
-    data-hero-video
-    muted
-    playsinline
-    preload="auto"
-    poster="/media/hero-poster.jpg"
-    aria-hidden="true"
-  >
-    <source src="/media/tq.mp4" type="video/mp4" />
-  </video>
+  <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
   <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="hero__text">
@@ -62,7 +56,7 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
     background: #fff;
   }
   .hero__poster,
-  .hero__video {
+  .hero__canvas {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -71,7 +65,7 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
     object-position: right top;
   }
   .hero__poster { z-index: 0; }
-  .hero__video {
+  .hero__canvas {
     z-index: 1;
     opacity: 0;
     transition: opacity 160ms linear;
@@ -161,7 +155,7 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
       align-items: flex-start;
     }
     .hero__poster,
-    .hero__video {
+    .hero__canvas {
       inset: auto 0 0 0;
       height: 82%;
       object-position: 8% center;
@@ -183,50 +177,102 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
 
   @media (prefers-reduced-motion: reduce) {
     .hero { height: auto; min-height: 0; }
-    .hero__video { display: none; }
+    .hero__canvas { display: none; }
   }
 </style>
 
 <script>
-  // Hero video: scrubbeado por scroll en desktop y mobile (el video es
-  // all-intra, así el seek es suave). Prime por gesto habilita el seek en iOS.
+  // Hero: scrub por scroll de una secuencia de frames WebP precargados,
+  // dibujados en un <canvas> con drawImage (sincrónico → sin flicker/tembleques).
   const seccion = document.querySelector<HTMLElement>("[data-hero]");
+  const canvas = seccion?.querySelector<HTMLCanvasElement>("[data-hero-canvas]");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (seccion && !reduce) {
-    const video = seccion.querySelector<HTMLVideoElement>("[data-hero-video]");
-    if (video) {
+  if (seccion && canvas && !reduce) {
+    const ctx = canvas.getContext("2d");
+    const total = Number(seccion.dataset.frames || 0);
+
+    if (ctx && total > 0) {
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
+      const url = (i: number) =>
+        `/media/hero-frames/f_${String(i + 1).padStart(3, "0")}.webp`;
+
+      const imgs: HTMLImageElement[] = [];
+      const cargado: boolean[] = new Array(total).fill(false);
+      let dibujado = -1;
+
+      // Dibuja el frame idx cubriendo el canvas (cover + object-position del CSS).
+      const dibujar = (idx: number) => {
+        const im = imgs[idx];
+        if (!im || !cargado[idx]) return;
+        const W = canvas.width;
+        const H = canvas.height;
+        const s = Math.max(W / im.naturalWidth, H / im.naturalHeight);
+        const w = im.naturalWidth * s;
+        const h = im.naturalHeight * s;
+        const movil = window.matchMedia("(max-width:1000px)").matches;
+        const px = movil ? 0.08 : 1; // X: desktop derecha, móvil 8%
+        const py = movil ? 0.5 : 0; // Y: desktop arriba, móvil centro
+        ctx.clearRect(0, 0, W, H);
+        ctx.drawImage(im, (W - w) * px, (H - h) * py, w, h);
+        dibujado = idx;
+      };
+
+      // Ajusta el backing-store del canvas al tamaño real (× DPR) y redibuja.
+      const redimensionar = () => {
+        const r = canvas.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.round(r.width * dpr));
+        canvas.height = Math.max(1, Math.round(r.height * dpr));
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        if (dibujado >= 0) {
+          const d = dibujado;
+          dibujado = -1;
+          dibujar(d);
+        }
+      };
+
+      for (let i = 0; i < total; i++) {
+        const im = new Image();
+        im.decoding = "async";
+        im.onload = () => {
+          cargado[i] = true;
+          if (i === 0) {
+            redimensionar();
+            dibujar(0);
+            canvas.style.opacity = "1";
+          }
+        };
+        im.src = url(i);
+        imgs.push(im);
+      }
+
+      // Frame cargado más cercano al objetivo (evita huecos mientras precarga).
+      const masCercano = (idx: number) => {
+        for (let j = idx; j >= 0; j--) if (cargado[j]) return j;
+        for (let j = idx + 1; j < total; j++) if (cargado[j]) return j;
+        return -1;
+      };
+
       let visible = false;
       let objetivo = 0;
       let actual = 0;
       let raf = 0;
-      let listo = false;
-
-      const mostrar = () => { if (listo) video.style.opacity = "1"; };
-      video.addEventListener("loadedmetadata", () => {
-        if (video.duration > 0) {
-          listo = true;
-          mostrar();
-        }
-      });
-      video.addEventListener("error", () => { video.style.display = "none"; });
 
       const calcular = () => {
         const r = seccion.getBoundingClientRect();
         const p = Math.min(1, Math.max(0, -r.top / r.height));
-        objetivo = p * (video.duration || 0);
+        objetivo = p * (total - 1);
       };
 
       const tick = () => {
-        actual += (objetivo - actual) * 0.12;
-        if (Math.abs(objetivo - actual) < 0.001) actual = objetivo;
-        if (listo) {
-          try {
-            video.currentTime = actual;
-          } catch {
-            /* seeking aún no disponible */
-          }
-        }
+        actual += (objetivo - actual) * 0.15;
+        if (Math.abs(objetivo - actual) < 0.01) actual = objetivo;
+        const idx = masCercano(Math.round(actual));
+        if (idx !== -1 && idx !== dibujado) dibujar(idx);
         if (visible) raf = requestAnimationFrame(tick);
       };
 
@@ -246,14 +292,14 @@ const { content = esDefault, lang = defaultLocale } = Astro.props;
       io.observe(seccion);
 
       window.addEventListener("scroll", calcular, { passive: true });
-      window.addEventListener("resize", calcular, { passive: true });
-
-      // Prime: habilita el seeking en iOS (requiere un gesto); pointerdown cubre touch.
-      const prime = () => {
-        video.play().then(() => video.pause()).catch(() => {});
-      };
-      window.addEventListener("pointerdown", prime, { once: true, passive: true });
-      window.addEventListener("wheel", prime, { once: true, passive: true });
+      window.addEventListener(
+        "resize",
+        () => {
+          redimensionar();
+          calcular();
+        },
+        { passive: true }
+      );
     }
   }
 </script>
