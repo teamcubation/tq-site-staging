@@ -97,9 +97,8 @@
     color: var(--color-tinta);
     background: var(--color-blanco);
     line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    /* Sin -webkit-font-smoothing: el diseño no lo setea. Forzar "antialiased"
+       en macOS adelgaza el texto y lo hacía verse más fino que el diseño. */
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
