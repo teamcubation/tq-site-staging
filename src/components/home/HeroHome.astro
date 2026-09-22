@@ -33,9 +33,11 @@ const FRAMES = 90;
 ---
 
 <section class="hero" data-hero data-frames={FRAMES}>
-  <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
-  <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
-  <div class="hero__veil" aria-hidden="true"></div>
+  <div class="hero__media">
+    <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
+    <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
+    <div class="hero__veil" aria-hidden="true"></div>
+  </div>
 
   <div class="hero__text">
     <p class="hero__eyebrow">{content.eyebrow}</p>
@@ -54,6 +56,12 @@ const FRAMES = 90;
     height: calc(56.25vw - 75px);
     overflow: hidden;
     background: #fff;
+  }
+  /* Desktop: media como fondo a pantalla del hero (el texto va encima). */
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
   }
   .hero__poster,
   .hero__canvas {
@@ -150,24 +158,28 @@ const FRAMES = 90;
   @media (max-width: 1000px) {
     .hero {
       height: auto;
-      min-height: max(138vw, 92svh);
+      min-height: 0;
       display: flex;
-      align-items: flex-start;
+      flex-direction: column;
+    }
+    /* Media en flujo, DEBAJO del texto: bloque 16:9 a ancho completo → la
+       escena 3D entra completa y a buen tamaño (sin recorte ni blancos). */
+    .hero__media {
+      position: relative;
+      order: 2;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      z-index: auto;
     }
     .hero__poster,
     .hero__canvas {
-      inset: auto 0 0 0;
-      height: 82%;
-      /* En móvil la escena entra completa (no recortada) y anclada abajo. */
-      object-fit: contain;
       object-position: center bottom;
     }
     .hero__veil {
-      background: linear-gradient(180deg, #fff 0%, #fff 46%, rgba(255, 255, 255, 0) 62%);
-      -webkit-mask-image: none;
-      mask-image: none;
+      display: none;
     }
     .hero__text {
+      order: 1;
       width: 100%;
       max-width: 100%;
       padding: clamp(32px, 5vh, 64px) 40px clamp(40px, 6vh, 72px);
@@ -212,10 +224,9 @@ const FRAMES = 90;
         const W = canvas.width;
         const H = canvas.height;
         const movil = window.matchMedia("(max-width:1000px)").matches;
-        // Desktop: cover (llena y recorta). Móvil: contain (entra completa).
-        const s = movil
-          ? Math.min(W / im.naturalWidth, H / im.naturalHeight)
-          : Math.max(W / im.naturalWidth, H / im.naturalHeight);
+        // Cover en ambos: en móvil la caja es 16:9 (= aspecto del frame),
+        // así que "cover" entra completa sin recorte.
+        const s = Math.max(W / im.naturalWidth, H / im.naturalHeight);
         const w = im.naturalWidth * s;
         const h = im.naturalHeight * s;
         const px = movil ? 0.5 : 1; // X: desktop derecha, móvil centrado
