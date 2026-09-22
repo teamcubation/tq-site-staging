@@ -158,8 +158,7 @@ const FRAMES = 90;
     .hero__canvas {
       inset: auto 0 0 0;
       height: 82%;
-      /* Encuadre sobre las figuras (centro-derecha); la izquierda es blanca. */
-      object-position: 65% 50%;
+      object-position: 8% center;
     }
     .hero__veil {
       background: linear-gradient(180deg, #fff 0%, #fff 46%, rgba(255, 255, 255, 0) 62%);
@@ -214,7 +213,7 @@ const FRAMES = 90;
         const w = im.naturalWidth * s;
         const h = im.naturalHeight * s;
         const movil = window.matchMedia("(max-width:1000px)").matches;
-        const px = movil ? 0.65 : 1; // X: desktop derecha, móvil sobre las figuras
+        const px = movil ? 0.08 : 1; // X: desktop derecha, móvil 8%
         const py = movil ? 0.5 : 0; // Y: desktop arriba, móvil centro
         ctx.clearRect(0, 0, W, H);
         ctx.drawImage(im, (W - w) * px, (H - h) * py, w, h);
