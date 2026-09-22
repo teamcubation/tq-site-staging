@@ -33,11 +33,9 @@ const FRAMES = 90;
 ---
 
 <section class="hero" data-hero data-frames={FRAMES}>
-  <div class="hero__media">
-    <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
-    <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
-    <div class="hero__veil" aria-hidden="true"></div>
-  </div>
+  <img class="hero__poster" src="/media/hero-poster.jpg" alt="" aria-hidden="true" fetchpriority="high" decoding="async" />
+  <canvas class="hero__canvas" data-hero-canvas aria-hidden="true"></canvas>
+  <div class="hero__veil" aria-hidden="true"></div>
 
   <div class="hero__text">
     <p class="hero__eyebrow">{content.eyebrow}</p>
@@ -56,12 +54,6 @@ const FRAMES = 90;
     height: calc(56.25vw - 75px);
     overflow: hidden;
     background: #fff;
-  }
-  /* Desktop: media como fondo a pantalla del hero (el texto va encima). */
-  .hero__media {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
   }
   .hero__poster,
   .hero__canvas {
@@ -156,37 +148,28 @@ const FRAMES = 90;
     .hero__titulo { max-width: 23ch; }
   }
   @media (max-width: 1000px) {
-    /* El hero ocupa el viewport (descontando el header): texto arriba y la
-       imagen rellena TODO el espacio restante justo debajo del CTA. Sin
-       hueco y sin irse fuera de pantalla. */
     .hero {
       height: auto;
-      min-height: 0;
+      min-height: max(138vw, 92svh);
       display: flex;
-      flex-direction: column;
-    }
-    /* La escena es 16:9: a ancho completo su tamaño natural (mostrándola
-       ENTERA) es ~56vw de alto. Va pegada al texto. Agrandar la caja solo
-       recortaría la escena, no la agranda. */
-    .hero__media {
-      position: relative;
-      order: 2;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      z-index: auto;
+      align-items: flex-start;
     }
     .hero__poster,
     .hero__canvas {
-      object-position: center;
+      inset: auto 0 0 0;
+      height: 82%;
+      /* Encuadre sobre las figuras (centro-derecha); la izquierda es blanca. */
+      object-position: 65% 50%;
     }
     .hero__veil {
-      display: none;
+      background: linear-gradient(180deg, #fff 0%, #fff 46%, rgba(255, 255, 255, 0) 62%);
+      -webkit-mask-image: none;
+      mask-image: none;
     }
     .hero__text {
-      order: 1;
       width: 100%;
       max-width: 100%;
-      padding: clamp(28px, 4vh, 48px) 40px clamp(12px, 2vh, 20px);
+      padding: clamp(32px, 5vh, 64px) 40px clamp(40px, 6vh, 72px);
     }
   }
   @media (max-width: 720px) {
@@ -227,14 +210,12 @@ const FRAMES = 90;
         if (!im || !cargado[idx]) return;
         const W = canvas.width;
         const H = canvas.height;
-        const movil = window.matchMedia("(max-width:1000px)").matches;
-        // Cover en ambos: en móvil la caja es 16:9 (= aspecto del frame),
-        // así que "cover" entra completa sin recorte.
         const s = Math.max(W / im.naturalWidth, H / im.naturalHeight);
         const w = im.naturalWidth * s;
         const h = im.naturalHeight * s;
-        const px = movil ? 0.5 : 1; // X: desktop derecha, móvil centrado
-        const py = movil ? 0.5 : 0; // Y: desktop arriba, móvil centrado
+        const movil = window.matchMedia("(max-width:1000px)").matches;
+        const px = movil ? 0.65 : 1; // X: desktop derecha, móvil sobre las figuras
+        const py = movil ? 0.5 : 0; // Y: desktop arriba, móvil centro
         ctx.clearRect(0, 0, W, H);
         ctx.drawImage(im, (W - w) * px, (H - h) * py, w, h);
         dibujado = idx;
