@@ -108,14 +108,16 @@ const FRAMES = 120;
     margin: 0;
   }
   /* En desktop, la frase resaltada del h1 no se parte de renglón y su
-     fondo lima tiene un alto fijo de 69px (texto centrado). */
+     fondo lima tiene un alto fijo de 69px (texto centrado). Alineada por
+     baseline (la del inline-flex es la de su texto): con "middle" la frase
+     quedaba unos px más abajo que el resto del renglón ("all" en EN). */
   @media (min-width: 1000px) {
     .hero__titulo :global(.resaltado) {
       white-space: nowrap;
       height: 69px;
       display: inline-flex;
       align-items: center;
-      vertical-align: middle;
+      vertical-align: baseline;
       padding-top: 0;
       padding-bottom: 0;
     }
