@@ -2,8 +2,6 @@
 // Cierre coral — banda de sección coral con isotipo blanco, título y CTA.
 // Presente al final de casi todas las páginas.
 import Cta from "./Cta.astro";
-import { Image } from "astro:assets";
-import texturaImg from "../assets/texturas/placas-modulares-dispersas.png";
 import { ui } from "../i18n/ui";
 import { defaultLocale, type Locale } from "../i18n/config";
 
@@ -16,17 +14,13 @@ interface Props {
   ctaHref?: string;
   grande?: boolean; // Home y Metodología usan 48px; el resto 44px (default).
   enlaceExtra?: { label: string; href: string };
-  textura?: boolean; // Servicios y los programas llevan la textura arriba a la derecha.
   lang?: Locale;
 }
-const { ctaLabel, ctaHref, grande = false, enlaceExtra, textura = false, lang = defaultLocale } = Astro.props;
+const { ctaLabel, ctaHref, grande = false, enlaceExtra, lang = defaultLocale } = Astro.props;
 const texto = Astro.props.texto ?? ui[lang].cierreTexto;
 ---
 
 <section class:list={["cierre", grande && "cierre--grande"]}>
-  {textura && (
-    <Image src={texturaImg} alt="" aria-hidden="true" class="cierre__textura" loading="lazy" />
-  )}
   <div class="cierre__contenido">
     <img
       src="/brand/isotipo-blanco.svg"
@@ -52,25 +46,12 @@ const texto = Astro.props.texto ?? ui[lang].cierreTexto;
 
 <style>
   .cierre {
-    position: relative;
-    overflow: hidden;
     background: var(--color-coral);
     color: #fff;
     padding: 28px 64px;
     text-align: center;
   }
-  .cierre__textura {
-    position: absolute;
-    width: 520px;
-    height: auto;
-    right: -190px;
-    top: -130px;
-    pointer-events: none;
-    z-index: 0;
-  }
   .cierre__contenido {
-    position: relative;
-    z-index: 1;
     max-width: 820px;
     margin: 0 auto;
     display: flex;
