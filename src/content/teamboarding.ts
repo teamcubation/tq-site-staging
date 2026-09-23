@@ -57,7 +57,7 @@ export const teamboardingContent: Record<"es" | "en" | "pt", TeamboardingContent
     discoImgAlt: "Figuras empujando juntas un disco ámbar sobre una placa de concreto",
     faqH2: "Preguntas sobre Teamboarding.",
     faqs: [
-      { pregunta: "¿Teamboarding es parte de Teamcubation?", respuesta: "Sí. Teamboarding es nuestra plataforma propia. Funciona como copiloto del mentor: ordena el proceso, resguarda su cumplimiento y hace visible el avance y los resultados en tiempo real." },
+      { pregunta: "¿Teamboarding es parte de Teamcubation?", respuesta: "Sí. Teamboarding es nuestra plataforma propietaria. Funciona como copiloto del mentor: ordena el proceso, resguarda su cumplimiento y hace visible el avance y los resultados en tiempo real." },
       { pregunta: "¿La plataforma reemplaza al mentor?", respuesta: "El trabajo del mentor y los datos de Teamboarding se complementan. La persona entrena con acompañamiento experto; la plataforma registra información para seguir y personalizar el recorrido." },
       { pregunta: "¿Cómo puede conocerla el responsable de mi empresa?", respuesta: "Podemos conversar sobre el programa que necesita su equipo y cómo se acompaña su avance con Teamboarding." },
     ],
@@ -93,7 +93,7 @@ export const teamboardingContent: Record<"es" | "en" | "pt", TeamboardingContent
     discoImgAlt: "Figures pushing an amber disc together on a concrete slab",
     faqH2: "Questions about Teamboarding.",
     faqs: [
-      { pregunta: "Is Teamboarding part of Teamcubation?", respuesta: "Yes. Teamboarding is our own platform. It works as the mentor's copilot: it orders the process, safeguards its completion and makes progress and results visible in real time." },
+      { pregunta: "Is Teamboarding part of Teamcubation?", respuesta: "Yes. Teamboarding is our proprietary platform. It works as the mentor's copilot: it orders the process, safeguards its completion and makes progress and results visible in real time." },
       { pregunta: "Does the platform replace the mentor?", respuesta: "The mentor's work and Teamboarding's data complement each other. The person trains with expert support; the platform records information to follow and personalize the journey." },
       { pregunta: "How can the person responsible at my company get to know it?", respuesta: "We can talk about the program your team needs and how its progress is supported with Teamboarding." },
     ],
@@ -129,7 +129,7 @@ export const teamboardingContent: Record<"es" | "en" | "pt", TeamboardingContent
     discoImgAlt: "Figuras empurrando juntas um disco âmbar sobre uma placa de concreto",
     faqH2: "Perguntas sobre o Teamboarding.",
     faqs: [
-      { pregunta: "O Teamboarding faz parte da Teamcubation?", respuesta: "Sim. O Teamboarding é a nossa plataforma própria. Funciona como copiloto do mentor: organiza o processo, resguarda seu cumprimento e torna o progresso e os resultados visíveis em tempo real." },
+      { pregunta: "O Teamboarding faz parte da Teamcubation?", respuesta: "Sim. O Teamboarding é a nossa plataforma proprietária. Funciona como copiloto do mentor: organiza o processo, resguarda seu cumprimento e torna o progresso e os resultados visíveis em tempo real." },
       { pregunta: "A plataforma substitui o mentor?", respuesta: "O trabalho do mentor e os dados do Teamboarding se complementam. A pessoa treina com acompanhamento especialista; a plataforma registra informação para seguir e personalizar a trajetória." },
       { pregunta: "Como o responsável da minha empresa pode conhecê-la?", respuesta: "Podemos conversar sobre o programa que sua equipe precisa e como o seu progresso é acompanhado com o Teamboarding." },
     ],
