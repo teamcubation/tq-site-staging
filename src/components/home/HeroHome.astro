@@ -28,8 +28,9 @@ const esDefault: HeroContent = {
 
 const { content = esDefault, lang = defaultLocale } = Astro.props;
 
-// Secuencia de frames en /public/media/hero-frames/ (f_001.webp … f_090.webp).
-const FRAMES = 90;
+// Secuencia de frames en /public/media/hero-frames/ (f_001.webp … f_120.webp):
+// los 120 frames de hero-video.mp4, a 1920x1080 (WebP q88).
+const FRAMES = 120;
 ---
 
 <section class="hero" data-hero data-frames={FRAMES}>
