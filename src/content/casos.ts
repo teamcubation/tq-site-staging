@@ -16,7 +16,6 @@ export interface CasosContent {
   industriasH2: string;
   stats: Stat[];
   clientesH3: string;
-  clientes: string[];
   impactoH2: string;
   destacado: string;
   nota: string;
@@ -25,6 +24,56 @@ export interface CasosContent {
   links: Enlace[];
   cierreTexto: string;
 }
+
+export interface ClienteLogo { logo: string; alt: string }
+
+// Grilla de clientes (logos). Las marcas no se traducen: lista única para los 3 idiomas.
+export const clientesGrilla: ClienteLogo[] = [
+  { logo: "mercado-libre", alt: "Mercado Libre" },
+  { logo: "coca-cola", alt: "Coca-Cola" },
+  { logo: "visa", alt: "Visa" },
+  { logo: "ey", alt: "EY" },
+  { logo: "hp", alt: "HP" },
+  { logo: "cargill", alt: "Cargill" },
+  { logo: "accenture", alt: "Accenture" },
+  { logo: "tenaris", alt: "Tenaris" },
+  { logo: "boston-scientific", alt: "Boston Scientific" },
+  { logo: "banco-macro", alt: "Banco Macro" },
+  { logo: "banco-comafi", alt: "Banco Comafi" },
+  { logo: "swiss-medical", alt: "Swiss Medical" },
+  { logo: "byma", alt: "BYMA" },
+  { logo: "wtw", alt: "WTW" },
+  { logo: "prosegur", alt: "Prosegur" },
+  { logo: "andreani", alt: "Andreani" },
+  { logo: "arcor-agronegocios", alt: "Arcor Agronegocios" },
+  { logo: "advanta", alt: "Advanta" },
+  { logo: "gdm-seeds", alt: "GDM Seeds" },
+  { logo: "vista-energy", alt: "Vista Energy" },
+  { logo: "aconcagua-energia", alt: "Aconcagua Energía" },
+  { logo: "clear-petroleum", alt: "Clear Petroleum" },
+  { logo: "elea", alt: "Elea" },
+  { logo: "endeavor", alt: "Endeavor" },
+  { logo: "iov-labs", alt: "Rootstock Labs" },
+  { logo: "agrotoken", alt: "JusToken" },
+  { logo: "tca", alt: "TCA" },
+  { logo: "grupo-corven", alt: "Grupo Corven" },
+  { logo: "max-capital", alt: "Max Capital" },
+  { logo: "plaza-logistica", alt: "Plaza Logística" },
+  { logo: "celsur", alt: "Celsur" },
+  { logo: "defiba", alt: "Defiba" },
+  { logo: "metropol", alt: "Metropol" },
+  { logo: "bolsapel", alt: "Bolsapel" },
+  { logo: "ceibos-group", alt: "Ceibos Group" },
+  { logo: "espartina", alt: "Espartina" },
+  { logo: "telviso", alt: "Telviso" },
+  { logo: "vital-network", alt: "Vital Network" },
+  { logo: "strix", alt: "Strix" },
+  { logo: "natura", alt: "Natura" },
+  { logo: "payway", alt: "Payway" },
+  { logo: "parque-de-la-innovacion", alt: "Parque de la Innovación" },
+  { logo: "arcelormittal-acindar", alt: "ArcelorMittal Acindar" },
+  { logo: "dreamco", alt: "Dreamco" },
+];
 
 export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   es: {
@@ -40,9 +89,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
       { num: "5", lbl: "5 países." },
       { lbl: "Nuestra trayectoria incluye empresas de banca, salud, logística, energía y tecnología." },
     ],
-    clientesH3: "Entre nuestros clientes.",
-    clientes: ["Mercado Libre", "Coca-Cola", "VISA", "EY", "Hewlett-Packard", "Cargill"],
-    impactoH2: "Impacto en los procesos intervenidos.",
+    clientesH3: "Entre nuestros clientes.",    impactoH2: "Impacto en los procesos intervenidos.",
     destacado: "Teamcubation registra resultados de hasta 35% de eficiencia en los procesos intervenidos.",
     nota: "Es un resultado agregado de la experiencia de Teamcubation. No representa un promedio ni una mejora general de toda la empresa, y no se atribuye a cada cliente nombrado en esta página.",
     partidaH2: "El punto de partida es una necesidad concreta.",
@@ -67,9 +114,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
       { num: "5", lbl: "5 countries." },
       { lbl: "Our track record includes companies in banking, healthcare, logistics, energy and technology." },
     ],
-    clientesH3: "Among our clients.",
-    clientes: ["Mercado Libre", "Coca-Cola", "VISA", "EY", "Hewlett-Packard", "Cargill"],
-    impactoH2: "Impact on the processes we worked on.",
+    clientesH3: "Among our clients.",    impactoH2: "Impact on the processes we worked on.",
     destacado: "Teamcubation records results of up to 35% efficiency in the processes it worked on.",
     nota: "It is an aggregate result of Teamcubation's experience. It does not represent an average or an overall improvement across the entire company, and it is not attributed to each client named on this page.",
     partidaH2: "The starting point is a concrete need.",
@@ -94,9 +139,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
       { num: "5", lbl: "5 países." },
       { lbl: "Nossa trajetória inclui empresas de banca, saúde, logística, energia e tecnologia." },
     ],
-    clientesH3: "Entre nossos clientes.",
-    clientes: ["Mercado Libre", "Coca-Cola", "VISA", "EY", "Hewlett-Packard", "Cargill"],
-    impactoH2: "Impacto nos processos em que atuamos.",
+    clientesH3: "Entre nossos clientes.",    impactoH2: "Impacto nos processos em que atuamos.",
     destacado: "A Teamcubation registra resultados de até 35% de eficiência nos processos em que atuou.",
     nota: "É um resultado agregado da experiência da Teamcubation. Não representa uma média nem uma melhoria geral de toda a empresa, e não é atribuído a cada cliente citado nesta página.",
     partidaH2: "O ponto de partida é uma necessidade concreta.",

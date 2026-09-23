@@ -1,7 +1,7 @@
 // Contenido de Nosotros por idioma. ES = original; EN traducido con
 // criterio empresarial (pendiente de revisión humana).
 interface ConviccionBloque { h3: string; pHtml: string }
-interface Fundador { nombre: string; rol: string; linkedin: string }
+interface Fundador { nombre: string; rol: string; linkedin: string; foto: string }
 interface Enlace { label: string; href: string }
 
 export interface NosotrosContent {
@@ -46,10 +46,15 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
       ],
     },
     heroImgAlt: "Equipo trabajando sobre planos y procesos propios en planta",
-    fundadoresH2: "Los fundadores.",
+    fundadoresH2: "El equipo.",
     fundadores: [
-      { nombre: "Mariano Wechsler", rol: "Cofundador de Teamcubation.", linkedin: "https://www.linkedin.com/in/marianowechsler/" },
-      { nombre: "Diego Jolodenco", rol: "Cofundador de Teamcubation.", linkedin: "https://www.linkedin.com/in/diegojolodenco/" },
+      { nombre: "Mariano Wechsler", rol: "Cofundador y CEO", linkedin: "https://www.linkedin.com/in/marianowechsler/", foto: "mariano-wechsler" },
+      { nombre: "Diego Jolodenco", rol: "Cofundador y COO", linkedin: "https://www.linkedin.com/in/diegojolodenco/", foto: "diego-jolodenco" },
+      { nombre: "Jonathan Tapicer", rol: "CTO", linkedin: "https://www.linkedin.com/in/tapicer/", foto: "jonathan-tapicer" },
+      { nombre: "Agustín Pina", rol: "Head of Training", linkedin: "https://www.linkedin.com/in/agustin-pina/", foto: "agustin-pina" },
+      { nombre: "Tomás Estruga", rol: "Director Comercial y Alianzas", linkedin: "https://www.linkedin.com/in/tomas-estruga-892140b/", foto: "tomas-estruga" },
+      { nombre: "Tomás Muñoz", rol: "CFO", linkedin: "https://www.linkedin.com/in/tomasmunoz/", foto: "tomas-munoz" },
+      { nombre: "Florencia Díaz", rol: "Head of People", linkedin: "https://www.linkedin.com/in/mariaflorenciadiaz/", foto: "florencia-diaz" },
     ],
     criterioImgAlt: "Mentora trabajando junto a un participante sobre su propia tarea",
     criterioH2Html: 'El <span class="resaltado">criterio</span> se forma haciendo.',
@@ -84,10 +89,15 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
       ],
     },
     heroImgAlt: "Team working on their own plans and processes on site",
-    fundadoresH2: "The founders.",
+    fundadoresH2: "The team.",
     fundadores: [
-      { nombre: "Mariano Wechsler", rol: "Co-founder of Teamcubation.", linkedin: "https://www.linkedin.com/in/marianowechsler/" },
-      { nombre: "Diego Jolodenco", rol: "Co-founder of Teamcubation.", linkedin: "https://www.linkedin.com/in/diegojolodenco/" },
+      { nombre: "Mariano Wechsler", rol: "Cofundador y CEO", linkedin: "https://www.linkedin.com/in/marianowechsler/", foto: "mariano-wechsler" },
+      { nombre: "Diego Jolodenco", rol: "Cofundador y COO", linkedin: "https://www.linkedin.com/in/diegojolodenco/", foto: "diego-jolodenco" },
+      { nombre: "Jonathan Tapicer", rol: "CTO", linkedin: "https://www.linkedin.com/in/tapicer/", foto: "jonathan-tapicer" },
+      { nombre: "Agustín Pina", rol: "Head of Training", linkedin: "https://www.linkedin.com/in/agustin-pina/", foto: "agustin-pina" },
+      { nombre: "Tomás Estruga", rol: "Director Comercial y Alianzas", linkedin: "https://www.linkedin.com/in/tomas-estruga-892140b/", foto: "tomas-estruga" },
+      { nombre: "Tomás Muñoz", rol: "CFO", linkedin: "https://www.linkedin.com/in/tomasmunoz/", foto: "tomas-munoz" },
+      { nombre: "Florencia Díaz", rol: "Head of People", linkedin: "https://www.linkedin.com/in/mariaflorenciadiaz/", foto: "florencia-diaz" },
     ],
     criterioImgAlt: "A mentor working alongside a participant on their own task",
     criterioH2Html: 'Good <span class="resaltado">judgment</span> is formed by doing.',
@@ -122,10 +132,15 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
       ],
     },
     heroImgAlt: "Equipe trabalhando sobre planos e processos próprios na planta",
-    fundadoresH2: "Os fundadores.",
+    fundadoresH2: "A equipe.",
     fundadores: [
-      { nombre: "Mariano Wechsler", rol: "Cofundador da Teamcubation.", linkedin: "https://www.linkedin.com/in/marianowechsler/" },
-      { nombre: "Diego Jolodenco", rol: "Cofundador da Teamcubation.", linkedin: "https://www.linkedin.com/in/diegojolodenco/" },
+      { nombre: "Mariano Wechsler", rol: "Cofundador y CEO", linkedin: "https://www.linkedin.com/in/marianowechsler/", foto: "mariano-wechsler" },
+      { nombre: "Diego Jolodenco", rol: "Cofundador y COO", linkedin: "https://www.linkedin.com/in/diegojolodenco/", foto: "diego-jolodenco" },
+      { nombre: "Jonathan Tapicer", rol: "CTO", linkedin: "https://www.linkedin.com/in/tapicer/", foto: "jonathan-tapicer" },
+      { nombre: "Agustín Pina", rol: "Head of Training", linkedin: "https://www.linkedin.com/in/agustin-pina/", foto: "agustin-pina" },
+      { nombre: "Tomás Estruga", rol: "Director Comercial y Alianzas", linkedin: "https://www.linkedin.com/in/tomas-estruga-892140b/", foto: "tomas-estruga" },
+      { nombre: "Tomás Muñoz", rol: "CFO", linkedin: "https://www.linkedin.com/in/tomasmunoz/", foto: "tomas-munoz" },
+      { nombre: "Florencia Díaz", rol: "Head of People", linkedin: "https://www.linkedin.com/in/mariaflorenciadiaz/", foto: "florencia-diaz" },
     ],
     criterioImgAlt: "Mentora trabalhando junto a um participante sobre a sua própria tarefa",
     criterioH2Html: 'O <span class="resaltado">critério</span> se forma fazendo.',
