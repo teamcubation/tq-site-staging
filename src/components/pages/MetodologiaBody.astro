@@ -169,7 +169,9 @@ const tbHref = ruta("teamboarding", lang);
 
   .ficha { background: var(--color-gris-claro); border-radius: var(--radius-tarjeta); padding: 32px; display: flex; flex-direction: column; }
   .ficha :global(.ficha__ilus) { width: 100%; object-fit: contain; align-self: center; display: block; mix-blend-mode: multiply; }
-  .ficha :global(.ficha__ilus--alta) { max-width: 440px; height: 300px; margin: -80px 0 14px; }
+  /* El PNG trae mucho margen blanco: el margen negativo lo recorta para que el dibujo
+     quede a la misma distancia del borde que el de la otra ficha y los títulos alineados. */
+  .ficha :global(.ficha__ilus--alta) { max-width: 440px; height: 248px; margin: -14px 0 0; }
   .ficha :global(.ficha__ilus--baja) { max-width: 600px; height: 220px; margin: 0; }
   .ficha--col { gap: 14px; }
   .ficha .p { font-size: 14px; }
