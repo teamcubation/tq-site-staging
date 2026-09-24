@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { defaultLocale, type Locale } from "../i18n/config";
+import { conBarra } from "../i18n/routes";
 import { SITE, organizationSchema } from "../lib/seo";
 import { ui } from "../i18n/ui";
 
@@ -42,8 +43,7 @@ const ogImage = new URL(image ?? `/og/og-${lang}.png`, SITE.deployUrl).href;
 const ogLocales: Record<Locale, string> = { es: "es_AR", en: "en_US", pt: "pt_BR" };
 
 // hreflang: solo si hay traducciones declaradas (evita alternates rotos). Con barra
-// final, igual que el canonical (sin ella GitHub Pages responde con un 301).
-const conBarra = (path: string) => (path.endsWith("/") ? path : `${path}/`);
+// final, igual que el canonical.
 const alternates = translations
   ? Object.entries(translations).map(([loc, path]) => ({
       loc,

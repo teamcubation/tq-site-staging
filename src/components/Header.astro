@@ -1,6 +1,6 @@
 ---
 import Cta from "./Cta.astro";
-import { rutas, ruta, rutaPrograma } from "../i18n/routes";
+import { rutas, ruta, rutaPrograma, conBarra } from "../i18n/routes";
 import { ui } from "../i18n/ui";
 import { getServicios } from "../data/servicios";
 import { defaultLocale, locales, type Locale } from "../i18n/config";
@@ -134,7 +134,7 @@ const menuServicios = MENU_GRUPOS.map((g) => ({
               .filter((loc) => loc !== lang && translations[loc])
               .map((loc) => (
                 <li role="none">
-                  <a role="menuitem" href={translations[loc]} hreflang={loc} title={ui[loc].langNombre}>{loc.toUpperCase()}</a>
+                  <a role="menuitem" href={conBarra(translations[loc]!)} hreflang={loc} title={ui[loc].langNombre}>{loc.toUpperCase()}</a>
                 </li>
               ))}
           </ul>

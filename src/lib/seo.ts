@@ -1,4 +1,5 @@
 // Helpers de SEO: constantes del sitio + generadores de JSON-LD (schema.org).
+import { conBarra } from "../i18n/routes";
 
 export const SITE = {
   // Dominio canónico (producción) — canonical, hreflang, JSON-LD.
@@ -63,7 +64,7 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: it.name,
-      item: `${SITE.url}${it.path}`,
+      item: `${SITE.url}${conBarra(it.path)}`,
     })),
   };
 }
@@ -74,7 +75,7 @@ export function serviceSchema(
   lang = "es",
   url?: string
 ) {
-  const pageUrl = url ?? `${SITE.url}${svc.slug}`;
+  const pageUrl = conBarra(url ?? `${SITE.url}${svc.slug}`);
   return {
     "@type": "Service",
     "@id": `${pageUrl}#service`,
@@ -96,7 +97,7 @@ export function itemListSchema(items: { nombre: string; slug: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: it.nombre,
-      url: `${SITE.url}${it.slug}`,
+      url: `${SITE.url}${conBarra(it.slug)}`,
     })),
   };
 }
