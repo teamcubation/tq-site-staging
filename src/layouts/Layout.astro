@@ -41,13 +41,17 @@ const ogImage = new URL(image ?? `/og/og-${lang}.png`, SITE.deployUrl).href;
 
 const ogLocales: Record<Locale, string> = { es: "es_AR", en: "en_US", pt: "pt_BR" };
 
-// hreflang: solo si hay traducciones declaradas (evita alternates rotos).
+// hreflang: solo si hay traducciones declaradas (evita alternates rotos). Con barra
+// final, igual que el canonical (sin ella GitHub Pages responde con un 301).
+const conBarra = (path: string) => (path.endsWith("/") ? path : `${path}/`);
 const alternates = translations
   ? Object.entries(translations).map(([loc, path]) => ({
       loc,
-      href: new URL(path!, Astro.site).href,
+      href: new URL(conBarra(path!), Astro.site).href,
     }))
   : [];
+// x-default: la versión en español, la misma en las tres páginas del grupo.
+const xDefault = alternates.find((a) => a.loc === defaultLocale)?.href;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -124,9 +128,7 @@ const jsonLd = {
     {alternates.map((a) => (
       <link rel="alternate" hreflang={a.loc} href={a.href} />
     ))}
-    {alternates.length > 0 && (
-      <link rel="alternate" hreflang="x-default" href={new URL(Astro.url.pathname, Astro.site).href} />
-    )}
+    {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
