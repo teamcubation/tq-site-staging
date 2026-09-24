@@ -98,7 +98,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
       { label: "Conocer la metodología", href: "/metodologia/" },
       { label: "Comparar los programas", href: "/servicios/" },
     ],
-    cierreTexto: "Conversemos sobre cómo potenciar su compañía con AI.",
+    cierreTexto: "Conversemos sobre cómo potenciar su compañía con IA.",
   },
 
   en: {

@@ -175,7 +175,7 @@ export const servicios: Record<string, Servicio> = {
     segLinkKey: "teamboarding",
     faqs: [
       { q: "¿Cuánto dura Booster AI?", a: "Cinco semanas de programa, para equipos de hasta 8 personas." },
-      { q: "¿Hace falta experiencia previa?", a: "No. Booster AI está orientado a personas sin experiencia previa en automatización ni en IA." },
+      { q: "¿Hace falta experiencia previa?", a: "No hace falta experiencia en automatización, pero sí que el equipo ya use IA en su trabajo. Si todavía no la usa, Starter AI permite construir esa base." },
       { q: "¿Qué es un agente de IA?", a: "Es un sistema que utiliza IA para decidir y ejecutar pasos orientados a una tarea, dentro de las herramientas y los permisos disponibles. Un flujo de reglas fijas también puede automatizar un proceso, sin ser necesariamente un agente." },
       { q: "¿Cómo se coordina con IT?", a: "El programa está dirigido a equipos de negocio. Los accesos, permisos e integraciones que requiera el proceso se coordinan según las políticas y la organización de cada empresa." },
     ],
@@ -550,7 +550,7 @@ const enText: Record<string, ServicioEn> = {
     segLinkT: "Discover Teamboarding",
     faqs: [
       { q: "How long is Booster AI?", a: "Five weeks of program, for teams of up to 8 people." },
-      { q: "Is prior experience required?", a: "No. Booster AI is aimed at people with no prior experience in automation or AI." },
+      { q: "Is prior experience required?", a: "No experience in automation is needed, but the team should already use AI in its work. If it doesn't yet, Starter AI lets it build that foundation." },
       { q: "What is an AI agent?", a: "It's a system that uses AI to decide and carry out steps aimed at a task, within the available tools and permissions. A fixed-rule flow can also automate a process without necessarily being an agent." },
       { q: "How is it coordinated with IT?", a: "The program is aimed at business teams. The access, permissions and integrations the process requires are coordinated according to each company's policies and organization." },
     ],
@@ -887,7 +887,7 @@ const ptText: Record<string, ServicioEn> = {
     segLinkT: "Conhecer o Teamboarding",
     faqs: [
       { q: "Quanto dura o Booster AI?", a: "Cinco semanas de programa, para equipes de até 8 pessoas." },
-      { q: "É preciso experiência prévia?", a: "Não. O Booster AI é voltado a pessoas sem experiência prévia em automação nem em IA." },
+      { q: "É preciso experiência prévia?", a: "Não é preciso experiência em automação, mas a equipe já deve usar IA no seu trabalho. Se ainda não usa, o Starter AI permite construir essa base." },
       { q: "O que é um agente de IA?", a: "É um sistema que usa IA para decidir e executar passos voltados a uma tarefa, dentro das ferramentas e permissões disponíveis. Um fluxo de regras fixas também pode automatizar um processo, sem ser necessariamente um agente." },
       { q: "Como é coordenado com o TI?", a: "O programa é voltado a equipes de negócio. Os acessos, permissões e integrações que o processo exigir são coordenados conforme as políticas e a organização de cada empresa." },
     ],

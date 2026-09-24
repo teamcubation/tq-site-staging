@@ -70,7 +70,7 @@ export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
     dosfotos: {
       criterioH2Html: 'El <span class="resaltado">criterio</span> se forma haciendo.',
       criterioP:
-        "Tener acceso a una herramienta es el comienzo. Aprender a pensar de forma sistemica, elegir qué problema resolver, entender cómo funciona una solución y evaluar como implementarla requiere ejecución sobre el trabajo real.",
+        "Tener acceso a una herramienta es el comienzo. Aprender a pensar de forma sistémica, elegir qué problema resolver, entender cómo funciona una solución y evaluar cómo implementarla requiere ejecución sobre el trabajo real.",
       criterioLink: { label: "Conoce nuestra metodología", href: "/metodologia/" },
       capacidadH2: "La capacidad queda en las personas.",
       panelP:
@@ -84,7 +84,7 @@ export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
       capas: [
         {
           titulo:
-            "Que las personas en su compañía utilicen todo el potencial de la AI para trabajar con mayor eficiencia.",
+            "Que las personas en su compañía utilicen todo el potencial de la IA para trabajar con mayor eficiencia.",
           prefijo: "Capa de superficie — equipos de negocio.",
           desc: "Sus equipos conocen las tareas que necesitan mejorar. El entrenamiento parte de ese conocimiento y trabaja sobre sus herramientas y procesos con foco en la adopción.",
           imgAlt: "Colaboradores verdes y un mentor naranja moviendo una esfera lima sobre un bloque de concreto",
@@ -105,7 +105,7 @@ export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
           ],
         },
         {
-          titulo: "Incoporar talento y habilidades tech a su equipo.",
+          titulo: "Incorporar talento y habilidades tech a su equipo.",
           prefijo: "Núcleo IT — equipos de desarrollo.",
           desc: "Entrenamos a los equipos de desarrollo para incorporar IA y formamos desarrolladores mientras construyen el software que la empresa necesita.",
           imgAlt: "Torre densa de concreto en contrapicado que equipos verdes y naranjas escalan con piezas lima y ámbar",
@@ -118,7 +118,7 @@ export const homeContent: Record<"es" | "en" | "pt", HomeContent> = {
     },
     airank: {
       eyebrow: "Diagnóstico · sin costo",
-      h2: "¿Cómo usan la IA las persona de su organización?",
+      h2: "¿Cómo usan la IA las personas de su organización?",
       intro: "Antes de elegir un programa conviene saber de dónde parte cada persona.",
       cardTitulo: "AI Rank",
       cardDesc: "Diagnóstico gratuito de adopción de IA. Mide el nivel real de cada persona por rol y por dimensión.",
