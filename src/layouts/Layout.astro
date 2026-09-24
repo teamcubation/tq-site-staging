@@ -34,6 +34,8 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// En staging (el build vive en otro dominio que producción) ninguna página se indexa.
+const esStaging = SITE.deployUrl !== SITE.url;
 // OG apunta al dominio donde vive el build (staging) para que la preview
 // resuelva; canonical/hreflang siguen en producción (SITE.url / Astro.site).
 const ogUrl = new URL(Astro.url.pathname, SITE.deployUrl).href;
@@ -90,7 +92,7 @@ const jsonLd = {
     </script>
 
     <meta name="theme-color" content="#ffffff" />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {(noindex || esStaging) && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Google Tag Manager -->
     <script is:inline>
