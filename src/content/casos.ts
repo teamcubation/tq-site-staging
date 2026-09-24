@@ -77,7 +77,7 @@ export const clientesGrilla: ClienteLogo[] = [
 
 export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   es: {
-    seoTitle: "Clientes | Conozca la trayectoria de Teamcubation: más de 90 empresas líderes en 5 países. Entre sus clientes están Mercado Libre y Banco Comafi.",
+    seoTitle: "Clientes: impacto medible con IA | Teamcubation",
     seoDesc: "Conozca la trayectoria de Teamcubation: más de 90 empresas líderes en 5 países. Entre sus clientes están Mercado Libre y Banco Comafi.",
     kicker: "Clientes",
     heroH1: "La experiencia de Teamcubation trabajando con empresas.",
@@ -102,7 +102,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   },
 
   en: {
-    seoTitle: "Clients | Explore Teamcubation's track record: more than 90 leading companies in 5 countries. Its clients include Mercado Libre and Banco Comafi.",
+    seoTitle: "Clients: measurable impact with AI | Teamcubation",
     seoDesc: "Explore Teamcubation's track record: more than 90 leading companies in 5 countries. Its clients include Mercado Libre and Banco Comafi.",
     kicker: "Clients",
     heroH1: "Teamcubation's experience working with companies.",
@@ -127,7 +127,7 @@ export const casosContent: Record<"es" | "en" | "pt", CasosContent> = {
   },
 
   pt: {
-    seoTitle: "Clientes | Conheça a trajetória da Teamcubation: mais de 90 empresas líderes em 5 países. Entre seus clientes estão o Mercado Livre e o Banco Comafi.",
+    seoTitle: "Clientes: impacto mensurável com IA | Teamcubation",
     seoDesc: "Conheça a trajetória da Teamcubation: mais de 90 empresas líderes em 5 países. Entre seus clientes estão o Mercado Livre e o Banco Comafi.",
     kicker: "Clientes",
     heroH1: "A experiência da Teamcubation trabalhando com empresas.",

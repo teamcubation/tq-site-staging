@@ -26,7 +26,7 @@ export interface MetodologiaContent {
 
 export const metodologiaContent: Record<"es" | "en" | "pt", MetodologiaContent> = {
   es: {
-    seoTitle: "Metodología | Cómo entrenamos equipos en IA: práctica sobre procesos reales, mentores expertos y seguimiento del avance y el impacto con Teamboarding.",
+    seoTitle: "Metodología: la experiencia se entrena | Teamcubation",
     seoDesc: "Cómo entrenamos equipos en IA: práctica sobre procesos reales, mentores expertos y seguimiento del avance y el impacto con Teamboarding.",
     kicker: "Metodología",
     heroTituloHtml: 'La experiencia no se enseña: <br /><span class="resaltado">se entrena.</span>',
@@ -89,7 +89,7 @@ export const metodologiaContent: Record<"es" | "en" | "pt", MetodologiaContent> 
   },
 
   en: {
-    seoTitle: "Methodology | How we train teams in AI: practice on real processes, expert mentors and tracking of progress and impact with Teamboarding.",
+    seoTitle: "Methodology: experience is trained | Teamcubation",
     seoDesc: "How we train teams in AI: practice on real processes, expert mentors and tracking of progress and impact with Teamboarding.",
     kicker: "Methodology",
     heroTituloHtml: "Experience isn't taught: <br /><span class=\"resaltado\">it's trained.</span>",
@@ -152,7 +152,7 @@ export const metodologiaContent: Record<"es" | "en" | "pt", MetodologiaContent> 
   },
 
   pt: {
-    seoTitle: "Metodologia | Como treinamos equipes em IA: prática sobre processos reais, mentores especialistas e acompanhamento do avanço e do impacto com Teamboarding.",
+    seoTitle: "Metodologia: a experiência se treina | Teamcubation",
     seoDesc: "Como treinamos equipes em IA: prática sobre processos reais, mentores especialistas e acompanhamento do avanço e do impacto com Teamboarding.",
     kicker: "Metodologia",
     heroTituloHtml: "A experiência não se ensina: <br /><span class=\"resaltado\">se treina.</span>",

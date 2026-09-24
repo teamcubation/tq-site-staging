@@ -25,7 +25,7 @@ export interface NosotrosContent {
 
 export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
   es: {
-    seoTitle: "Nosotros | Teamcubation fue fundada en 2021 en Buenos Aires por Mariano Wechsler y Diego Jolodenco. Conozca su historia y su método de entrenamiento.",
+    seoTitle: "Nosotros: la experiencia se entrena | Teamcubation",
     seoDesc: "Teamcubation fue fundada en 2021 en Buenos Aires por Mariano Wechsler y Diego Jolodenco. Conozca su historia y su método de entrenamiento.",
     kicker: "Nosotros",
     heroH1: "Qué es Teamcubation y quiénes la fundaron.",
@@ -68,7 +68,7 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
   },
 
   en: {
-    seoTitle: "About | Teamcubation was founded in 2021 in Buenos Aires by Mariano Wechsler and Diego Jolodenco. Learn about its history and its training method.",
+    seoTitle: "About: experience is trained | Teamcubation",
     seoDesc: "Teamcubation was founded in 2021 in Buenos Aires by Mariano Wechsler and Diego Jolodenco. Learn about its history and its training method.",
     kicker: "About",
     heroH1: "What Teamcubation is and who founded it.",
@@ -111,7 +111,7 @@ export const nosotrosContent: Record<"es" | "en" | "pt", NosotrosContent> = {
   },
 
   pt: {
-    seoTitle: "Sobre | A Teamcubation foi fundada em 2021 em Buenos Aires por Mariano Wechsler e Diego Jolodenco. Conheça a sua história e o seu método de treinamento.",
+    seoTitle: "Sobre: a experiência se treina | Teamcubation",
     seoDesc: "A Teamcubation foi fundada em 2021 em Buenos Aires por Mariano Wechsler e Diego Jolodenco. Conheça a sua história e o seu método de treinamento.",
     kicker: "Sobre",
     heroH1: "O que é a Teamcubation e quem a fundou.",

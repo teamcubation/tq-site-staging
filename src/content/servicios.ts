@@ -17,7 +17,7 @@ export interface ServiciosContent {
 
 export const serviciosContent: Record<"es" | "en" | "pt", ServiciosContent> = {
   es: {
-    seoTitle: "Servicios | Compare ocho servicios según su equipo y su objetivo: adoptar IA, automatizar procesos, crear aplicaciones o desarrollar software formando talento.",
+    seoTitle: "Servicios de adopción de IA y talento | Teamcubation",
     seoDesc: "Compare ocho servicios según su equipo y su objetivo: adoptar IA, automatizar procesos, crear aplicaciones o desarrollar software formando talento.",
     hero: {
       kicker: "Servicios",
@@ -60,7 +60,7 @@ export const serviciosContent: Record<"es" | "en" | "pt", ServiciosContent> = {
   },
 
   en: {
-    seoTitle: "Services | Compare eight services based on your team and your goal: adopt AI, automate processes, build applications or develop software while training talent.",
+    seoTitle: "AI adoption and talent services | Teamcubation",
     seoDesc: "Compare eight services based on your team and your goal: adopt AI, automate processes, build applications or develop software while training talent.",
     hero: {
       kicker: "Services",
@@ -103,7 +103,7 @@ export const serviciosContent: Record<"es" | "en" | "pt", ServiciosContent> = {
   },
 
   pt: {
-    seoTitle: "Serviços | Compare oito serviços de acordo com a sua equipe e o seu objetivo: adotar IA, automatizar processos, criar aplicações ou desenvolver software formando talentos.",
+    seoTitle: "Serviços de adoção de IA e talentos | Teamcubation",
     seoDesc: "Compare oito serviços de acordo com a sua equipe e o seu objetivo: adotar IA, automatizar processos, criar aplicações ou desenvolver software formando talentos.",
     hero: {
       kicker: "Serviços",
