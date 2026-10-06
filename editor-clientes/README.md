@@ -5,6 +5,8 @@ agregar (con logo), quitar, renombrar, cambiar el logo, ordenar y elegir cuáles
 la home. La pueden abrir las cuentas de teamcubation.com que estén en el grupo
 **web@teamcubation.com** (y quien es dueño del script).
 
+**Dirección:** https://script.google.com/a/macros/teamcubation.com/s/AKfycbzcMfCOljOoWa2YHijDv4-SGYDN0AwS6X5kYWBdNYmthuFadZ_JBy_gyGAz8ayOICLP/exec
+
 ## Cómo funciona
 
 - La lista vive en `src/data/clientes.json` (un cliente por línea: `slug`, `nombre`, `home`) y cada
@@ -54,7 +56,10 @@ Script y publica **de verdad** en GitHub, en la rama `prueba-editor-clientes` de
 
 ## Subir cambios a Apps Script
 
-El proyecto de Apps Script está en `.clasp.json`. Hace falta haber hecho una vez
+El proyecto de Apps Script ("Editor de clientes del sitio", en el Drive de su dueño) está en
+`.clasp.json`, y el ID de la implementación de la web app, en el script `publicar` de
+`package.json`: al publicar se actualiza esa misma implementación, así que la dirección no cambia.
+Hace falta haber hecho una vez
 `npx -y @google/clasp@3 login` con la cuenta dueña y tener activada la "Google Apps Script API" en
 https://script.google.com/home/usersettings.
 
