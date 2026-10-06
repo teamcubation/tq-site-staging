@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <base target="_top" />
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@500;650&display=swap" rel="stylesheet" />
+    <!-- estilos -->
+  </head>
+  <body>
+    <header class="cabecera">
+      <div class="contenedor cabecera__fila">
+        <h1 class="cabecera__titulo">Clientes del sitio</h1>
+        <p class="cabecera__meta"><span id="usuario"></span><span id="enlaces"></span></p>
+      </div>
+    </header>
+
+    <main class="contenedor">
+      <p id="prueba" class="aviso aviso--prueba" hidden></p>
+      <p id="cargando" class="estado">Cargando los clientes…</p>
+      <div id="error-carga" class="aviso aviso--error" hidden></div>
+
+      <section id="editor" hidden>
+        <div class="seccion__encabezado">
+          <h2 class="seccion__titulo">Clientes <span id="cuenta" class="seccion__cuenta"></span></h2>
+          <button id="agregar" class="boton boton--claro" type="button">Agregar cliente</button>
+        </div>
+        <p class="ayuda">
+          Arrastrá los logos para cambiar el orden: es el mismo en la página de Clientes y en la home.
+          Marcá «En la home» para que el cliente también aparezca en la tira de logos de la home.
+        </p>
+        <ol id="grilla" class="grilla"></ol>
+
+        <h2 class="seccion__titulo seccion__titulo--home">Así se ve la tira de la home <span id="cuenta-home" class="seccion__cuenta"></span></h2>
+        <p class="ayuda">Los clientes marcados para la home, en el mismo orden. En el sitio, la tira se desplaza sola.</p>
+        <div id="tira" class="tira"></div>
+      </section>
+    </main>
+
+    <div id="barra" class="barra" hidden>
+      <div class="contenedor barra__fila">
+        <ul id="resumen" class="resumen"></ul>
+        <div class="barra__acciones">
+          <button id="descartar" class="boton boton--texto" type="button">Descartar cambios</button>
+          <button id="publicar" class="boton" type="button">Publicar</button>
+        </div>
+      </div>
+    </div>
+
+    <dialog id="dialogo-logo" class="dialogo">
+      <form id="form-logo" method="dialog">
+        <h2 id="logo-titulo" class="dialogo__titulo">Agregar cliente</h2>
+        <label id="campo-nombre" class="campo">
+          <span class="campo__etiqueta">Nombre</span>
+          <input id="logo-nombre" class="campo__texto" type="text" maxlength="80" autocomplete="off" placeholder="Como se escribe la marca" />
+        </label>
+        <div class="campo">
+          <span class="campo__etiqueta">Logo</span>
+          <label id="zona" class="zona">
+            <input id="logo-archivo" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" />
+            <span id="zona-texto">Soltá el archivo acá o <u>elegilo</u> (PNG, JPG, SVG o WebP). Mejor si es grande o SVG.</span>
+          </label>
+        </div>
+        <div id="vista" class="vista" hidden>
+          <div class="vista__fila">
+            <figure class="vista__item">
+              <div class="vista__original"><img id="vista-original" alt="Logo original" /></div>
+              <figcaption>Original</figcaption>
+            </figure>
+            <figure class="vista__item">
+              <div class="logo-card"><img id="vista-tarjeta" alt="Logo en la página de Clientes" /></div>
+              <figcaption>En Clientes</figcaption>
+            </figure>
+            <figure class="vista__item">
+              <div class="vista__home"><img id="vista-home" alt="Logo en la home" /></div>
+              <figcaption>En la home</figcaption>
+            </figure>
+          </div>
+          <div class="ajustes">
+            <label class="ajustes__control">
+              <span>Detalle</span>
+              <input id="logo-detalle" type="range" min="0" max="100" step="1" />
+            </label>
+            <label id="ajuste-invertir" class="ajustes__control ajustes__control--check" hidden>
+              <input id="logo-invertir" type="checkbox" /> <span>Invertir (logo claro, pensado para fondos oscuros)</span>
+            </label>
+            <p class="ayuda ayuda--chica">
+              Se convierte al gris del sitio y se recorta solo. Si aparece un recuadro o manchas, bajá el detalle;
+              si faltan partes claras del logo, subilo.
+            </p>
+            <p id="logo-aviso" class="aviso aviso--suave" hidden></p>
+          </div>
+        </div>
+        <p id="logo-error" class="aviso aviso--error" hidden></p>
+        <div class="dialogo__acciones">
+          <button class="boton boton--texto" type="button" data-cerrar>Cancelar</button>
+          <button id="logo-aceptar" class="boton" type="submit" disabled>Agregar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dialogo-publicar" class="dialogo">
+      <h2 id="publicar-titulo" class="dialogo__titulo">Publicar los cambios</h2>
+      <div id="publicar-cuerpo"></div>
+      <div class="dialogo__acciones" id="publicar-acciones"></div>
+    </dialog>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.7/Sortable.min.js" integrity="sha512-ri8dokds012Oxz+iFzMs4KNJXVc+h7J1zq6unM1NTtzBLj4jD1R5BWiK6QycK0TdSdkt7zYcIcv6sUPhmYkbdQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- scripts -->
+  </body>
+</html>

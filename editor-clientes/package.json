@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "construir": "node construir.mjs",
+    "probar": "node --test \"pruebas/*.test.js\"",
+    "local": "node local/servidor.mjs",
+    "subir": "node construir.mjs && npx -y @google/clasp@3 push --force",
+    "publicar": "node construir.mjs && npx -y @google/clasp@3 push --force && npx -y @google/clasp@3 update-deployment"
+  }
+}

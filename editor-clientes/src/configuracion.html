@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <base target="_top" />
+    <meta charset="utf-8" />
+    <style>
+      body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #171414; background: #ffffff; }
+      main { max-width: 640px; margin: 10vh auto 64px; padding: 0 24px; }
+      h1 { font-size: 26px; line-height: 1.2; margin: 0 0 24px; }
+      ol { padding-left: 22px; margin: 0; }
+      li { font-size: 17px; line-height: 1.5; margin-bottom: 20px; color: #4d4848; }
+      li.hecho { color: #41874a; }
+      .problema { background: #fff1ef; border: 1px solid #ffcdc6; border-radius: 10px; padding: 12px 16px; margin-bottom: 24px; }
+      button, .boton { display: inline-block; margin-top: 10px; padding: 10px 18px; border: 0; border-radius: 999px; background: #c5e86d; color: #171414; font: 600 16px system-ui, sans-serif; text-decoration: none; cursor: pointer; }
+      code { background: #f7f7f7; padding: 1px 6px; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Configurar el editor de clientes</h1>
+      <? if (problema) { ?><p class="problema"><?= problema ?></p><? } ?>
+      <ol>
+        <li class="<?= app ? 'hecho' : '' ?>">
+          Crear la GitHub App con la que el editor publica (puede escribir en los repos donde se la instale y leer sus deploys).
+          <? if (app) { ?><br />Creada: <code><?= app ?></code>.<? } ?>
+          <form action="https://github.com/organizations/<?= org ?>/settings/apps/new?state=<?= estado ?>" method="post">
+            <input type="hidden" name="manifest" value="<?= manifiesto ?>" />
+            <button type="submit"><?= app ? 'Crear otra (reemplaza a la actual)' : 'Crear la GitHub App' ?></button>
+          </form>
+        </li>
+        <li class="<?= instalacion && repos && necesarios.every(function (r) { return repos.indexOf(r) >= 0; }) ? 'hecho' : '' ?>">
+          Instalarla solo en <code><?= necesarios[0] ?></code> y <code><?= necesarios[1] ?></code>.
+          <? if (app) { ?><br /><a class="boton" href="https://github.com/apps/<?= app ?>/installations/new">Instalar</a><? } ?>
+          <? if (repos) { ?><br />Tiene acceso a: <?= repos.join(", ") || "ningún repo" ?>.<? } ?>
+          <? if (error) { ?><br /><span class="problema"><?= error ?></span><? } ?>
+        </li>
+        <li>
+          Listo: el editor está en <a href="<?= url ?>"><?= url ?></a>. Lo pueden abrir los miembros del grupo web@teamcubation.com.
+        </li>
+      </ol>
+    </main>
+  </body>
+</html>
