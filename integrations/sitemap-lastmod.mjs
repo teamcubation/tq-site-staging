@@ -19,10 +19,10 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Pocos pedidos a la vez y varios intentos: justo después de un deploy (CloudFront recién vaciado),
-// GitHub Pages puede responder 503 a una ráfaga de pedidos.
+// Pocos pedidos a la vez y reintentos durante un minuto: justo después de un deploy, GitHub Pages
+// puede responder 503 por un rato, y CloudFront guarda ese error unos 10 segundos.
 const PARALELAS = 4;
-const INTENTOS = 4;
+const INTENTOS = 6;
 const INDICE = "/sitemap-index.xml";
 const INICIAL = new URL("./lastmod-inicial.json", import.meta.url);
 
