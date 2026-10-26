@@ -19,7 +19,10 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const PARALELAS = 8;
+// Pocos pedidos a la vez y varios intentos: justo después de un deploy (CloudFront recién vaciado),
+// GitHub Pages puede responder 503 a una ráfaga de pedidos.
+const PARALELAS = 4;
+const INTENTOS = 4;
 const INDICE = "/sitemap-index.xml";
 const INICIAL = new URL("./lastmod-inicial.json", import.meta.url);
 
@@ -61,11 +64,11 @@ async function pedir(url) {
         signal: AbortSignal.timeout(20000),
       });
       if (r.status < 500) return { status: r.status, texto: await r.text() };
-      if (intento === 2) throw new Error(`responde ${r.status}`);
+      if (intento === INTENTOS) throw new Error(`responde ${r.status}`);
     } catch (e) {
-      if (intento === 2) throw new Error(`no se pudo leer ${url}: ${e.message}`);
+      if (intento === INTENTOS) throw new Error(`no se pudo leer ${url}: ${e.message}`);
     }
-    await new Promise((listo) => setTimeout(listo, 2000));
+    await new Promise((listo) => setTimeout(listo, 1000 * 2 ** intento));
   }
 }
 
