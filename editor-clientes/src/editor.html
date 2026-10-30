@@ -69,25 +69,33 @@
               <figcaption>Original</figcaption>
             </figure>
             <figure class="vista__item">
-              <div class="logo-card"><img id="vista-tarjeta" alt="Logo en la página de Clientes" /></div>
+              <div class="logo-card"><img id="vista-tarjeta" alt="Logo en la página de Clientes" draggable="false" /></div>
               <figcaption>En Clientes</figcaption>
             </figure>
             <figure class="vista__item">
-              <div class="vista__home"><img id="vista-home" alt="Logo en la home" /></div>
+              <div class="vista__home"><img id="vista-home" alt="Logo en la home" draggable="false" /></div>
               <figcaption>En la home</figcaption>
             </figure>
           </div>
           <div class="ajustes">
             <label class="ajustes__control">
-              <span>Detalle</span>
+              <span class="ajustes__nombre">Detalle</span>
               <input id="logo-detalle" type="range" min="0" max="100" step="1" />
             </label>
+            <div class="ajustes__control ajustes__control--zoom">
+              <label class="ajustes__nombre" for="logo-zoom">Zoom</label>
+              <input id="logo-zoom" type="range" min="50" max="150" step="1" value="100" />
+              <output id="logo-zoom-valor" class="ajustes__valor" for="logo-zoom">100&nbsp;%</output>
+              <button id="logo-zoom-restablecer" class="enlace-boton" type="button" hidden>volver a 100&nbsp;%</button>
+            </div>
             <label id="ajuste-invertir" class="ajustes__control ajustes__control--check" hidden>
               <input id="logo-invertir" type="checkbox" /> <span>Invertir (logo claro, pensado para fondos oscuros)</span>
             </label>
             <p class="ayuda ayuda--chica">
               Se convierte al gris del sitio y se recorta solo. Si aparece un recuadro o manchas, bajá el detalle;
-              si faltan partes claras del logo, subilo.
+              si faltan partes claras del logo, subilo. Si al lado de los demás se ve muy grande o muy chico, cambiá
+              el zoom (100&nbsp;% es el recorte automático). Con más de 100&nbsp;% se cortan los bordes: arrastrá el
+              logo para elegir qué parte queda.
             </p>
             <p id="logo-aviso" class="aviso aviso--suave" hidden></p>
           </div>

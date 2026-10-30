@@ -66,6 +66,38 @@ test("el amarillo claro queda transparente salvo que sea el único color", () =>
   assert.ok(px);
 });
 
+const alfa = (r, x, y) => r.rgba[(y * r.ancho + x) * 4 + 3];
+
+test("con menos zoom el logo queda más chico, centrado y con margen transparente", () => {
+  const px = imagen(400, 300, BLANCO, [20, 20, 120, 255], { x: 50, y: 100, ancho: 300, alto: 60 });
+  const r = Logo.procesar(px, 400, 300, { zoom: 0.5, centro: { x: 0, y: 0 } }); // al achicar, centro no cuenta
+  assert.equal(r.ancho, 600); // el cuadro es el mismo que con zoom 1
+  assert.equal(r.alto, 120);
+  // El logo, de 300 × 60, en el medio; el resto, transparente.
+  for (let y = 0; y < r.alto; y++) {
+    for (let x = 0; x < r.ancho; x++) {
+      assert.equal(alfa(r, x, y), x >= 150 && x < 450 && y >= 30 && y < 90 ? 255 : 0);
+    }
+  }
+  const sinZoom = Logo.procesar(px, 400, 300);
+  assert.deepEqual(Logo.procesar(px, 400, 300, { zoom: 1, centro: { x: 0, y: 1 } }).rgba, sinZoom.rgba);
+});
+
+test("con más zoom el logo se agranda y el centro elige qué parte queda", () => {
+  // Un rectángulo de 200 × 100 con un hueco arriba a la izquierda (x de 10 a 50, y de 10 a 30).
+  const px = imagen(400, 200, BLANCO, [0, 0, 0, 255], { x: 100, y: 50, ancho: 200, alto: 100 });
+  for (let y = 60; y < 80; y++) for (let x = 110; x < 150; x++) px.set(BLANCO, (y * 400 + x) * 4);
+  const arriba = Logo.procesar(px, 400, 200, { zoom: 2, centro: { x: 0, y: 0 } });
+  assert.equal(arriba.ancho, 240);
+  // Se ve el cuarto de arriba a la izquierda, 2,4 veces más grande: el hueco va de x 24 a 120.
+  assert.equal(alfa(arriba, 60, 48), 0);
+  assert.equal(alfa(arriba, 5, 5), 255);
+  assert.equal(alfa(arriba, 200, 100), 255);
+  // El cuarto de abajo a la derecha no tiene hueco.
+  const abajo = Logo.procesar(px, 400, 200, { zoom: 2, centro: { x: 1, y: 1 } });
+  for (let i = 3; i < abajo.rgba.length; i += 4) assert.equal(abajo.rgba[i], 255);
+});
+
 test("nada visible devuelve un error", () => {
   const px = imagen(50, 50, BLANCO, BLANCO, { x: 0, y: 0, ancho: 0, alto: 0 });
   assert.ok(Logo.procesar(px, 50, 50).error);

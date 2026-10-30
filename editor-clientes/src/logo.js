@@ -1,7 +1,7 @@
 // Convierte un logo cualquiera al estilo de los logos de clientes del sitio: un solo gris
-// (#929292) con transparencia, recortado al logo y de 120 px de alto. Trabaja sobre píxeles
-// RGBA sin depender de nada: el editor lo usa en el navegador (decodifica y codifica con un
-// canvas) y las pruebas en Node (con sharp).
+// (#929292) con transparencia, recortado al logo (con el zoom que se elija) y de 120 px de alto.
+// Trabaja sobre píxeles RGBA sin depender de nada: el editor lo usa en el navegador (decodifica
+// y codifica con un canvas) y las pruebas en Node (con sharp).
 var Logo = (function () {
   var GRIS = 146;
   var ALTO = 120;
@@ -110,20 +110,25 @@ var Logo = (function () {
     return x1 < 0 ? null : { x: x0, y: y0, ancho: x1 - x0 + 1, alto: y1 - y0 + 1 };
   }
 
-  // Reescala n valores de src (desde si, cada sp) a m valores de dst (desde di, cada dp):
-  // promedia áreas al achicar e interpola linealmente al agrandar.
-  function reescalarEje(src, si, sp, n, dst, di, dp, m) {
+  // Reescala el tramo [o, o + l) de n valores de src (desde si, cada sp) a m valores de dst
+  // (desde di, cada dp): promedia áreas al achicar e interpola linealmente al agrandar. El tramo
+  // no tiene que ser entero y puede salirse de los n valores: afuera todo vale 0.
+  function reescalarEje(src, si, sp, n, o, l, dst, di, dp, m) {
     var j, k;
-    if (m < n) {
-      var paso = n / m;
+    if (m < l) {
+      var paso = l / m;
       for (j = 0; j < m; j++) {
-        var a = j * paso, b = a + paso, suma = 0, fin = Math.min(n, Math.ceil(b));
-        for (k = Math.floor(a); k < fin; k++) suma += src[si + k * sp] * (Math.min(b, k + 1) - Math.max(a, k));
+        var a = o + j * paso, b = a + paso, suma = 0, fin = Math.min(n, Math.ceil(b));
+        for (k = Math.max(0, Math.floor(a)); k < fin; k++) suma += src[si + k * sp] * (Math.min(b, k + 1) - Math.max(a, k));
         dst[di + j * dp] = suma / paso;
       }
     } else {
       for (j = 0; j < m; j++) {
-        var pos = (j + 0.5) * n / m - 0.5;
+        var pos = o + (j + 0.5) * l / m - 0.5;
+        if (pos < -0.5 || pos >= n - 0.5) {
+          dst[di + j * dp] = 0;
+          continue;
+        }
         var k0 = Math.max(0, Math.floor(pos)), k1 = Math.min(n - 1, k0 + 1);
         var f = Math.min(1, Math.max(0, pos - k0));
         dst[di + j * dp] = src[si + k0 * sp] * (1 - f) + src[si + k1 * sp] * f;
@@ -131,39 +136,66 @@ var Logo = (function () {
     }
   }
 
-  // Reescala un canal (ancho × alto) a nAncho × nAlto, primero en horizontal y después en vertical.
-  function reescalar(datos, ancho, alto, nAncho, nAlto) {
+  // Reescala un canal (ancho × alto) a nAncho × nAlto, primero en horizontal y después en
+  // vertical. marco ({ x, y, ancho, alto }) es la parte que se reescala; por defecto, todo.
+  function reescalar(datos, ancho, alto, nAncho, nAlto, marco) {
+    marco = marco || { x: 0, y: 0, ancho: ancho, alto: alto };
     var medio = new Float32Array(nAncho * alto), fin = new Float32Array(nAncho * nAlto);
-    for (var y = 0; y < alto; y++) reescalarEje(datos, y * ancho, 1, ancho, medio, y * nAncho, 1, nAncho);
-    for (var x = 0; x < nAncho; x++) reescalarEje(medio, x, nAncho, alto, fin, x, nAncho, nAlto);
+    for (var y = 0; y < alto; y++) reescalarEje(datos, y * ancho, 1, ancho, marco.x, marco.ancho, medio, y * nAncho, 1, nAncho);
+    for (var x = 0; x < nAncho; x++) reescalarEje(medio, x, nAncho, alto, marco.y, marco.alto, fin, x, nAncho, nAlto);
     return fin;
   }
 
-  // Todo el proceso: de los píxeles RGBA de cualquier logo a los del logo listo para el sitio.
-  // Devuelve { rgba, ancho, alto, altoOriginal, fondoTransparente, invertir, umbral } o
-  // { error } si no quedó nada visible.
-  function procesar(px, ancho, alto, opciones) {
+  // El proceso tiene dos partes. La primera es la lenta y depende del detalle y de invertir: la
+  // máscara recortada a lo visible. Devuelve { alfa, ancho, alto, fondoTransparente, invertir,
+  // umbral }, con alfa null si no quedó nada visible.
+  function recortar(px, ancho, alto, opciones) {
     var m = mascara(px, ancho, alto, opciones);
     var r = recorte(m.alfa, ancho, alto);
-    if (!r) return { error: "No quedó nada visible del logo.", invertir: m.invertir, umbral: m.umbral, fondoTransparente: m.fondoTransparente };
-    var recortado = new Float32Array(r.ancho * r.alto);
+    var logo = { alfa: null, ancho: 0, alto: 0, fondoTransparente: m.fondoTransparente, invertir: m.invertir, umbral: m.umbral };
+    if (!r) return logo;
+    logo.alfa = new Float32Array(r.ancho * r.alto);
     for (var y = 0; y < r.alto; y++) {
-      recortado.set(m.alfa.subarray((r.y + y) * ancho + r.x, (r.y + y) * ancho + r.x + r.ancho), y * r.ancho);
+      logo.alfa.set(m.alfa.subarray((r.y + y) * ancho + r.x, (r.y + y) * ancho + r.x + r.ancho), y * r.ancho);
     }
-    var nAncho = Math.max(1, Math.round(r.ancho * ALTO / r.alto));
-    var alfa = reescalar(recortado, r.ancho, r.alto, nAncho, ALTO);
+    logo.ancho = r.ancho;
+    logo.alto = r.alto;
+    return logo;
+  }
+
+  // La segunda es rápida: del logo recortado al de 120 px de alto, en un cuadro con la proporción
+  // del recorte. Con zoom 1 (por defecto) el logo llena el cuadro. Con menos queda más chico,
+  // centrado y con margen transparente, así se achica igual en Clientes y en la home. Con más se
+  // agranda y se cortan los bordes: centro ({ x, y }, de 0 a 1; por defecto 0,5) elige qué parte
+  // queda. Devuelve { rgba, ancho, alto, altoOriginal, fondoTransparente, invertir, umbral } o
+  // { error } si no quedó nada visible.
+  function encuadrar(logo, opciones) {
+    if (!logo.alfa) return { error: "No quedó nada visible del logo.", invertir: logo.invertir, umbral: logo.umbral, fondoTransparente: logo.fondoTransparente };
+    opciones = opciones || {};
+    var zoom = opciones.zoom > 0 ? opciones.zoom : 1, centro = opciones.centro || {};
+    var cx = zoom > 1 && centro.x != null ? Math.min(1, Math.max(0, centro.x)) : 0.5;
+    var cy = zoom > 1 && centro.y != null ? Math.min(1, Math.max(0, centro.y)) : 0.5;
+    var w = logo.ancho / zoom, h = logo.alto / zoom;
+    var marco = { x: (logo.ancho - w) * cx, y: (logo.alto - h) * cy, ancho: w, alto: h };
+    var nAncho = Math.max(1, Math.round(logo.ancho * ALTO / logo.alto));
+    var alfa = reescalar(logo.alfa, logo.ancho, logo.alto, nAncho, ALTO, marco);
     var rgba = new Uint8ClampedArray(nAncho * ALTO * 4);
     for (var p = 0, i = 0; p < alfa.length; p++, i += 4) {
       rgba[i] = rgba[i + 1] = rgba[i + 2] = GRIS;
       rgba[i + 3] = Math.round(alfa[p] * 255);
     }
     return {
-      rgba: rgba, ancho: nAncho, alto: ALTO, altoOriginal: r.alto,
-      fondoTransparente: m.fondoTransparente, invertir: m.invertir, umbral: m.umbral,
+      rgba: rgba, ancho: nAncho, alto: ALTO, altoOriginal: logo.alto,
+      fondoTransparente: logo.fondoTransparente, invertir: logo.invertir, umbral: logo.umbral,
     };
   }
 
-  return { GRIS: GRIS, ALTO: ALTO, procesar: procesar, mascara: mascara, reescalar: reescalar };
+  // Todo el proceso: de los píxeles RGBA de cualquier logo a los del logo listo para el sitio.
+  function procesar(px, ancho, alto, opciones) {
+    return encuadrar(recortar(px, ancho, alto, opciones), opciones);
+  }
+
+  return { GRIS: GRIS, ALTO: ALTO, procesar: procesar, recortar: recortar, encuadrar: encuadrar, mascara: mascara, reescalar: reescalar };
 })();
 
 if (typeof module !== "undefined") module.exports = Logo;

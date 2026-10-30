@@ -266,15 +266,17 @@
 
   // ---------- Agregar o cambiar un logo ----------
 
-  let dialogo = null; // { cliente, lectura, resultado, opciones }
+  let dialogo = null; // { cliente, lectura, opciones, logo, encuadre, resultado }
   let urlOriginal = null;
 
   // Detalle (0 a 100) ↔ umbral de Logo.procesar: más detalle es un umbral más bajo.
   const umbralDe = (detalle) => 0.6 - (0.58 * detalle) / 100;
   const detalleDe = (umbral) => Math.round(((0.6 - umbral) / 0.58) * 100);
+  // Zoom 1 (100 %) es el recorte automático; el centro solo cuenta con más de 100 %.
+  const encuadreInicial = () => ({ zoom: 1, centro: { x: 0.5, y: 0.5 } });
 
   function abrirDialogoLogo(cliente) {
-    dialogo = { cliente: cliente, lectura: null, resultado: null, opciones: {} };
+    dialogo = { cliente: cliente, lectura: null, opciones: {}, logo: null, encuadre: encuadreInicial(), resultado: null };
     $("logo-titulo").textContent = cliente ? `Cambiar el logo de ${cliente.nombre}` : "Agregar cliente";
     $("campo-nombre").hidden = !!cliente;
     $("logo-nombre").value = "";
@@ -352,17 +354,31 @@
     urlOriginal = URL.createObjectURL(archivo);
     $("vista-original").src = urlOriginal;
     dialogo.opciones = {};
-    procesarLogo(true);
+    dialogo.encuadre = encuadreInicial();
+    $("logo-zoom").value = 100;
+    recortarLogo(true);
   }
 
-  function procesarLogo(inicial) {
+  // La parte lenta de Logo (la máscara recortada): al elegir el archivo y al cambiar el detalle
+  // o invertir. inicial: además pone esos controles en lo que eligió Logo.
+  function recortarLogo(inicial) {
     const { px, ancho, alto } = dialogo.lectura;
-    const r = Logo.procesar(px, ancho, alto, dialogo.opciones);
+    dialogo.logo = Logo.recortar(px, ancho, alto, dialogo.opciones);
     if (inicial) {
-      $("logo-detalle").value = detalleDe(r.umbral);
-      $("logo-invertir").checked = r.invertir;
-      $("ajuste-invertir").hidden = !r.fondoTransparente;
+      $("logo-detalle").value = detalleDe(dialogo.logo.umbral);
+      $("logo-invertir").checked = dialogo.logo.invertir;
+      $("ajuste-invertir").hidden = !dialogo.logo.fondoTransparente;
     }
+    encuadrarLogo();
+  }
+
+  // La parte rápida, con el zoom, y las vistas.
+  function encuadrarLogo() {
+    const zoom = dialogo.encuadre.zoom;
+    const r = Logo.encuadrar(dialogo.logo, dialogo.encuadre);
+    $("logo-zoom-valor").textContent = `${Math.round(zoom * 100)} %`;
+    $("logo-zoom-restablecer").hidden = zoom === 1;
+    $("vista").classList.toggle("vista--arrastrable", zoom > 1 && !r.error);
     $("vista").hidden = false;
     $("logo-aviso").hidden = true;
     if (r.error) {
@@ -379,7 +395,8 @@
       $("vista-tarjeta").src = dataUrl;
       $("vista-home").src = dataUrl;
       medirParaTira($("vista-home"));
-      if (r.altoOriginal < 60) {
+      // Se ve borroso si el logo queda a más del doble de su tamaño.
+      if (r.altoOriginal < 60 * zoom) {
         $("logo-aviso").textContent = `El logo es chico (${r.altoOriginal} px de alto) y se va a ver algo borroso. Si conseguís uno más grande o en SVG, mejor.`;
         $("logo-aviso").hidden = false;
       }
@@ -403,12 +420,61 @@
     if (!dialogo || !dialogo.lectura) return;
     dialogo.opciones.umbral = umbralDe(Number($("logo-detalle").value));
     clearTimeout(pendiente);
-    pendiente = setTimeout(() => procesarLogo(false), 60);
+    pendiente = setTimeout(() => recortarLogo(false), 60);
   });
   $("logo-invertir").addEventListener("change", () => {
     if (!dialogo || !dialogo.lectura) return;
     dialogo.opciones = { invertir: $("logo-invertir").checked };
-    procesarLogo(true);
+    recortarLogo(true);
+  });
+
+  // El zoom y el arrastre cambian muchas veces por segundo: se encuadra una vez por cuadro.
+  let cuadro = 0;
+  function encuadrarPronto() {
+    cancelAnimationFrame(cuadro);
+    cuadro = requestAnimationFrame(() => { if (dialogo && dialogo.logo) encuadrarLogo(); });
+  }
+  $("logo-zoom").addEventListener("input", () => {
+    if (!dialogo || !dialogo.logo) return;
+    dialogo.encuadre.zoom = Number($("logo-zoom").value) / 100;
+    encuadrarPronto();
+  });
+  $("logo-zoom-restablecer").addEventListener("click", () => {
+    if (!dialogo || !dialogo.logo) return;
+    dialogo.encuadre = encuadreInicial();
+    $("logo-zoom").value = 100;
+    encuadrarLogo();
+  });
+
+  // Con más de 100 % de zoom, arrastrando el logo en las vistas se elige qué parte queda.
+  document.querySelectorAll("#vista .logo-card, #vista .vista__home").forEach((caja) => {
+    caja.addEventListener("pointerdown", (e) => {
+      const img = caja.querySelector("img");
+      if (!dialogo || !dialogo.resultado || dialogo.encuadre.zoom <= 1 || !img.naturalWidth) return;
+      e.preventDefault();
+      caja.setPointerCapture(e.pointerId);
+      // Lo que mide el logo en pantalla (con object-fit: contain puede ser menos que la imagen).
+      // De un extremo al otro, se mueve (zoom - 1) veces eso.
+      const r = img.getBoundingClientRect();
+      const escala = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
+      const { zoom, centro } = dialogo.encuadre;
+      const recorrido = { x: img.naturalWidth * escala * (zoom - 1), y: img.naturalHeight * escala * (zoom - 1) };
+      const desde = { x: e.clientX, y: e.clientY, cx: centro.x, cy: centro.y };
+      const limitar = (v) => Math.min(1, Math.max(0, v));
+      const mover = (ev) => {
+        centro.x = limitar(desde.cx - (ev.clientX - desde.x) / recorrido.x);
+        centro.y = limitar(desde.cy - (ev.clientY - desde.y) / recorrido.y);
+        encuadrarPronto();
+      };
+      const soltar = () => {
+        caja.removeEventListener("pointermove", mover);
+        caja.removeEventListener("pointerup", soltar);
+        caja.removeEventListener("pointercancel", soltar);
+      };
+      caja.addEventListener("pointermove", mover);
+      caja.addEventListener("pointerup", soltar);
+      caja.addEventListener("pointercancel", soltar);
+    });
   });
   $("logo-nombre").addEventListener("input", validarDialogo);
   $("logo-archivo").addEventListener("change", () => elegirArchivo($("logo-archivo").files[0]));

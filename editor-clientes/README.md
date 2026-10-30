@@ -23,6 +23,9 @@ la home. La pueden abrir las cuentas de teamcubation.com que estén en el grupo
 - Los logos se convierten en el navegador (`src/logo.js`) al estilo de los demás: un solo gris
   (#929292) con transparencia, recortados y de 120 px de alto. El servidor rechaza cualquier PNG
   que no tenga 120 px de alto.
+- El recorte automático es justo al logo (zoom 100 %). Con el zoom se lo achica (queda un margen
+  transparente, así se ve más chico en Clientes y en la home por igual) o se lo agranda cortando
+  los bordes; en ese caso, arrastrándolo en la vista se elige qué parte queda.
 - Al quitar un cliente que aparece nombrado en los textos del sitio (`src/content/`), avisa: ese
   texto no cambia solo.
 
