@@ -84,8 +84,9 @@
             </label>
             <div class="ajustes__control ajustes__control--zoom">
               <label class="ajustes__nombre" for="logo-zoom">Zoom</label>
-              <input id="logo-zoom" type="range" min="50" max="150" step="1" value="100" />
+              <input id="logo-zoom" type="range" min="50" max="200" step="1" value="100" />
               <output id="logo-zoom-valor" class="ajustes__valor" for="logo-zoom">100&nbsp;%</output>
+              <span id="logo-zoom-tope" class="ajustes__tope" hidden>el máximo para la tarjeta de Clientes</span>
               <button id="logo-zoom-restablecer" class="enlace-boton" type="button" hidden>volver a 100&nbsp;%</button>
             </div>
             <label id="ajuste-invertir" class="ajustes__control ajustes__control--check" hidden>
@@ -94,9 +95,10 @@
             <p class="ayuda ayuda--chica">
               Se convierte al gris del sitio y se recorta solo. Si aparece un recuadro o manchas, bajá el detalle;
               si faltan partes claras del logo, subilo. Si al lado de los demás se ve muy grande o muy chico, cambiá
-              el zoom (100&nbsp;% es el recorte automático). Con más de 100&nbsp;% se cortan los bordes: arrastrá el
-              logo para elegir qué parte queda.
+              el zoom: 100&nbsp;% es el tamaño de siempre, y con más el logo puede ocupar casi toda la tarjeta de
+              Clientes (en la home crece igual).
             </p>
+            <p id="logo-nota" class="aviso aviso--suave" hidden></p>
             <p id="logo-aviso" class="aviso aviso--suave" hidden></p>
           </div>
         </div>

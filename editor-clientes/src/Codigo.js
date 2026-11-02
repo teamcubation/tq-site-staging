@@ -1,8 +1,10 @@
 // Editor de clientes del sitio: web app de Apps Script que corre como su dueño y solo abren
 // cuentas de teamcubation.com que estén en el grupo web@. Lee la lista de clientes del repo de
-// staging y publica cada cambio con un commit en staging y otro en producción (los dos repos
+// staging y publica cada cambio con un commit en staging y otro en producción (los dos sitios
 // quedan iguales); GitHub Actions construye y publica cada sitio. Publica con una GitHub App
 // que se crea e instala desde la página de configuración (?configurar, solo el dueño).
+// Los archivos originales de los logos y los ajustes con que se convirtieron van solo a
+// staging (editor-clientes/originales/, que producción no tiene): sirven para volver a ajustarlos.
 
 const CONFIG = {
   grupo: "web@teamcubation.com",
@@ -13,6 +15,11 @@ const CONFIG = {
   },
   lista: "src/data/clientes.json",
   logos: "src/assets/clientes",
+  // Solo en staging: <slug>.<extensión> con el archivo que se subió y ajustes.json.
+  originales: "editor-clientes/originales",
+  ajustes: "editor-clientes/originales/ajustes.json",
+  extensiones: ["png", "jpg", "svg", "webp"],
+  maxOriginal: 10 * 1024 * 1024,
   // Textos del sitio donde se busca si un cliente aparece nombrado (para avisar al quitarlo).
   textos: "src/content",
   lugares: {
@@ -95,6 +102,13 @@ function cargar() {
   if (!lista) throw new Error(`No se encontró ${CONFIG.lista} en ${repo}.`);
   const clientes = JSON.parse(lista.texto);
   const logos = gh.listarCarpeta(repo, base, CONFIG.logos);
+  const carpeta = gh.listarCarpeta(repo, base, CONFIG.originales);
+  const originales = {};
+  clientes.forEach((c) => {
+    const archivo = archivoOriginal(carpeta, c.slug);
+    if (archivo) originales[c.slug] = archivo;
+  });
+  const ajustes = carpeta["ajustes.json"] ? JSON.parse(gh.leerArchivo(repo, base, CONFIG.ajustes).texto) : {};
   return {
     usuario: usuario,
     rama: rama,
@@ -102,26 +116,40 @@ function cargar() {
     clientes: clientes,
     logos: Object.keys(logos).filter((n) => n.endsWith(".png")).map((n) => n.slice(0, -4)),
     urlLogos: `https://raw.githubusercontent.com/${repo}/${base}/${CONFIG.logos}/`,
+    originales: originales,
+    ajustes: ajustes,
+    urlOriginales: `https://raw.githubusercontent.com/${repo}/${base}/${CONFIG.originales}/`,
     menciones: menciones(gh, repo, base, clientes),
     sitios: Object.keys(CONFIG.sitios).map((id) => ({ id: id, nombre: CONFIG.sitios[id].nombre, url: CONFIG.sitios[id].url })),
   };
 }
 
-// Publica la lista en staging y en producción. pedido: { base, clientes, logos: { slug: base64 } },
-// donde base es el commit de staging que cargó el editor. Devuelve los commits nuevos de cada sitio
-// (null si ya estaba así) y la base para seguir editando.
+// Publica la lista en staging y en producción. pedido: { version: 2, base, clientes, logos,
+// originales, ajustes }, donde base es el commit de staging que cargó el editor, logos es
+// { slug: base64 } con los PNG nuevos, originales { slug: { extension, base64 } } con los archivos
+// de donde salieron (si no son los que ya están guardados) y ajustes { slug: { detalle, invertir,
+// sitio } } los de todos los logos. Devuelve los commits nuevos de cada sitio (null si ya estaba
+// así) y la base para seguir editando.
 function publicar(pedido) {
   const usuario = exigirAcceso();
+  // Una pestaña abierta antes de actualizar el editor mandaría la lista sin el zoom.
+  if (pedido.version !== 2) throw new Error("Hay una versión nueva del editor. Recargá la página y volvé a hacer los cambios.");
   const cerrojo = LockService.getScriptLock();
   if (!cerrojo.tryLock(20000)) throw new Error("Otra persona está publicando en este momento. Probá de nuevo en un minuto.");
   try {
     const gh = github();
     const rama = ramaDePublicacion();
-    const clientes = (pedido.clientes || []).map((c) => ({ slug: c.slug, nombre: String(c.nombre || "").trim(), home: c.home === true }));
+    const clientes = (pedido.clientes || []).map((c) => {
+      const cliente = { slug: c.slug, nombre: String(c.nombre || "").trim(), home: c.home === true };
+      if (c.zoom !== undefined && c.zoom !== 1) cliente.zoom = c.zoom;
+      return cliente;
+    });
     const nuevos = pedido.logos || {};
     const errores = Cambios.validar(clientes, () => true);
     if (errores.length) throw new Error(errores.join(" "));
     Object.keys(nuevos).forEach((slug) => validarPng(nuevos[slug], slug));
+    const originales = validarOriginales(pedido.originales || {}, clientes);
+    const ajustes = validarAjustes(pedido.ajustes || {}, clientes);
     const autor = { name: usuario.split("@")[0], email: usuario, date: new Date().toISOString() };
     const mensajeDesde = (anterior) => Cambios.mensaje(Cambios.comparar(anterior, clientes, Object.keys(nuevos)), usuario);
 
@@ -130,10 +158,16 @@ function publicar(pedido) {
     const shaNuevo = {};
     Object.keys(nuevos).forEach((slug) => { shaNuevo[slug] = gh.crearBlob(stg, nuevos[slug]); });
     let finales = null;
+    const shaOriginal = {};
+    Object.keys(originales).forEach((slug) => { shaOriginal[slug] = gh.crearBlob(stg, originales[slug].base64); });
     const commitStaging = publicarEn(gh, stg, rama, clientes, mensajeDesde, autor, (head, existentes) => {
       controlarConflicto(gh, stg, pedido.base, head);
       finales = logosFinales(clientes, shaNuevo, existentes);
-      return { finales: finales, blob: (slug) => finales[slug] };
+      return {
+        finales: finales,
+        blob: (slug) => finales[slug],
+        extras: () => cambiosOriginales(gh, stg, head, clientes, originales, shaOriginal, ajustes),
+      };
     });
     const base = gh.commitDeRama(stg, rama);
 
@@ -178,9 +212,10 @@ function estadoDespliegue(commits) {
 // ---------- Publicación ----------
 
 // Deja la rama del repo con esta lista y estos logos en un solo commit (o en ninguno si ya
-// estaba así). preparar(head, existentes) devuelve { finales: { slug: sha }, blob(slug) }, donde
-// blob da el sha del logo en este repo (creándolo si hace falta). Si la rama se mueve mientras
-// tanto, vuelve a empezar desde el commit nuevo.
+// estaba así). preparar(head, existentes) devuelve { finales: { slug: sha }, blob(slug), extras },
+// donde blob da el sha del logo en este repo (creándolo si hace falta) y extras(), si está, otros
+// cambios para el mismo commit. Si la rama se mueve mientras tanto, vuelve a empezar desde el
+// commit nuevo.
 function publicarEn(gh, repo, rama, clientes, mensajeDesde, autor, preparar) {
   for (let intento = 1; intento <= 3; intento++) {
     const head = gh.commitDeRama(repo, rama);
@@ -199,6 +234,7 @@ function publicarEn(gh, repo, rama, clientes, mensajeDesde, autor, preparar) {
     const actual = gh.leerArchivo(repo, head, CONFIG.lista);
     const json = Cambios.formatear(clientes);
     if (!actual || actual.texto !== json) cambios.push({ path: CONFIG.lista, content: json });
+    if (plan.extras) plan.extras().forEach((c) => cambios.push(c));
     if (cambios.length === 0) return null;
     const arbol = gh.crearArbol(repo, gh.arbolDeCommit(repo, head), cambios);
     const commit = gh.crearCommit(repo, mensajeDesde(actual ? JSON.parse(actual.texto) : []), arbol, head, autor);
@@ -219,13 +255,48 @@ function logosFinales(clientes, shaNuevo, existentes) {
   return finales;
 }
 
-// Error si la lista o los logos de staging cambiaron entre base (lo que cargó el editor) y head.
+// Los cambios de editor-clientes/originales en staging: los originales nuevos, borrar los de los
+// clientes que ya no están (o que cambiaron de extensión) y ajustes.json con los ajustes de los
+// clientes que tienen original.
+function cambiosOriginales(gh, repo, head, clientes, nuevos, shaNuevo, ajustes) {
+  const existentes = gh.listarCarpeta(repo, head, CONFIG.originales);
+  const quedan = {};
+  const finales = {};
+  clientes.forEach((c) => {
+    const archivo = nuevos[c.slug] ? `${c.slug}.${nuevos[c.slug].extension}` : archivoOriginal(existentes, c.slug);
+    if (!archivo) return;
+    quedan[archivo] = nuevos[c.slug] ? shaNuevo[c.slug] : existentes[archivo];
+    if (ajustes[c.slug]) finales[c.slug] = ajustes[c.slug];
+  });
+  const cambios = [];
+  Object.keys(quedan).forEach((archivo) => {
+    if (existentes[archivo] !== quedan[archivo]) cambios.push({ path: `${CONFIG.originales}/${archivo}`, sha: quedan[archivo] });
+  });
+  Object.keys(existentes).forEach((archivo) => {
+    if (!quedan[archivo] && esOriginal(archivo)) cambios.push({ path: `${CONFIG.originales}/${archivo}`, sha: null });
+  });
+  const texto = Cambios.formatearAjustes(finales, clientes);
+  const actual = existentes["ajustes.json"] ? gh.leerArchivo(repo, head, CONFIG.ajustes).texto : null;
+  if (texto !== actual) cambios.push(texto === null ? { path: CONFIG.ajustes, sha: null } : { path: CONFIG.ajustes, content: texto });
+  return cambios;
+}
+
+const esOriginal = (archivo) => new RegExp(`^[a-z0-9-]+\\.(${CONFIG.extensiones.join("|")})$`).test(archivo);
+
+// El archivo original de un cliente en el listado de la carpeta, o null.
+function archivoOriginal(carpeta, slug) {
+  return CONFIG.extensiones.map((e) => `${slug}.${e}`).find((a) => carpeta[a]) || null;
+}
+
+// Error si la lista, los logos o los originales de staging cambiaron entre base (lo que cargó el
+// editor) y head.
 function controlarConflicto(gh, repo, base, head) {
   if (!base) throw new Error("Falta el commit desde el que se editó. Recargá el editor.");
   if (base === head) return;
   const antes = gh.leerArchivo(repo, base, CONFIG.lista);
   const ahora = gh.leerArchivo(repo, head, CONFIG.lista);
-  const mismosLogos = JSON.stringify(ordenar(gh.listarCarpeta(repo, base, CONFIG.logos))) === JSON.stringify(ordenar(gh.listarCarpeta(repo, head, CONFIG.logos)));
+  const igual = (carpeta) => JSON.stringify(ordenar(gh.listarCarpeta(repo, base, carpeta))) === JSON.stringify(ordenar(gh.listarCarpeta(repo, head, carpeta)));
+  const mismosLogos = igual(CONFIG.logos) && igual(CONFIG.originales);
   if ((antes && antes.sha) !== (ahora && ahora.sha) || !mismosLogos) {
     throw new Error("CONFLICTO: mientras editabas, otra persona publicó cambios en los clientes.");
   }
@@ -235,14 +306,45 @@ function ordenar(objeto) {
   return Object.keys(objeto).sort().map((k) => [k, objeto[k]]);
 }
 
-// El logo tiene que ser un PNG de 120 px de alto (lo que arma el editor) y de menos de 1 MB.
+// El logo tiene que ser un PNG de 240 px de alto (lo que arma el editor) y de menos de 1 MB.
 function validarPng(base64, slug) {
   const bytes = Utilities.base64Decode(base64).map((b) => (b + 256) % 256);
   const firma = [137, 80, 78, 71, 13, 10, 26, 10];
   const alto = (bytes[20] << 24) | (bytes[21] << 16) | (bytes[22] << 8) | bytes[23];
-  if (bytes.length > 1024 * 1024 || firma.some((b, i) => bytes[i] !== b) || alto !== 120) {
+  if (bytes.length > 1024 * 1024 || firma.some((b, i) => bytes[i] !== b) || alto !== 240) {
     throw new Error(`El logo de ${slug} no es válido. Volvé a subirlo desde el editor.`);
   }
+}
+
+// Los originales nuevos: de clientes de la lista, con una extensión conocida y de hasta 10 MB.
+function validarOriginales(originales, clientes) {
+  const slugs = clientes.map((c) => c.slug);
+  Object.keys(originales).forEach((slug) => {
+    const o = originales[slug];
+    const largo = Math.floor((String(o.base64 || "").replace(/=+$/, "").length * 3) / 4);
+    if (slugs.indexOf(slug) < 0 || CONFIG.extensiones.indexOf(o.extension) < 0 || !largo || largo > CONFIG.maxOriginal) {
+      throw new Error(`El archivo original del logo de ${slug} no es válido. Volvé a subirlo desde el editor.`);
+    }
+  });
+  return originales;
+}
+
+// Los ajustes de cada logo: detalle de 0 a 100, invertir y sitio, cada uno solo si está.
+function validarAjustes(ajustes, clientes) {
+  const limpios = {};
+  clientes.forEach((c) => {
+    const a = ajustes[c.slug];
+    if (!a) return;
+    const limpio = {};
+    if (a.detalle !== undefined) {
+      if (!Number.isInteger(a.detalle) || a.detalle < 0 || a.detalle > 100) throw new Error(`Los ajustes del logo de ${c.nombre} no son válidos.`);
+      limpio.detalle = a.detalle;
+    }
+    if (a.invertir !== undefined) limpio.invertir = a.invertir === true;
+    if (a.sitio) limpio.sitio = true;
+    if (Object.keys(limpio).length) limpios[c.slug] = limpio;
+  });
+  return limpios;
 }
 
 // Dónde aparece nombrado cada cliente en los textos del sitio: { slug: [lugares] }.

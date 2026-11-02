@@ -45,7 +45,7 @@ test("comparar detecta cada tipo de cambio", () => {
   const r = Cambios.comparar(lista, despues, ["mercado-libre", "itau"]);
   assert.deepEqual(r, {
     agregados: ["Itaú"], quitados: ["Strix"], renombrados: [{ de: "Visa", a: "Visa Inc." }],
-    logos: ["Mercado Libre"], aLaHome: [], fueraDeLaHome: ["Mercado Libre"], orden: false,
+    logos: ["Mercado Libre"], zoom: [], aLaHome: [], fueraDeLaHome: ["Mercado Libre"], orden: false,
   });
   assert.equal(Cambios.hayCambios(r), true);
 });
@@ -70,4 +70,52 @@ test("mensaje del commit", () => {
   assert.equal(titulo, "Clients: add 1, remove 3");
   const conPunto = Cambios.comparar(lista, [{ ...lista[0] }, { ...lista[1] }, { ...lista[2], nombre: "Strix S.A." }], []);
   assert.match(Cambios.mensaje(conPunto, "x@y"), /^- Rename Strix to Strix S\.A\.$/m);
+});
+
+test("el zoom va en la lista solo si no es 100 %, y se valida", () => {
+  const conZoom = copia();
+  conZoom[0].zoom = 1.35;
+  conZoom[1].zoom = 1;
+  assert.equal(Cambios.formatear(conZoom), [
+    "[",
+    '  { "slug": "mercado-libre", "nombre": "Mercado Libre", "home": true, "zoom": 1.35 },',
+    '  { "slug": "visa", "nombre": "Visa", "home": true },',
+    '  { "slug": "strix", "nombre": "Strix", "home": false }',
+    "]",
+    "",
+  ].join("\n"));
+  assert.deepEqual(Cambios.validar(conZoom, () => true), []);
+  const mal = copia();
+  mal[0].zoom = 2.5;
+  mal[1].zoom = "1.2";
+  assert.deepEqual(Cambios.validar(mal, () => true), [
+    "Mercado Libre: el zoom tiene que ir de 50 a 200 %.",
+    "Visa: el zoom tiene que ir de 50 a 200 %.",
+  ]);
+});
+
+test("comparar y el mensaje cuentan los cambios de zoom", () => {
+  const despues = copia();
+  despues[1].zoom = 1.5;
+  despues[2].zoom = 1; // igual que sin zoom
+  const r = Cambios.comparar(lista, despues, []);
+  assert.deepEqual(r.zoom, ["Visa"]);
+  assert.equal(Cambios.hayCambios(r), true);
+  assert.equal(Cambios.mensaje(r, "x@y").split("\n")[0], "Clients: logo size for Visa");
+  const vuelta = Cambios.comparar(despues, copia(), ["strix"]);
+  assert.deepEqual(vuelta.zoom, ["Visa"]);
+  assert.equal(Cambios.mensaje(vuelta, "x@y").split("\n")[0], "Clients: new logo for Strix; logo size for Visa");
+});
+
+test("formatearAjustes: un cliente por línea, en el orden de la lista", () => {
+  const ajustes = { strix: { invertir: true }, "mercado-libre": { detalle: 64, invertir: false }, otro: { detalle: 3 } };
+  assert.equal(Cambios.formatearAjustes(ajustes, lista), [
+    "{",
+    '  "mercado-libre": { "detalle": 64, "invertir": false },',
+    '  "strix": { "invertir": true }',
+    "}",
+    "",
+  ].join("\n"));
+  assert.deepEqual(JSON.parse(Cambios.formatearAjustes(ajustes, lista)), { "mercado-libre": { detalle: 64, invertir: false }, strix: { invertir: true } });
+  assert.equal(Cambios.formatearAjustes({}, lista), null);
 });

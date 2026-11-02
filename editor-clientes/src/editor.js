@@ -46,6 +46,7 @@
   const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
   const mensajeDe = (err) => String((err && err.message) || err).replace(/^Error: /, "");
   const esNuevo = (slug) => !estado.original.some((c) => c.slug === slug);
+  const zoomDe = (c) => (c.zoom === undefined ? 1 : c.zoom);
   const urlLogo = (slug) => (estado.logosNuevos[slug] ? estado.logosNuevos[slug].dataUrl : `${estado.datos.urlLogos}${slug}.png`);
 
   function mostrarError(caja, titulo, err) {
@@ -54,10 +55,11 @@
   }
 
   // Tamaño del logo en la tira de la home (mismo cálculo que TiraLogos.astro).
-  function medirParaTira(img) {
+  function medirParaTira(img, zoom) {
+    img.dataset.zoom = zoom;
     const ajustar = () => {
       const proporcion = img.naturalWidth / img.naturalHeight;
-      const alto = Math.min(44, Math.sqrt(SUPERFICIE / proporcion), 150 / proporcion);
+      const alto = Math.min(44, Math.sqrt(SUPERFICIE / proporcion), 150 / proporcion) * Number(img.dataset.zoom);
       img.style.width = `${Math.round(alto * proporcion)}px`;
       img.style.height = `${Math.round(alto)}px`;
     };
@@ -119,9 +121,11 @@
   function tarjeta(c, i) {
     const li = el("li", { class: `tarjeta${esNuevo(c.slug) ? " tarjeta--nueva" : ""}`, "data-slug": c.slug });
     li.append(el("span", { class: "tarjeta__posicion" }, String(i + 1)));
-    const marca = esNuevo(c.slug) ? "Nuevo" : estado.logosNuevos[c.slug] ? "Logo nuevo" : "";
+    const antes = estado.original.find((o) => o.slug === c.slug);
+    const marca = !antes ? "Nuevo" : estado.logosNuevos[c.slug] ? "Logo cambiado" : zoomDe(antes) !== zoomDe(c) ? "Otro tamaño" : "";
     if (marca) li.append(el("span", { class: "tarjeta__marca" }, marca));
     const card = el("div", { class: "logo-card", title: "Arrastrá para cambiar el orden" });
+    card.style.setProperty("--zoom", zoomDe(c));
     const img = el("img", { src: urlLogo(c.slug), alt: c.nombre });
     card.append(img);
     li.append(card);
@@ -205,7 +209,7 @@
     $("tira").replaceChildren(...enHome.map((c) => {
       const caja = el("div", { class: "tira__logo" });
       const img = el("img", { src: urlLogo(c.slug), alt: c.nombre });
-      medirParaTira(img);
+      medirParaTira(img, zoomDe(c));
       caja.append(img);
       return caja;
     }));
@@ -227,7 +231,8 @@
     if (r.agregados.length) f.push(`Agregás ${listar(r.agregados)}`);
     r.quitados.forEach((n) => f.push(`Quitás ${n}`));
     r.renombrados.forEach((x) => f.push(`${x.de} → ${x.a}`));
-    if (r.logos.length) f.push(`Logo nuevo: ${listar(r.logos)}`);
+    if (r.logos.length) f.push(`Cambia el logo de ${listar(r.logos)}`);
+    if (r.zoom.length) f.push(`Cambia el tamaño de ${listar(r.zoom)}`);
     if (r.aLaHome.length) f.push(`A la home: ${listar(r.aLaHome)}`);
     if (r.fueraDeLaHome.length) f.push(`Sale de la home: ${listar(r.fueraDeLaHome)}`);
     if (r.orden) f.push("Cambia el orden");
@@ -264,30 +269,135 @@
     },
   });
 
-  // ---------- Agregar o cambiar un logo ----------
+  // ---------- Agregar o editar un logo ----------
 
-  let dialogo = null; // { cliente, lectura, opciones, logo, encuadre, resultado }
-  let urlOriginal = null;
+  // Como en el sitio (CasosBody.astro): el logo entra en una caja de 140 × 44 px multiplicada por
+  // su zoom y, agrandado, puede ocupar el relleno de la tarjeta hasta 12 px del borde, o sea hasta
+  // 164 × 80 px. El zoom llega hasta donde el logo todavía entra, y nunca a más de 200 %.
+  const CAJA = { ancho: 140, alto: 44 };
+  const TOPE = { ancho: 164, alto: 80 };
 
-  // Detalle (0 a 100) ↔ umbral de Logo.procesar: más detalle es un umbral más bajo.
+  function zoomMaximo(proporcion) {
+    const ancho = Math.min(CAJA.ancho, CAJA.alto * proporcion);
+    const zoom = Math.min(Cambios.ZOOM.max, TOPE.ancho / ancho, TOPE.alto / (ancho / proporcion));
+    return Math.floor(zoom * 100 + 1e-6) / 100;
+  }
+
+  // Detalle (0 a 100) ↔ umbral de Logo.procesar: más detalle es un umbral más bajo. 100 es
+  // Logo.UMBRAL_SITIO: un logo del sitio queda como estaba.
   const umbralDe = (detalle) => 0.6 - (0.58 * detalle) / 100;
   const detalleDe = (umbral) => Math.round(((0.6 - umbral) / 0.58) * 100);
-  // Zoom 1 (100 %) es el recorte automático; el centro solo cuenta con más de 100 %.
-  const encuadreInicial = () => ({ zoom: 1, centro: { x: 0.5, y: 0.5 } });
+
+  // Lo guardado en editor-clientes/originales/ajustes.json ({ detalle, invertir, sitio }) como
+  // opciones de Logo.procesar, y al revés.
+  function opcionesDe(ajustes) {
+    const o = {};
+    if (ajustes.detalle !== undefined) o.umbral = umbralDe(ajustes.detalle);
+    if (ajustes.invertir !== undefined) o.invertir = ajustes.invertir;
+    if (ajustes.sitio) o.sitio = true;
+    return o;
+  }
+
+  function ajustesDe(opciones) {
+    const a = {};
+    if (opciones.umbral !== undefined) a.detalle = detalleDe(opciones.umbral);
+    if (opciones.invertir !== undefined) a.invertir = opciones.invertir;
+    if (opciones.sitio) a.sitio = true;
+    return a;
+  }
+
+  const ajustesGuardados = (slug) => (estado.logosNuevos[slug] ? estado.logosNuevos[slug].ajustes : estado.datos.ajustes[slug] || {});
+
+  // El diálogo abierto:
+  //   cliente: el que se edita (null al agregar uno)
+  //   zoom, y proporcion: la del logo que se ve (null hasta que carga la imagen)
+  //   fuente: de dónde sale el logo al cambiar el detalle, { archivo, lectura, tipo, sitio }, con
+  //     tipo "nuevo" (recién elegido), "sesion" (elegido antes, todavía sin publicar), "guardado"
+  //     (el original guardado en el repo) o "sitio" (no hay original: se ajusta el del sitio, y
+  //     sitio es true también si el original guardado es un logo del sitio). null mientras carga.
+  //   opciones: las de Logo.procesar elegidas a mano (o guardadas)
+  //   resultado: el logo convertido de nuevo, { dataUrl, base64, altoOriginal } o { error }; null
+  //     si sigue el de antes
+  let dialogo = null;
+  let urlOriginal = null;
 
   function abrirDialogoLogo(cliente) {
-    dialogo = { cliente: cliente, lectura: null, opciones: {}, logo: null, encuadre: encuadreInicial(), resultado: null };
-    $("logo-titulo").textContent = cliente ? `Cambiar el logo de ${cliente.nombre}` : "Agregar cliente";
+    const d = { cliente: cliente, zoom: cliente ? zoomDe(cliente) : 1, proporcion: null, fuente: null, opciones: {}, resultado: null };
+    dialogo = d;
+    $("logo-titulo").textContent = cliente ? `Logo de ${cliente.nombre}` : "Agregar cliente";
     $("campo-nombre").hidden = !!cliente;
     $("logo-nombre").value = "";
     $("logo-archivo").value = "";
-    $("zona-texto").textContent = "Soltá el archivo acá o elegilo (PNG, JPG, SVG o WebP). Mejor si es grande o SVG.";
-    $("vista").hidden = true;
+    $("zona-texto").textContent = cliente
+      ? "Para cambiar el archivo, soltá otro acá o elegilo (PNG, JPG, SVG o WebP)."
+      : "Soltá el archivo acá o elegilo (PNG, JPG, SVG o WebP). Mejor si es grande o SVG.";
     $("logo-error").hidden = true;
-    $("logo-aceptar").textContent = cliente ? "Usar este logo" : "Agregar";
-    validarDialogo();
+    $("logo-aceptar").textContent = cliente ? "Listo" : "Agregar";
+    mostrarOriginal(null);
+    $("logo-detalle").disabled = true;
+    $("ajuste-invertir").hidden = true;
+    nota("");
+    if (cliente) {
+      d.opciones = opcionesDe(ajustesGuardados(cliente.slug));
+      nota("Cargando el original para poder cambiar el detalle…");
+      cargarFuente(d);
+    }
+    mostrar();
     $("dialogo-logo").showModal();
     (cliente ? $("zona") : $("logo-nombre")).focus();
+  }
+
+  function nota(texto) {
+    $("logo-nota").textContent = texto;
+    $("logo-nota").hidden = !texto;
+  }
+
+  function mostrarOriginal(archivo) {
+    if (urlOriginal) URL.revokeObjectURL(urlOriginal);
+    urlOriginal = archivo ? URL.createObjectURL(archivo) : null;
+    if (urlOriginal) $("vista-original").src = urlOriginal;
+    else $("vista-original").removeAttribute("src");
+  }
+
+  // Busca de dónde sale el logo de un cliente que ya tiene uno: el archivo elegido en esta sesión,
+  // el original guardado o, si no hay, el logo del sitio.
+  async function cargarFuente(d) {
+    const slug = d.cliente.slug;
+    const previo = estado.logosNuevos[slug];
+    const guardado = estado.datos.originales[slug];
+    try {
+      let fuente;
+      if (previo && previo.original) fuente = { tipo: "sesion", archivo: previo.original.archivo, sitio: previo.original.sitio };
+      else if (guardado) fuente = { tipo: "guardado", archivo: await descargar(estado.datos.urlOriginales + guardado, guardado), sitio: !!d.opciones.sitio };
+      else fuente = { tipo: "sitio", archivo: await descargar(`${estado.datos.urlLogos}${slug}.png`, `${slug}.png`), sitio: true };
+      fuente.lectura = await leerImagen(fuente.archivo);
+      if (dialogo !== d) return;
+      d.fuente = fuente;
+      if (fuente.sitio) d.opciones.sitio = true;
+      mostrarOriginal(fuente.archivo);
+      // Los controles quedan en lo que se usó para el logo, sin convertirlo de nuevo.
+      ponerControles(Logo.procesar(fuente.lectura.px, fuente.lectura.ancho, fuente.lectura.alto, d.opciones));
+    } catch (err) {
+      if (dialogo !== d) return;
+      console.error(err);
+      nota("No se pudo cargar el original de este logo, así que el detalle no se puede cambiar (el zoom sí). Para cambiarlo, subí el archivo de nuevo.");
+    }
+  }
+
+  // Un archivo del repo (raw.githubusercontent.com, que permite leerlo desde otra página).
+  async function descargar(url, nombre) {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`${url}: ${r.status}`);
+    return new File([await r.blob()], nombre, { type: tipoDe(nombre) });
+  }
+
+  const TIPOS = { png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", svg: "image/svg+xml", webp: "image/webp" };
+  const tipoDe = (nombre) => TIPOS[(nombre.split(".").pop() || "").toLowerCase()] || "";
+  function extensionDe(archivo) {
+    const porTipo = Object.keys(TIPOS).find((e) => TIPOS[e] === archivo.type);
+    const porNombre = (archivo.name.split(".").pop() || "").toLowerCase();
+    const extension = TIPOS[porNombre] ? porNombre : porTipo || "png";
+    return extension === "jpeg" ? "jpg" : extension;
   }
 
   // Dibuja el archivo en un canvas y devuelve sus píxeles. Los SVG se dibujan grandes (1600 px
@@ -335,78 +445,126 @@
   }
 
   async function elegirArchivo(archivo) {
-    if (!archivo || !dialogo) return;
+    const d = dialogo;
+    if (!archivo || !d) return;
     $("logo-error").hidden = true;
     if (archivo.size > 10 * 1024 * 1024) {
       mostrarError($("logo-error"), "El archivo es muy grande.", "Usá uno de menos de 10 MB.");
       return;
     }
+    const textoZona = $("zona-texto").textContent;
     $("zona-texto").textContent = `Procesando ${archivo.name}…`;
+    let lectura;
     try {
-      dialogo.lectura = await leerImagen(archivo);
+      lectura = await leerImagen(archivo);
     } catch (err) {
-      $("zona-texto").textContent = "Soltá el archivo acá o elegilo (PNG, JPG, SVG o WebP).";
+      $("zona-texto").textContent = textoZona;
       mostrarError($("logo-error"), "No se pudo leer la imagen.", "Probá con otro archivo (PNG, JPG, SVG o WebP).");
       return;
     }
+    if (dialogo !== d) return;
     $("zona-texto").textContent = `${archivo.name} · elegir otro archivo`;
-    if (urlOriginal) URL.revokeObjectURL(urlOriginal);
-    urlOriginal = URL.createObjectURL(archivo);
-    $("vista-original").src = urlOriginal;
-    dialogo.opciones = {};
-    dialogo.encuadre = encuadreInicial();
-    $("logo-zoom").value = 100;
-    recortarLogo(true);
+    d.fuente = { tipo: "nuevo", archivo: archivo, lectura: lectura, sitio: false };
+    d.opciones = {};
+    d.zoom = 1;
+    nota("");
+    mostrarOriginal(archivo);
+    convertir(true);
   }
 
-  // La parte lenta de Logo (la máscara recortada): al elegir el archivo y al cambiar el detalle
-  // o invertir. inicial: además pone esos controles en lo que eligió Logo.
-  function recortarLogo(inicial) {
-    const { px, ancho, alto } = dialogo.lectura;
-    dialogo.logo = Logo.recortar(px, ancho, alto, dialogo.opciones);
-    if (inicial) {
-      $("logo-detalle").value = detalleDe(dialogo.logo.umbral);
-      $("logo-invertir").checked = dialogo.logo.invertir;
-      $("ajuste-invertir").hidden = !dialogo.logo.fondoTransparente;
-    }
-    encuadrarLogo();
-  }
-
-  // La parte rápida, con el zoom, y las vistas.
-  function encuadrarLogo() {
-    const zoom = dialogo.encuadre.zoom;
-    const r = Logo.encuadrar(dialogo.logo, dialogo.encuadre);
-    $("logo-zoom-valor").textContent = `${Math.round(zoom * 100)} %`;
-    $("logo-zoom-restablecer").hidden = zoom === 1;
-    $("vista").classList.toggle("vista--arrastrable", zoom > 1 && !r.error);
-    $("vista").hidden = false;
-    $("logo-aviso").hidden = true;
+  // Convierte la fuente con las opciones del diálogo. inicial: además pone el detalle e invertir
+  // en lo que eligió Logo.
+  function convertir(inicial) {
+    const d = dialogo;
+    const { px, ancho, alto } = d.fuente.lectura;
+    const r = Logo.procesar(px, ancho, alto, d.opciones);
+    if (inicial) ponerControles(r);
     if (r.error) {
-      dialogo.resultado = null;
-      $("vista-tarjeta").removeAttribute("src");
-      $("vista-home").removeAttribute("src");
-      $("logo-aviso").textContent = r.fondoTransparente
-        ? "No quedó nada visible: subí el detalle o probá «Invertir»."
-        : "No quedó nada visible: subí el detalle.";
-      $("logo-aviso").hidden = false;
+      d.resultado = {
+        error: r.fondoTransparente && !d.fuente.sitio
+          ? "No quedó nada visible: subí el detalle o probá «Invertir»."
+          : "No quedó nada visible: subí el detalle.",
+      };
     } else {
       const dataUrl = aPng(r);
-      dialogo.resultado = { dataUrl: dataUrl, base64: dataUrl.split(",")[1] };
-      $("vista-tarjeta").src = dataUrl;
-      $("vista-home").src = dataUrl;
-      medirParaTira($("vista-home"));
-      // Se ve borroso si el logo queda a más del doble de su tamaño.
-      if (r.altoOriginal < 60 * zoom) {
-        $("logo-aviso").textContent = `El logo es chico (${r.altoOriginal} px de alto) y se va a ver algo borroso. Si conseguís uno más grande o en SVG, mejor.`;
-        $("logo-aviso").hidden = false;
+      d.resultado = { dataUrl: dataUrl, base64: dataUrl.split(",")[1], altoOriginal: r.altoOriginal };
+    }
+    mostrar();
+  }
+
+  function ponerControles(r) {
+    const d = dialogo;
+    $("logo-detalle").value = detalleDe(r.umbral);
+    $("logo-detalle").disabled = false;
+    $("logo-invertir").checked = r.invertir;
+    $("ajuste-invertir").hidden = d.fuente.sitio || !r.fondoTransparente;
+    nota(d.fuente.sitio
+      ? "No está guardado el archivo original de este logo, así que el detalle se ajusta sobre el del sitio: bajarlo borra lo más tenue, pero subirlo no recupera lo que le falta. Para eso, subí el original."
+      : "");
+  }
+
+  // Las vistas: el logo nuevo o, si no cambió, el de antes, con el zoom.
+  function mostrar() {
+    const d = dialogo;
+    const r = d.resultado;
+    $("vista").hidden = !d.cliente && !r;
+    $("logo-aviso").hidden = true;
+    if (r && r.error) {
+      d.proporcion = null;
+      $("vista-tarjeta").removeAttribute("src");
+      $("vista-home").removeAttribute("src");
+      $("logo-aviso").textContent = r.error;
+      $("logo-aviso").hidden = false;
+    } else if (d.cliente || r) {
+      const src = r ? r.dataUrl : urlLogo(d.cliente.slug);
+      const img = $("vista-tarjeta");
+      if (img.getAttribute("src") !== src) {
+        d.proporcion = null;
+        img.src = src;
+        $("vista-home").src = src;
+      } else if (img.complete && img.naturalWidth) {
+        d.proporcion = img.naturalWidth / img.naturalHeight;
       }
     }
+    mostrarZoom();
     validarDialogo();
   }
 
+  // La proporción se sabe cuando carga la imagen; con ella, hasta dónde llega el zoom.
+  $("vista-tarjeta").addEventListener("load", () => {
+    const img = $("vista-tarjeta");
+    if (!dialogo || !img.naturalWidth) return;
+    dialogo.proporcion = img.naturalWidth / img.naturalHeight;
+    mostrarZoom();
+  });
+
+  function mostrarZoom() {
+    const d = dialogo;
+    const control = $("logo-zoom");
+    const maximo = d.proporcion ? zoomMaximo(d.proporcion) : Cambios.ZOOM.max;
+    d.zoom = Math.min(d.zoom, maximo);
+    control.max = Math.round(maximo * 100);
+    control.value = Math.round(d.zoom * 100);
+    control.disabled = !d.proporcion;
+    $("logo-zoom-valor").textContent = `${Math.round(d.zoom * 100)} %`;
+    $("logo-zoom-restablecer").hidden = d.zoom === 1;
+    $("logo-zoom-tope").hidden = !d.proporcion || d.zoom < maximo || maximo >= Cambios.ZOOM.max;
+    $("vista-tarjeta").parentElement.style.setProperty("--zoom", d.zoom);
+    medirParaTira($("vista-home"), d.zoom);
+    // Se ve borroso si en una pantalla de alta densidad el logo queda a más de 1,5 veces su tamaño.
+    const r = d.resultado;
+    if (r && !r.error && r.altoOriginal < 60 * d.zoom) {
+      $("logo-aviso").textContent = `El logo es chico (${r.altoOriginal} px de alto) y se va a ver algo borroso. Si conseguís uno más grande o en SVG, mejor.`;
+      $("logo-aviso").hidden = false;
+    } else if (!r || !r.error) {
+      $("logo-aviso").hidden = true;
+    }
+  }
+
   function validarDialogo() {
-    let ok = !!(dialogo && dialogo.resultado);
-    if (dialogo && !dialogo.cliente) {
+    const d = dialogo;
+    let ok = !!d && (d.resultado ? !d.resultado.error : !!d.cliente);
+    if (d && !d.cliente) {
       const nombre = $("logo-nombre").value.trim().toLowerCase();
       const repetido = estado.clientes.some((c) => c.nombre.trim().toLowerCase() === nombre);
       $("logo-nombre").setCustomValidity(repetido ? "Ya hay un cliente con ese nombre." : "");
@@ -417,65 +575,30 @@
 
   let pendiente = null;
   $("logo-detalle").addEventListener("input", () => {
-    if (!dialogo || !dialogo.lectura) return;
+    if (!dialogo || !dialogo.fuente) return;
     dialogo.opciones.umbral = umbralDe(Number($("logo-detalle").value));
     clearTimeout(pendiente);
-    pendiente = setTimeout(() => recortarLogo(false), 60);
+    pendiente = setTimeout(() => convertir(false), 60);
   });
   $("logo-invertir").addEventListener("change", () => {
-    if (!dialogo || !dialogo.lectura) return;
+    if (!dialogo || !dialogo.fuente) return;
+    // El umbral automático depende de invertir: vuelve a calcularse.
     dialogo.opciones = { invertir: $("logo-invertir").checked };
-    recortarLogo(true);
+    convertir(true);
   });
 
-  // El zoom y el arrastre cambian muchas veces por segundo: se encuadra una vez por cuadro.
-  let cuadro = 0;
-  function encuadrarPronto() {
-    cancelAnimationFrame(cuadro);
-    cuadro = requestAnimationFrame(() => { if (dialogo && dialogo.logo) encuadrarLogo(); });
-  }
+  // El zoom solo cambia cómo se ve: no hay que convertir el logo de nuevo.
   $("logo-zoom").addEventListener("input", () => {
-    if (!dialogo || !dialogo.logo) return;
-    dialogo.encuadre.zoom = Number($("logo-zoom").value) / 100;
-    encuadrarPronto();
+    if (!dialogo) return;
+    dialogo.zoom = Number($("logo-zoom").value) / 100;
+    mostrarZoom();
   });
   $("logo-zoom-restablecer").addEventListener("click", () => {
-    if (!dialogo || !dialogo.logo) return;
-    dialogo.encuadre = encuadreInicial();
-    $("logo-zoom").value = 100;
-    encuadrarLogo();
+    if (!dialogo) return;
+    dialogo.zoom = 1;
+    mostrarZoom();
   });
 
-  // Con más de 100 % de zoom, arrastrando el logo en las vistas se elige qué parte queda.
-  document.querySelectorAll("#vista .logo-card, #vista .vista__home").forEach((caja) => {
-    caja.addEventListener("pointerdown", (e) => {
-      const img = caja.querySelector("img");
-      if (!dialogo || !dialogo.resultado || dialogo.encuadre.zoom <= 1 || !img.naturalWidth) return;
-      e.preventDefault();
-      caja.setPointerCapture(e.pointerId);
-      // Lo que mide el logo en pantalla (con object-fit: contain puede ser menos que la imagen).
-      // De un extremo al otro, se mueve (zoom - 1) veces eso.
-      const r = img.getBoundingClientRect();
-      const escala = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
-      const { zoom, centro } = dialogo.encuadre;
-      const recorrido = { x: img.naturalWidth * escala * (zoom - 1), y: img.naturalHeight * escala * (zoom - 1) };
-      const desde = { x: e.clientX, y: e.clientY, cx: centro.x, cy: centro.y };
-      const limitar = (v) => Math.min(1, Math.max(0, v));
-      const mover = (ev) => {
-        centro.x = limitar(desde.cx - (ev.clientX - desde.x) / recorrido.x);
-        centro.y = limitar(desde.cy - (ev.clientY - desde.y) / recorrido.y);
-        encuadrarPronto();
-      };
-      const soltar = () => {
-        caja.removeEventListener("pointermove", mover);
-        caja.removeEventListener("pointerup", soltar);
-        caja.removeEventListener("pointercancel", soltar);
-      };
-      caja.addEventListener("pointermove", mover);
-      caja.addEventListener("pointerup", soltar);
-      caja.addEventListener("pointercancel", soltar);
-    });
-  });
   $("logo-nombre").addEventListener("input", validarDialogo);
   $("logo-archivo").addEventListener("change", () => elegirArchivo($("logo-archivo").files[0]));
   const zona = $("zona");
@@ -487,21 +610,37 @@
     elegirArchivo(e.dataTransfer.files[0]);
   });
   document.querySelectorAll("[data-cerrar]").forEach((b) => b.addEventListener("click", () => b.closest("dialog").close()));
+  // El evento llega después: si mientras tanto se abrió otro logo, no hay nada que limpiar.
+  $("dialogo-logo").addEventListener("close", () => {
+    if ($("dialogo-logo").open) return;
+    dialogo = null;
+    clearTimeout(pendiente);
+    mostrarOriginal(null);
+  });
 
   $("form-logo").addEventListener("submit", (e) => {
     e.preventDefault();
-    if ($("logo-aceptar").disabled) return;
-    if (dialogo.cliente) {
-      estado.logosNuevos[dialogo.cliente.slug] = dialogo.resultado;
-      estado.destacar = dialogo.cliente.slug;
-    } else {
+    const d = dialogo;
+    if (!d || $("logo-aceptar").disabled) return;
+    let cliente = d.cliente;
+    if (!cliente) {
       const nombre = $("logo-nombre").value.trim();
       const usados = new Set(estado.original.concat(estado.clientes).map((c) => c.slug));
-      const slug = Cambios.slugPara(nombre, usados);
-      estado.clientes.push({ slug: slug, nombre: nombre, home: false });
-      estado.logosNuevos[slug] = dialogo.resultado;
-      estado.destacar = slug;
+      cliente = { slug: Cambios.slugPara(nombre, usados), nombre: nombre, home: false };
+      estado.clientes.push(cliente);
     }
+    const zoom = Math.round(d.zoom * 100) / 100;
+    if (zoom === 1) delete cliente.zoom;
+    else cliente.zoom = zoom;
+    if (d.resultado) {
+      const f = d.fuente;
+      // El original que hay que guardar: ninguno si es el que ya está en el repo.
+      const original = f.tipo === "guardado" ? null
+        : f.tipo === "sesion" ? estado.logosNuevos[cliente.slug].original
+        : { archivo: f.archivo, extension: extensionDe(f.archivo), sitio: f.sitio };
+      estado.logosNuevos[cliente.slug] = { dataUrl: d.resultado.dataUrl, base64: d.resultado.base64, original: original, ajustes: ajustesDe(d.opciones) };
+    }
+    estado.destacar = cliente.slug;
     $("dialogo-logo").close();
     dibujar();
   });
@@ -554,6 +693,39 @@
     dialogoPublicar.showModal();
   });
 
+  // Lo que se manda a publicar: la lista, los logos nuevos con sus originales (solo en staging,
+  // para poder ajustarlos después) y los ajustes de todos los logos que tienen original.
+  async function armarPedido() {
+    const logos = {};
+    const originales = {};
+    const ajustes = {};
+    for (const c of estado.clientes) {
+      const nuevo = estado.logosNuevos[c.slug];
+      const a = ajustesGuardados(c.slug);
+      if (Object.keys(a).length) ajustes[c.slug] = a;
+      if (!nuevo) continue;
+      logos[c.slug] = nuevo.base64;
+      if (nuevo.original) originales[c.slug] = { extension: nuevo.original.extension, base64: await aBase64(nuevo.original.archivo) };
+    }
+    return {
+      version: 2,
+      base: estado.datos.base,
+      clientes: estado.clientes.map((c) => ({ slug: c.slug, nombre: c.nombre.trim(), home: c.home, zoom: zoomDe(c) })),
+      logos: logos,
+      originales: originales,
+      ajustes: ajustes,
+    };
+  }
+
+  function aBase64(archivo) {
+    return new Promise((ok, mal) => {
+      const lector = new FileReader();
+      lector.onload = () => ok(String(lector.result).split(",")[1]);
+      lector.onerror = () => mal(lector.error);
+      lector.readAsDataURL(archivo);
+    });
+  }
+
   // Una fila por paso: texto a la izquierda y estado a la derecha.
   function paso(texto) {
     const li = el("li", {});
@@ -577,16 +749,9 @@
     $("publicar-cuerpo").replaceChildren(pasos);
     accionesPublicar();
 
-    const logos = {};
-    estado.clientes.forEach((c) => { if (estado.logosNuevos[c.slug]) logos[c.slug] = estado.logosNuevos[c.slug].base64; });
-    const pedido = {
-      base: estado.datos.base,
-      clientes: estado.clientes.map((c) => ({ slug: c.slug, nombre: c.nombre.trim(), home: c.home })),
-      logos: logos,
-    };
     let respuesta;
     try {
-      respuesta = await servidor.publicar(pedido);
+      respuesta = await servidor.publicar(await armarPedido());
     } catch (err) {
       dialogoPublicar.removeEventListener("cancel", evitarCerrar);
       const conflicto = mensajeDe(err).startsWith("CONFLICTO");

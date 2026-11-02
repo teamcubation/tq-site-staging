@@ -16,13 +16,14 @@ function imagen(ancho, alto, fondo, tinta, rect) {
 
 const BLANCO = [255, 255, 255, 255];
 const TRANSPARENTE = [0, 0, 0, 0];
+const alfa = (r, x, y) => r.rgba[(y * r.ancho + x) * 4 + 3];
 
-test("un logo oscuro sobre blanco queda gris, recortado y de 120 px de alto", () => {
+test("un logo oscuro sobre blanco queda gris, recortado y de 240 px de alto", () => {
   const px = imagen(400, 300, BLANCO, [20, 20, 120, 255], { x: 50, y: 100, ancho: 300, alto: 60 });
   const r = Logo.procesar(px, 400, 300);
   assert.equal(r.fondoTransparente, false);
-  assert.equal(r.alto, 120);
-  assert.equal(r.ancho, 600); // 300 × 60 recortado y llevado a 120 de alto
+  assert.equal(r.alto, 240);
+  assert.equal(r.ancho, 1200); // 300 × 60 recortado y llevado a 240 de alto
   assert.equal(r.altoOriginal, 60);
   for (let i = 0; i < r.rgba.length; i += 4) {
     assert.deepEqual([r.rgba[i], r.rgba[i + 1], r.rgba[i + 2]], [146, 146, 146]);
@@ -35,7 +36,7 @@ test("un logo blanco sobre transparente se invierte solo", () => {
   const r = Logo.procesar(px, 200, 100);
   assert.equal(r.fondoTransparente, true);
   assert.equal(r.invertir, true);
-  assert.equal(r.ancho, 300);
+  assert.equal(r.ancho, 600);
   const sinInvertir = Logo.procesar(px, 200, 100, { invertir: false });
   assert.ok(sinInvertir.error);
 });
@@ -66,36 +67,38 @@ test("el amarillo claro queda transparente salvo que sea el único color", () =>
   assert.ok(px);
 });
 
-const alfa = (r, x, y) => r.rgba[(y * r.ancho + x) * 4 + 3];
-
-test("con menos zoom el logo queda más chico, centrado y con margen transparente", () => {
-  const px = imagen(400, 300, BLANCO, [20, 20, 120, 255], { x: 50, y: 100, ancho: 300, alto: 60 });
-  const r = Logo.procesar(px, 400, 300, { zoom: 0.5, centro: { x: 0, y: 0 } }); // al achicar, centro no cuenta
-  assert.equal(r.ancho, 600); // el cuadro es el mismo que con zoom 1
-  assert.equal(r.alto, 120);
-  // El logo, de 300 × 60, en el medio; el resto, transparente.
-  for (let y = 0; y < r.alto; y++) {
-    for (let x = 0; x < r.ancho; x++) {
-      assert.equal(alfa(r, x, y), x >= 150 && x < 450 && y >= 30 && y < 90 ? 255 : 0);
-    }
-  }
-  const sinZoom = Logo.procesar(px, 400, 300);
-  assert.deepEqual(Logo.procesar(px, 400, 300, { zoom: 1, centro: { x: 0, y: 1 } }).rgba, sinZoom.rgba);
+test("un logo recortado justo sobre transparente, que toca todo el borde, no toma el borde por fondo", () => {
+  // Un marco de 4 px que llena el borde, con el centro transparente (como DREAMCO, letras gruesas).
+  const px = imagen(200, 60, [40, 40, 40, 255], TRANSPARENTE, { x: 4, y: 4, ancho: 192, alto: 52 });
+  const r = Logo.procesar(px, 200, 60);
+  assert.equal(r.fondoTransparente, true);
+  assert.equal(r.ancho, 800);
+  assert.equal(alfa(r, 2, 120), 255);
+  assert.equal(alfa(r, 400, 120), 0);
+  // Una placa con apenas las esquinas transparentes sigue teniendo de fondo el color del borde.
+  const placa = imagen(200, 60, [40, 40, 40, 255], [250, 250, 250, 255], { x: 50, y: 20, ancho: 100, alto: 20 });
+  for (const [x, y] of [[0, 0], [199, 0], [0, 59], [199, 59]]) placa.set(TRANSPARENTE, (y * 200 + x) * 4);
+  const r2 = Logo.procesar(placa, 200, 60);
+  assert.equal(r2.fondoTransparente, false);
+  assert.equal(r2.ancho, 1200); // el texto claro, de 100 × 20
 });
 
-test("con más zoom el logo se agranda y el centro elige qué parte queda", () => {
-  // Un rectángulo de 200 × 100 con un hueco arriba a la izquierda (x de 10 a 50, y de 10 a 30).
-  const px = imagen(400, 200, BLANCO, [0, 0, 0, 255], { x: 100, y: 50, ancho: 200, alto: 100 });
-  for (let y = 60; y < 80; y++) for (let x = 110; x < 150; x++) px.set(BLANCO, (y * 400 + x) * 4);
-  const arriba = Logo.procesar(px, 400, 200, { zoom: 2, centro: { x: 0, y: 0 } });
-  assert.equal(arriba.ancho, 240);
-  // Se ve el cuarto de arriba a la izquierda, 2,4 veces más grande: el hueco va de x 24 a 120.
-  assert.equal(alfa(arriba, 60, 48), 0);
-  assert.equal(alfa(arriba, 5, 5), 255);
-  assert.equal(alfa(arriba, 200, 100), 255);
-  // El cuarto de abajo a la derecha no tiene hueco.
-  const abajo = Logo.procesar(px, 400, 200, { zoom: 2, centro: { x: 1, y: 1 } });
-  for (let i = 3; i < abajo.rgba.length; i += 4) assert.equal(abajo.rgba[i], 255);
+test("un logo del sitio ajustado con todo el detalle queda casi igual", () => {
+  // Un anillo (un rectángulo con un hueco), así el logo convertido tiene partes transparentes.
+  const px = imagen(400, 300, BLANCO, [20, 20, 120, 255], { x: 50, y: 100, ancho: 300, alto: 61 });
+  for (let y = 115; y < 146; y++) for (let x = 80; x < 320; x++) px.set(BLANCO, (y * 400 + x) * 4);
+  const r = Logo.procesar(px, 400, 300);
+  const otra = Logo.procesar(r.rgba, r.ancho, r.alto, { sitio: true });
+  assert.equal(otra.ancho, r.ancho);
+  for (let i = 3; i < r.rgba.length; i += 4) assert.ok(Math.abs(otra.rgba[i] - r.rgba[i]) <= 6, `alfa ${r.rgba[i]} → ${otra.rgba[i]}`);
+  // Una parte semitransparente a propósito (como el óvalo de Mercado Libre) no se llena; con
+  // menos detalle, lo más tenue desaparece.
+  const tenue = new Uint8ClampedArray(r.rgba);
+  for (let i = 3; i < tenue.length; i += 4) if (tenue[i] === 255) tenue[i] = 80;
+  const igual = Logo.procesar(tenue, r.ancho, r.alto, { sitio: true });
+  assert.ok(Math.abs(alfa(igual, 100, 10) - 80) <= 6);
+  const menos = Logo.procesar(tenue, r.ancho, r.alto, { sitio: true, umbral: 0.4 });
+  assert.equal(alfa(menos, 100, 10), 0);
 });
 
 test("nada visible devuelve un error", () => {

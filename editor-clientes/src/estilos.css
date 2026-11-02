@@ -78,13 +78,13 @@ main { padding-block: 28px 140px; }
 .sortable-ghost { opacity: 0.35; }
 .sortable-chosen .logo-card { cursor: grabbing; }
 
-/* Igual que .logo-card de la página de Clientes (CasosBody.astro). */
+/* Igual que .logo-card de la página de Clientes (CasosBody.astro), con el zoom en --zoom. */
 .logo-card { min-height: 104px; background: var(--gris-claro); border-radius: var(--radio); padding: 24px; display: flex; align-items: center; justify-content: center; }
-.logo-card img { width: 100%; max-width: 140px; height: 44px; object-fit: contain; display: block; mix-blend-mode: multiply; }
+.logo-card img { flex: none; width: min(100% * var(--zoom, 1), 140px * var(--zoom, 1), 100% + 24px); max-width: none; height: min(44px * var(--zoom, 1), 80px); margin-block: -12px; object-fit: contain; display: block; mix-blend-mode: multiply; }
 
 /* Tira de la home, quieta y en varias filas (en el sitio se desplaza). */
 .tira { display: flex; flex-wrap: wrap; align-items: center; gap: 28px 64px; padding: 28px 24px; border: 1px solid var(--linea); border-radius: var(--radio); }
-.tira__logo { width: 150px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.tira__logo { min-width: 150px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
 .tira__logo img { display: block; object-fit: contain; }
 .tira__vacia { color: var(--gris-texto); margin: 0; }
 
@@ -113,6 +113,8 @@ main { padding-block: 28px 140px; }
 .vista__original { height: 104px; border: 1px solid var(--linea); border-radius: var(--radio); display: flex; align-items: center; justify-content: center; padding: 12px; background: repeating-conic-gradient(#f2f2f2 0% 25%, #ffffff 0% 50%) 50% / 16px 16px; }
 .vista__original img { max-width: 100%; max-height: 100%; object-fit: contain; }
 .vista__home { height: 104px; border: 1px solid var(--linea); border-radius: var(--radio); display: flex; align-items: center; justify-content: center; }
+/* La tarjeta de la vista mide lo que en el sitio en escritorio: 140 px para el logo. */
+.vista .logo-card { width: min(188px, 100%); margin-inline: auto; }
 .ajustes { margin-top: 16px; }
 .ajustes__control { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
 .ajustes__control input[type="range"] { flex: 1; max-width: 320px; }
@@ -120,10 +122,8 @@ main { padding-block: 28px 140px; }
 .ajustes__nombre { min-width: 4em; }
 .ajustes__valor { min-width: 3.2em; font-size: 14px; color: var(--gris-texto); font-variant-numeric: tabular-nums; }
 .ajustes__control .enlace-boton { font-size: 14px; color: var(--gris-texto); }
-/* Con zoom de más de 100 %, el logo se arrastra en las vistas para elegir qué parte queda. */
-.vista__item img { user-select: none; }
-.vista--arrastrable .logo-card, .vista--arrastrable .vista__home { cursor: grab; touch-action: none; }
-.vista--arrastrable .logo-card:active, .vista--arrastrable .vista__home:active { cursor: grabbing; }
+.ajustes__tope { font-size: 14px; color: var(--gris-texto); }
+.ajustes__control input:disabled { opacity: 0.45; }
 .pasos { list-style: none; padding: 0; margin: 0; }
 .pasos li { padding: 8px 0; border-bottom: 1px solid var(--linea); display: flex; justify-content: space-between; gap: 16px; }
 .pasos li:last-child { border-bottom: 0; }
